@@ -1,4 +1,4 @@
-package com.project.shopapp.dto.response;
+package com.minhnghia.datn.BookstoreTamAn.dto.response;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ProductListResponse {
-    List<ProductResponse> productResponses;
+public class BookListResponse {
+    List<BookResponse> productResponses;
     int totalPages;
 }
