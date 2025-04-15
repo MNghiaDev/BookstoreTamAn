@@ -1,4 +1,4 @@
-package com.springboot.backend.exception;
+package com.minhnghia.datn.BookstoreTamAn.exception;
 
 import lombok.Getter;
 import lombok.Setter;

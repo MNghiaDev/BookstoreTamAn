@@ -1,4 +1,4 @@
-package com.springboot.backend.exception;
+package com.minhnghia.datn.BookstoreTamAn.exception;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -16,7 +16,10 @@ public enum ErrorCode {
     UNAUTHORIZED(1007, "You do not have permission", HttpStatus.FORBIDDEN),
     INVALID_DOB(1008, "Your age must be at least {min}", HttpStatus.BAD_REQUEST),
     INVALID_EMAIL(1009, "Email must be valid", HttpStatus.BAD_REQUEST),
-    EMAIL_EXISTED(1009, "Email existed", HttpStatus.BAD_REQUEST),
+    EMAIL_EXISTED(10010, "Email existed", HttpStatus.BAD_REQUEST),
+    BOOK_NOT_FOUND(1011, "Book not found!", HttpStatus.NOT_FOUND),
+    USERNAME_EXISTED(1012, "Username existed", HttpStatus.BAD_REQUEST),
+    PHONE_EXISTED(1013, "Phone existed", HttpStatus.BAD_REQUEST),
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
