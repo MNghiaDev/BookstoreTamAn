@@ -46,7 +46,10 @@ public class SecurityConfiguration {
         httpSecurity.cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(request ->
                         request.requestMatchers(HttpMethod.GET, PUBLIC_ENDPOINTS).permitAll()
-                                .requestMatchers(HttpMethod.POST, "user/create").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/auth/token").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/auth/inspect").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/auth/logout").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/auth/refresh").permitAll()
                                 .anyRequest().authenticated()
                 );
         httpSecurity.oauth2ResourceServer(oauth2 ->
