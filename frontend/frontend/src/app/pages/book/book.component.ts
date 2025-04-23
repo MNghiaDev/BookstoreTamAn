@@ -6,10 +6,12 @@ import { HttpClient } from '@angular/common/http';
 import { BookService } from '../../services/book/book.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { CategoryComponent } from "../category/category.component";
+import { TopAuthorComponent } from "../top-author/top-author.component";
 
 @Component({
   selector: 'app-book',
-  imports: [HeaderComponent, FooterComponent, CommonModule, RouterLink],
+  imports: [HeaderComponent, FooterComponent, CommonModule, RouterLink, CategoryComponent, TopAuthorComponent],
   templateUrl: './book.component.html',
   styleUrl: './book.component.css'
 })

@@ -1,6 +1,7 @@
 package com.minhnghia.datn.BookstoreTamAn.controller;
 
 import com.minhnghia.datn.BookstoreTamAn.dto.request.ApiResponse;
+import com.minhnghia.datn.BookstoreTamAn.dto.response.CategoryBookCountResponse;
 import com.minhnghia.datn.BookstoreTamAn.dto.response.CategoryResponse;
 import com.minhnghia.datn.BookstoreTamAn.service.impl.CategoryService;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,13 @@ public class CategoryController {
     public ApiResponse<List<CategoryResponse>> getAll(){
         return ApiResponse.<List<CategoryResponse>>builder()
                 .data(categoryService.getAll())
+                .build();
+    }
+
+    @GetMapping("/book-counts")
+    public ApiResponse<List<CategoryBookCountResponse>> getBookCountByCategory() {
+        return ApiResponse.<List<CategoryBookCountResponse>>builder()
+                .data(categoryService.getBookCountByCategory())
                 .build();
     }
 }

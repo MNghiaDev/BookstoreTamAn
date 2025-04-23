@@ -1,0 +1,24 @@
+<div class="tg-widgettitle">
+    <h3>Tác giả nổi bật</h3>
+  </div>
+  <div class="tg-widgetcontent">
+    <ul *ngIf="listTopAuthor.length > 0; else loading">
+      <li *ngFor="let author of listTopAuthor">
+        <div class="tg-author">
+          <figure>
+            <a href="javascript:void(0);">
+              <img [src]="author.imageUrl || 'images/author/imag-04.jpg'" alt="{{ author.authorName }}">
+            </a>
+          </figure>
+          <div class="tg-authorcontent">
+            <h2><a href="javascript:void(0);">{{ author.authorName }}</a></h2>
+            <span>{{ author.totalSold | number }} sách đã bán</span>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <ng-template #loading>
+      <li>Đang tải tác giả...</li>
+    </ng-template>
+  </div>
+  

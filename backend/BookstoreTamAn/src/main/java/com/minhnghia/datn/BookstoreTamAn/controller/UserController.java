@@ -48,7 +48,7 @@ public class UserController {
                 .build();
     }
 
-    @PostMapping("/create")
+    @PostMapping("/register")
     public ApiResponse<UserResponse> create(@RequestBody UserRequest request){
         return ApiResponse.<UserResponse>builder()
                 .data(userService.create(request))

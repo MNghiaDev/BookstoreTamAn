@@ -17,10 +17,22 @@
                 </a>
               </li>
             </ul>
-            <div class="tg-userlogin">
-              <figure><a href="javascript:void(0);"><img src="images/users/img-01.jpg" alt="image description"></a></figure>
-              <span>Hi, John</span>
+            <div class="tg-userlogin" (click)="toggleDropdown()" style="position: relative;">
+              <div *ngIf="token; else loginBlock" class="user-info">
+                <img class="avatar" src="images/users/img-01.jpg" alt="Avatar">
+                <span class="username">Xin chào, {{ username }}</span>
+                <i class="fa fa-angle-down icon-arrow"></i>
+            
+                <div *ngIf="dropdownOpen" class="logout-dropdown" (click)="$event.stopPropagation()">
+                  <button class="logout-btn" (click)="logout()"> Đăng xuất</button>
+                </div>
+              </div>
+            
+              <ng-template #loginBlock>
+                <a class="tg-btn" routerLink="/login">Đăng nhập</a>
+              </ng-template>
             </div>
+            
           </div>
         </div>
       </div>
@@ -62,18 +74,9 @@
                     <li routerLinkActive="current-menu-item" [routerLinkActiveOptions]="{ exact: true }">
                       <a routerLink="/home">Trang chủ</a>
                     </li>
-                    <li>
-                      <a>Thể loại</a>
-                    </li>
                     <li routerLinkActive="current-menu-item">
                       <a routerLink="/book">Sách</a>
                     </li>
-                    <li><a href="products.html">Tác giả</a></li>
-                    <li><a href="products.html">Tin tức</a></li>
-                    <li>
-                      <a href="javascript:void(0);">Giới thiệu</a>
-                    </li>
-                    <li><a href="contactus.html">Liên hệ</a></li>
                   </ul>                  
                 </div>
               </nav>

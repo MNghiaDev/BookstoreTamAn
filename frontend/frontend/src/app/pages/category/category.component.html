@@ -1,0 +1,19 @@
+<div class="tg-widgettitle">
+    <h3>Thể loại</h3>
+  </div>
+  
+  <div class="tg-widgetcontent">
+    <ul *ngIf="listCategory.length > 0; else loading">
+      <li *ngFor="let item of listCategory">
+        <a href="javascript:void(0);">
+          <span>{{ item.categoryName }}</span>
+          <em>{{ item.bookCount }}</em>
+        </a>
+      </li>
+      <li><a href="javascript:void(0);"><span>Xem tất cả</span></a></li>
+    </ul>
+    <ng-template #loading>
+      <li>Đang tải dữ liệu...</li>
+    </ng-template>
+  </div>
+  

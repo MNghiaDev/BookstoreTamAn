@@ -20,4 +20,6 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     Book findTopByPromotionGreaterThanAndPromotionEndDateAfterOrderByPromotionDesc(Double promotion, LocalDate date);
 
     List<Book> findTop3ByOrderByPublicationDateDesc();
+
+
 }

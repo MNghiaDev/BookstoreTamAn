@@ -1,3 +1,49 @@
 #tg-navigation ul li a {
     font-size: 20px; /* Điều chỉnh kích thước theo ý muốn */
 }
+.logout-dropdown {
+    position: absolute;
+    top: 120%;
+    right: 0;
+    background-color: transparent;
+    min-width: 130px;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease-in-out;
+  }
+  
+  .logout-btn {
+    width: 100%;
+    padding: 10px 16px;
+    background-color: #7cb342; /* Màu xanh giống nút Search */
+    border: none;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .logout-btn:hover {
+    background-color: #689f38; /* Màu xanh đậm hơn khi hover */
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #4db6ac; /* hoặc màu khác nếu bạn thích */
+  }

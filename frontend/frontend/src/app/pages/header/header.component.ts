@@ -3,21 +3,30 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { IListCategory } from '../../models/category';
 import { HttpClient } from '@angular/common/http';
 import { CategoryService } from '../../services/category/category.service';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
+import { TokenService } from '../../services/token.service';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, RouterOutlet, RouterLinkActive],
+  imports: [RouterLink, RouterOutlet, RouterLinkActive, NgIf],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
 export class HeaderComponent implements OnInit{
 
   categoryList : IListCategory[] = [];
-
+  username: string = '';
+  token: any = "";
+  dropdownOpen = false;
   categoryChunks: any[] = [];
-  constructor(private categoryService : CategoryService){
+  constructor(private categoryService : CategoryService, private tokenService : TokenService){
     this.categoryChunks = this.chunkArray(this.categoryList, 6);
+    this.token = this.tokenService.getToken();
+    if (this.token) {
+      const decoded: any = jwtDecode(this.token);
+      this.username = decoded.sub; // hoặc decoded.username nếu bạn dùng key khác
+    }
   }
 
   currentItem : string = "";
@@ -25,6 +34,18 @@ export class HeaderComponent implements OnInit{
   ngOnInit(): void {
     this.getListCategory();
   }
+
+
+toggleDropdown() {
+  this.dropdownOpen = !this.dropdownOpen;
+}
+
+logout() {
+  this.tokenService.removeToken(); // Xóa token
+  this.token = '';                // Xóa trong component
+  this.dropdownOpen = false;
+  location.reload();              // Hoặc dùng this.router.navigateByUrl('/login');
+}
 
   getListCategory(){
     this.categoryService.listBook().subscribe((res : any) => {

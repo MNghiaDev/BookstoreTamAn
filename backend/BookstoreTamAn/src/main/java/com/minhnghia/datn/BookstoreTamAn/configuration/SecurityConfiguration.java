@@ -38,7 +38,8 @@ public class SecurityConfiguration {
 
     private final String[] PUBLIC_ENDPOINTS = {
             "/book/**",
-            "/category/**"
+            "/category/**",
+            "/author/**"
     };
 
     @Bean
@@ -50,6 +51,7 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.POST, "/auth/inspect").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/auth/logout").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/auth/refresh").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/user/register").permitAll()
                                 .anyRequest().authenticated()
                 );
         httpSecurity.oauth2ResourceServer(oauth2 ->
