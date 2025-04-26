@@ -13,11 +13,12 @@ public interface AuthorRepository extends JpaRepository<Author, Integer> {
     @Query("SELECT a.name, COUNT(b) FROM Author a JOIN Book b ON b.author = a GROUP BY a.id")
     List    <Object[]> getBookCountByAuthor();
 
-    @Query("SELECT a.name, SUM(b.selling) as totalSold, a.imageUrl " +
+    @Query("SELECT a.name, SUM(b.selling) as totalSold, a.imageUrl, a.bio " +
             "FROM Author a JOIN Book b ON b.author = a " +
-            "GROUP BY a.id, a.name, a.imageUrl " +
+            "GROUP BY a.id, a.name, a.imageUrl, a.bio " +
             "ORDER BY totalSold DESC")
     List<Object[]> findTopAuthorsBySelling(Pageable pageable);
+
 
 
 }

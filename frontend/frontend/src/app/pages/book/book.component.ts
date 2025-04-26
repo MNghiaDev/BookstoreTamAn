@@ -3,11 +3,11 @@ import { HeaderComponent } from "../header/header.component";
 import { FooterComponent } from "../footer/footer.component";
 import { Book, IBookList } from '../../models/book';
 import { HttpClient } from '@angular/common/http';
-import { BookService } from '../../services/book/book.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { CategoryComponent } from "../category/category.component";
 import { TopAuthorComponent } from "../top-author/top-author.component";
+import { BookService } from '../../services/book.service';
 
 @Component({
   selector: 'app-book',
@@ -15,37 +15,39 @@ import { TopAuthorComponent } from "../top-author/top-author.component";
   templateUrl: './book.component.html',
   styleUrl: './book.component.css'
 })
-export class BookComponent implements OnInit{
-  bookList : IBookList[] = [];
+export class BookComponent implements OnInit {
+  bookList: IBookList[] = [];
+  book: Book = new Book();
 
-  book : Book = new Book();
+  currentPage: number = 0;
+  totalPages: number = 0;
+  size: number = 8;
 
-  bookSale : Book = new Book();
-
-  page : number = 0;
-  size : number = 8;
-  currentPage : number = 0;
-
-  http = inject(HttpClient);
-
-  constructor(private bookService : BookService){
-
+  previewPage(){
+    this.currentPage = this.currentPage - 1;
   }
+  nextPage(){
+    this.currentPage = this.currentPage + 1;
+  }
+
+  constructor(private bookService: BookService) {}
+
   ngOnInit(): void {
-    this.getBooks();
+    this.loadPage();
     this.getBookMaxSale();
   }
-  getBooks(){
-    this.bookService.listBook(this.page,this.size).subscribe((res : any) => {
+
+  loadPage(): void {
+    this.bookService.listBook(this.currentPage, this.size).subscribe((res: any) => {
       this.bookList = res.data.productResponses;
-      this.page = res.totalPages;
-      this.currentPage = this.page;
-    })
+      this.totalPages = res.data.totalPages;
+    });
   }
-  getBookMaxSale(){
-    this.bookService.bookMaxSale().subscribe((res:any) => {
-      debugger;
+
+
+  getBookMaxSale(): void {
+    this.bookService.bookMaxSale().subscribe((res: any) => {
       this.book = res.data;
-    })
+    });
   }
 }

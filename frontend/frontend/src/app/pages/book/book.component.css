@@ -1,17 +1,45 @@
-.tg-postbookcontent.content-wrapper {
+.custom-pagination {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-  min-height: 250px; /* chỉnh theo chiều cao tối thiểu mong muốn */
-  padding-bottom: 10px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 0;
 }
 
-.tg-postbookcontent .add-to-cart-btn {
-  margin-top: auto;
+.custom-pagination button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  font-size: 16px;
+  background: transparent;
+  color: #000;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 8px;
 }
-.tg-postbook {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+
+.custom-pagination button:hover:not(.active):not(:disabled) {
+  background-color: #eee;
+}
+
+.custom-pagination button.active {
+  background-color: #c62828;
+  color: #fff;
+  font-weight: bold;
+}
+
+.custom-pagination .arrow {
+  color: #f57c00;
+  font-size: 18px;
+}
+
+.custom-pagination button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.ellipsis {
+  font-size: 18px;
+  padding: 0 4px;
+  color: #555;
 }

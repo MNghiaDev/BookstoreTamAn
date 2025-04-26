@@ -1,0 +1,14 @@
+package com.minhnghia.datn.BookstoreTamAn.dto.response;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+public class TopBookByTopAuthorResponse {
+    private Integer bookId;
+    private String title;
+    private Integer selling;
+    private String imageUrl;
+    private String authorName;
+}

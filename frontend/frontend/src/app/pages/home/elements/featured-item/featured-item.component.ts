@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Book, IBookList } from '../../../../models/book';
-import { BookService } from '../../../../services/book/book.service';
+import { BookService } from '../../../../services/book.service';
 import { CommonModule } from '@angular/common';
 
 @Component({

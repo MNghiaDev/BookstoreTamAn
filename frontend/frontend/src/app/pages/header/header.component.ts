@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { IListCategory } from '../../models/category';
 import { HttpClient } from '@angular/common/http';
-import { CategoryService } from '../../services/category/category.service';
+import { CategoryService } from '../../services/category.service';
 import { NgFor, NgIf } from '@angular/common';
 import { TokenService } from '../../services/token.service';
 import { jwtDecode } from 'jwt-decode';

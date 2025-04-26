@@ -9,4 +9,5 @@ public class TopAuthorResponse {
     private String authorName;
     private Long totalSold;
     private String imageUrl;
+    private String bio;
 }

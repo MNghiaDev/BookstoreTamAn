@@ -3,58 +3,41 @@
       <div class="container">
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <ul class="tg-addnav">
-              <li>
-                <a href="javascript:void(0);">
-                  <i class="icon-envelope"></i>
-                  <em>Contact</em>
+            <div class="col-md-6 col-sm-12">
+              <strong class="tg-logo">
+                <a href="index-2.html">
+                  <img src="images/logo.png" alt="company name here">
                 </a>
-              </li>
-              <li>
-                <a href="javascript:void(0);">
-                  <i class="icon-question-circle"></i>
-                  <em>Help</em>
-                </a>
-              </li>
-            </ul>
+              </strong>
+            </div>
             <div class="tg-userlogin" (click)="toggleDropdown()" style="position: relative;">
-              <div *ngIf="token; else loginBlock" class="user-info">
+              <div *ngIf="token; else loginBlock" class="user-info-box">
                 <img class="avatar" src="images/users/img-01.jpg" alt="Avatar">
                 <span class="username">Xin chào, {{ username }}</span>
-                <i class="fa fa-angle-down icon-arrow"></i>
             
                 <div *ngIf="dropdownOpen" class="logout-dropdown" (click)="$event.stopPropagation()">
-                  <button class="logout-btn" (click)="logout()"> Đăng xuất</button>
+                  <a class="dropdown-item" routerLink="/change-password">
+                    <i class="fa fa-key"></i> Đổi mật khẩu
+                  </a>
+                  <a class="dropdown-item" (click)="logout()">
+                    <i class="fa fa-sign-out"></i> Đăng xuất
+                  </a>
                 </div>
               </div>
             
               <ng-template #loginBlock>
-                <a class="tg-btn" routerLink="/login">Đăng nhập</a>
+                <a class="tg-btn tg-login-btn" routerLink="/login">
+                  <i class="fa fa-user-circle"></i>
+                  <span>Đăng nhập</span>
+                </a>
               </ng-template>
             </div>
-            
           </div>
+          
         </div>
       </div>
     </div>
-    <div class="tg-middlecontainer">
-      <div class="container">
-        <div class="row">
-          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <strong class="tg-logo"><a href="index-2.html"><img src="images/logo.png" alt="company name here"></a></strong>
-            <div class="tg-searchbox">
-              <form class="tg-formtheme tg-formsearch">
-                <fieldset>
-                  <input type="text" name="search" class="typeahead form-control" placeholder="Search by title, author, keyword, ISBN...">
-                  <button type="submit" class="tg-btn">Search</button>
-                </fieldset>
-                <a href="javascript:void(0);">+  Advanced Search</a>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    
     <div class="tg-navigationarea">
       <div class="container">
         <div class="row">
@@ -141,31 +124,6 @@
                     </div>
                   </div>
                 </div>
-                <div class="dropdown tg-themedropdown tg-currencydropdown">
-                <a href="javascript:void(0);" id="tg-currenty" class="tg-btnthemedropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span>USD</span>
-                </a>
-                <ul class="dropdown-menu tg-themedropdownmenu" aria-labelledby="tg-currenty">
-                  <li>
-                    <a href="javascript:void(0);">
-                      <i>£</i>
-                      <span>British Pound</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="javascript:void(0);">
-                      <i>$</i>
-                      <span>Us Dollar</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="javascript:void(0);">
-                      <i>€</i>
-                      <span>Euro</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
               </div>
             </div>
           </div>

@@ -21,5 +21,25 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
     List<Book> findTop3ByOrderByPublicationDateDesc();
 
+    @Query(value = """
+    WITH top_authors AS (
+        SELECT b.author_id, SUM(b.selling) as total_sold
+        FROM book b
+        GROUP BY b.author_id
+        ORDER BY total_sold DESC
+        LIMIT 3
+    )
+    SELECT b.id, b.title, b.selling, b.image_url, a.name AS author_name
+    FROM book b
+    JOIN author a ON b.author_id = a.id
+    JOIN top_authors ta ON b.author_id = ta.author_id
+    WHERE b.selling = (
+        SELECT MAX(b2.selling)
+        FROM book b2
+        WHERE b2.author_id = b.author_id
+    )
+    """, nativeQuery = true)
+    List<Object[]> findTopSellingBookPerTopAuthor();
+
 
 }

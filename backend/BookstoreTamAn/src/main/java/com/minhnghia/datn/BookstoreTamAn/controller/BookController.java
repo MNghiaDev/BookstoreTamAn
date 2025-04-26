@@ -4,6 +4,7 @@ import com.minhnghia.datn.BookstoreTamAn.dto.request.ApiResponse;
 import com.minhnghia.datn.BookstoreTamAn.dto.response.BookListResponse;
 import com.minhnghia.datn.BookstoreTamAn.dto.response.BookResponse;
 import com.minhnghia.datn.BookstoreTamAn.dto.response.BookSaleListResponse;
+import com.minhnghia.datn.BookstoreTamAn.dto.response.TopBookByTopAuthorResponse;
 import com.minhnghia.datn.BookstoreTamAn.service.impl.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -82,6 +83,13 @@ public class BookController {
     public ApiResponse<List<BookResponse>> getBookByPublicationDate(){
         return ApiResponse.<List<BookResponse>>builder()
                 .data(bookService.getBookByPublicationDate())
+                .build();
+    }
+
+    @GetMapping("/top-books-by-top-authors")
+    public ApiResponse<List<TopBookByTopAuthorResponse>> getTopBooksByTopAuthors() {
+        return ApiResponse.<List<TopBookByTopAuthorResponse>>builder()
+                .data(bookService.getTopBooksFromTopAuthors())
                 .build();
     }
 }

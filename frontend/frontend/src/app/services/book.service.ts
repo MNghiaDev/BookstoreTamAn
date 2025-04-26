@@ -32,4 +32,8 @@ export class BookService {
   bookByPublicationDate(){
     return this.http.get(this.apiUrl + "/publication-date");
   }
+
+  topBooksByTopAuthors(){
+    return this.http.get(this.apiUrl + "/top-books-by-top-authors");
+  }
 }

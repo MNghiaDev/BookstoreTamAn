@@ -2,33 +2,40 @@
     font-size: 20px; /* Điều chỉnh kích thước theo ý muốn */
 }
 .logout-dropdown {
-    position: absolute;
-    top: 120%;
-    right: 0;
-    background-color: transparent;
-    min-width: 130px;
-    z-index: 1000;
-    animation: fadeIn 0.2s ease-in-out;
-  }
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 10px;
+  background-color: #fff;
+  min-width: 160px;
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  z-index: 1050;
+}
+
+/* Link đổi mật khẩu */
+.dropdown-item {
+  display: block;
+  padding: 10px 14px;
+  color: #333;
+  font-weight: 500;
+  font-size: 14px;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+
+.dropdown-item:hover {
+  background-color: #3cab5c;
+}
   
-  .logout-btn {
-    width: 100%;
-    padding: 10px 16px;
-    background-color: #7cb342; /* Màu xanh giống nút Search */
-    border: none;
-    color: #fff;
-    font-size: 14px;
-    font-weight: 500;
-    text-align: center;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.2s ease;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .logout-btn:hover {
-    background-color: #689f38; /* Màu xanh đậm hơn khi hover */
-  }
+
   
   @keyframes fadeIn {
     from {
@@ -46,4 +53,29 @@
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid #4db6ac; /* hoặc màu khác nếu bạn thích */
+  }
+  .tg-login-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #3cab5c; /* Xanh tươi */
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  .tg-login-btn:hover {
+    background-color: #3cab5c;
+  }
+  
+  .tg-login-btn i {
+    font-size: 18px;
+  }
+  .tg-userlogin {
+    background: transparent !important;
   }

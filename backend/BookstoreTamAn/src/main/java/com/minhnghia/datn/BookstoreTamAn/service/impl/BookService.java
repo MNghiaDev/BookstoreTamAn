@@ -1,6 +1,7 @@
 package com.minhnghia.datn.BookstoreTamAn.service.impl;
 
 import com.minhnghia.datn.BookstoreTamAn.dto.response.BookResponse;
+import com.minhnghia.datn.BookstoreTamAn.dto.response.TopBookByTopAuthorResponse;
 import com.minhnghia.datn.BookstoreTamAn.exception.AppException;
 import com.minhnghia.datn.BookstoreTamAn.exception.ErrorCode;
 import com.minhnghia.datn.BookstoreTamAn.mapper.BookMapper;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -65,4 +67,19 @@ public class BookService implements IBookService {
         return bookRepository.findTop3ByOrderByPublicationDateDesc().stream()
                 .map(bookMapper::toBookResponse).toList();
     }
+
+    @Override
+    public List<TopBookByTopAuthorResponse> getTopBooksFromTopAuthors() {
+        List<Object[]> rows = bookRepository.findTopSellingBookPerTopAuthor();
+        return rows.stream()
+                .map(row -> new TopBookByTopAuthorResponse(
+                        (Integer) row[0],
+                        (String) row[1],
+                        ((Number) row[2]).intValue(),
+                        (String) row[3],
+                        (String) row[4]
+                ))
+                .collect(Collectors.toList());
+    }
+
 }

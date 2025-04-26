@@ -32,9 +32,10 @@ public class AuthorService implements IAuthorService {
         List<Object[]> result = authorRepository.findTopAuthorsBySelling(pageable);
         return result.stream()
                 .map(row -> new TopAuthorResponse(
-                        (String) row[0],      // authorName
-                        (Long) row[1],        // totalSold
-                        (String) row[2]))     // imageUrl
+                        (String) row[0],
+                        (Long) row[1],
+                        (String) row[2] ,
+                        (String) row[3]))
                 .collect(Collectors.toList());
     }
 
