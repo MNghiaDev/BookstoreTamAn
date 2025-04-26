@@ -41,5 +41,8 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     """, nativeQuery = true)
     List<Object[]> findTopSellingBookPerTopAuthor();
 
+    Page<Book> findByTitleContainingIgnoreCaseOrAuthor_NameContainingIgnoreCase(String title, String author, Pageable pageable);
+
+    List<Book> findByTitleContainingIgnoreCaseOrAuthor_NameContainingIgnoreCase(String titleKeyword, String authorKeyword);
 
 }

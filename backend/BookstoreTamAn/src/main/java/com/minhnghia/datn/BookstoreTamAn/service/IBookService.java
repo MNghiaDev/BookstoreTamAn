@@ -2,6 +2,7 @@ package com.minhnghia.datn.BookstoreTamAn.service;
 
 import com.minhnghia.datn.BookstoreTamAn.dto.response.BookResponse;
 import com.minhnghia.datn.BookstoreTamAn.dto.response.TopBookByTopAuthorResponse;
+import com.minhnghia.datn.BookstoreTamAn.model.Book;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,4 +23,7 @@ public interface IBookService {
     public List<BookResponse> getBookByPublicationDate();
 
     List<TopBookByTopAuthorResponse> getTopBooksFromTopAuthors();
+
+    public Page<BookResponse> searchBooks(String keyword, Pageable pageable);
+
 }

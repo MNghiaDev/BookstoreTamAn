@@ -36,4 +36,13 @@ export class BookService {
   topBooksByTopAuthors(){
     return this.http.get(this.apiUrl + "/top-books-by-top-authors");
   }
+  searchBooks(keyword: string, page: number, size: number) {
+    return this.http.get<any>(`${this.apiUrl}/search?keyword=${keyword}&page=${page}&size=${size}`);
+  }
+  getSuggestions(keyword: string) {
+    const params = new HttpParams()
+      .set('keyword', keyword);
+    return this.http.get<any>(this.apiUrl + '/suggestions', { params });
+  }
+  
 }

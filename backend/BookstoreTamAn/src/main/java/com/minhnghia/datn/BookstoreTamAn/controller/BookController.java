@@ -5,15 +5,19 @@ import com.minhnghia.datn.BookstoreTamAn.dto.response.BookListResponse;
 import com.minhnghia.datn.BookstoreTamAn.dto.response.BookResponse;
 import com.minhnghia.datn.BookstoreTamAn.dto.response.BookSaleListResponse;
 import com.minhnghia.datn.BookstoreTamAn.dto.response.TopBookByTopAuthorResponse;
+import com.minhnghia.datn.BookstoreTamAn.model.Book;
 import com.minhnghia.datn.BookstoreTamAn.service.impl.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -92,4 +96,22 @@ public class BookController {
                 .data(bookService.getTopBooksFromTopAuthors())
                 .build();
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<Page<BookResponse>> searchBooks(
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "8") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<BookResponse> books = bookService.searchBooks(keyword, pageable);
+        return ResponseEntity.ok(books);
+    }
+    // BookController.java
+    @GetMapping("/suggestions")
+    public ResponseEntity<?> getSuggestions(@RequestParam String keyword) {
+        List<String> suggestions = bookService.getSuggestions(keyword);
+        return ResponseEntity.ok(Map.of("data", suggestions));
+    }
+
 }

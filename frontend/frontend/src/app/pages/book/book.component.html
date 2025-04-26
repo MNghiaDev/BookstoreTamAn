@@ -43,7 +43,32 @@
                                     </div>
                                 </div>
                             </div>
-                                <span>Hiển thị trang {{currentPage + 1}} trong tổng số {{totalPages}} trang</span>
+                                
+                            <div class="tg-widget tg-widgetsearch" style="margin-bottom: 20px;">
+                                <form class="tg-formtheme tg-formsearch" (ngSubmit)="onSearch()" style="display: flex; align-items: center;">
+                                  <div class="form-group" style="position: relative; flex: 1; max-width: 400px;">
+                                    <input 
+                                      type="search" 
+                                      [(ngModel)]="searchKeyword" 
+                                      (input)="onKeywordChange()"
+                                      name="keyword"
+                                      placeholder="Nhập tên sách, tên tác giả"
+                                      style="width: 100%; padding-left: 40px; height: 40px; border-radius: 20px; border: 1px solid #ccc;"
+                                    >
+                                    <i class="icon-magnifier" style="position: absolute; top: 50%; left: 15px; transform: translateY(-50%); color: #999;"></i>
+                                    <ul *ngIf="suggestions.length > 0" class="suggestion-list" style="position: absolute; top: 100%; left: 0; width: 100%; background: white; border: 1px solid #ccc; border-top: none; max-height: 200px; overflow-y: auto; z-index: 1000;">
+                                      <li *ngFor="let suggestion of suggestions" (click)="selectSuggestion(suggestion)" style="padding: 8px; cursor: pointer;">
+                                        {{ suggestion }}
+                                      </li>
+                                    </ul>
+                                  </div>
+                              
+                                  <span style="margin-left: auto; white-space: nowrap; font-size: 14px;">
+                                    Hiển thị trang {{currentPage + 1}} trong tổng số {{totalPages}} trang
+                                  </span>
+                              
+                                </form>
+                              </div>
                             <div class="tg-productgrid">
                                 <div class="custom-pagination">
                                     <button class="arrow" (click)="previewPage()" (click)="loadPage()" [disabled]="currentPage === 0">
@@ -117,15 +142,6 @@
                 </div>
                 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 pull-left">
                     <aside id="tg-sidebar" class="tg-sidebar">
-                        <div class="tg-widget tg-widgetsearch">
-                            <form class="tg-formtheme tg-formsearch">
-                                <div class="form-group">
-                                    <button type="submit"><i class="icon-magnifier"></i></button>
-                                    <input type="search" name="search" class="form-group"
-                                        placeholder="Search by title, author, key...">
-                                </div>
-                            </form>
-                        </div>
                         <div class="tg-widget tg-catagories">
                             <app-category></app-category>
                         </div>

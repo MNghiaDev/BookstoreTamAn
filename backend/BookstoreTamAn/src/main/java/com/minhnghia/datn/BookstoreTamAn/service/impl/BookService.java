@@ -81,5 +81,21 @@ public class BookService implements IBookService {
                 ))
                 .collect(Collectors.toList());
     }
+    public Page<BookResponse> searchBooks(String keyword, Pageable pageable) {
+        Page<Book> books = bookRepository.findByTitleContainingIgnoreCaseOrAuthor_NameContainingIgnoreCase(keyword, keyword, pageable);
+
+        return books.map(bookMapper::toBookResponse);
+    }
+    public List<String> getSuggestions(String keyword) {
+        // Query tìm các sách có tên hoặc tác giả chứa từ khóa
+        List<Book> books = bookRepository.findByTitleContainingIgnoreCaseOrAuthor_NameContainingIgnoreCase(keyword, keyword);
+
+        // Lấy ra danh sách tên sách gợi ý
+        return books.stream()
+                .map(Book::getTitle)
+                .distinct()
+                .limit(10) // giới hạn tối đa 10 kết quả
+                .toList();
+    }
 
 }
