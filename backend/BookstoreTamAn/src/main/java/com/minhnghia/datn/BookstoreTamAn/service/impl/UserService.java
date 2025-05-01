@@ -5,7 +5,9 @@ import com.minhnghia.datn.BookstoreTamAn.dto.response.UserResponse;
 import com.minhnghia.datn.BookstoreTamAn.exception.AppException;
 import com.minhnghia.datn.BookstoreTamAn.exception.ErrorCode;
 import com.minhnghia.datn.BookstoreTamAn.mapper.UserMapper;
+import com.minhnghia.datn.BookstoreTamAn.model.Cart;
 import com.minhnghia.datn.BookstoreTamAn.model.User;
+import com.minhnghia.datn.BookstoreTamAn.repository.CartRepository;
 import com.minhnghia.datn.BookstoreTamAn.repository.UserRepository;
 import com.minhnghia.datn.BookstoreTamAn.service.IUserService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ public class UserService implements IUserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final CartRepository cartRepository;
 
     @Override
     public UserResponse create(UserRequest request) {
@@ -33,8 +36,11 @@ public class UserService implements IUserService {
             throw new AppException(ErrorCode.USERNAME_EXISTED);
         }
         User user = userMapper.toUser(request);
-
-        return userMapper.toUserResponse(userRepository.save(user));
+        userRepository.save(user);
+        Cart cart = new Cart();
+        cart.setUser(user);
+        cartRepository.save(cart);
+        return userMapper.toUserResponse(user);
     }
 
     @Override

@@ -1,3 +1,4 @@
+
 <header id="tg-header" class="tg-header tg-headervtwo tg-haslayout">
     <div class="tg-topbar">
       <div class="container">
@@ -75,7 +76,7 @@
                 </div>
                 <div class="dropdown tg-themedropdown tg-minicartdropdown">
                   <a href="javascript:void(0);" id="tg-minicart" class="tg-btnthemedropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="tg-themebadge">3</span>
+                    <span class="tg-themebadge">{{cartItemCount}}</span>
                     <i class="icon-cart"></i>
                   </a>
                   <div class="dropdown-menu tg-themedropdownmenu" aria-labelledby="tg-minicart">
@@ -118,7 +119,7 @@
                       </a>
                       <span class="tg-subtotal">Subtotal: <strong>35.78</strong></span>
                       <div class="tg-btns">
-                        <a class="tg-btn tg-active" href="javascript:void(0);">View Cart</a>
+                        <a class="tg-btn tg-active" href="javascript:void(0);" routerLink="/cart">View Cart</a>
                         <a class="tg-btn" href="javascript:void(0);">Checkout</a>
                       </div>
                     </div>
@@ -131,5 +132,4 @@
       </div>
     </div>
   </header>
-
   <router-outlet></router-outlet>

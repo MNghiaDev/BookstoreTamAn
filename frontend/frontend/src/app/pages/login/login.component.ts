@@ -4,7 +4,7 @@ import { TokenService } from '../../services/token.service';
 import { UserService } from '../../services/user.service';
 import { error } from 'jquery';
 import { jwtDecode } from 'jwt-decode';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-login',
