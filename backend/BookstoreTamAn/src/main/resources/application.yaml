@@ -11,6 +11,19 @@ spring:
       show-sql: true
       hibernate:
         ddl-auto: none
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: minhnghia11202@gmail.com
+    password: wjxd sdvx uook zwto
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
 
 jwt:
   #  expiration: 2592000
@@ -18,4 +31,5 @@ jwt:
   #  secretKey: Minh Nghia
   signerKey: "z+7kjfwfgxuzW2+1/EVCduqLWkVwR/atuCqg+EtTogGK5RdioGkeSeY3Mfyps89G"
   valid-duration: 3600
-  refreshable-duration: 36000
+  refreshable-duration: 3600
+

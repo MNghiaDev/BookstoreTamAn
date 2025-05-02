@@ -5,6 +5,8 @@ import { BookDetailComponent } from './pages/book-detail/book-detail.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { CheckoutComponent } from './pages/checkout/checkout.component';
+import { ThankYouComponent } from './pages/thank-you/thank-you.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -13,5 +15,7 @@ export const routes: Routes = [
   { path: 'book-detail/:id', component: BookDetailComponent },
   { path: 'cart', component: CartComponent },
   { path: 'login', component: LoginComponent},
-  { path: 'register', component: RegisterComponent}
+  { path: 'register', component: RegisterComponent},
+  { path: 'checkout', component: CheckoutComponent},
+  { path: 'thank-you', component: ThankYouComponent}
 ];

@@ -1,0 +1,44 @@
+<app-header></app-header>
+
+<div class="checkout-container">
+  <h2 class="checkout-title">Thông Tin Đặt Hàng</h2>
+
+  <form class="checkout-form" (ngSubmit)="submitOrder()">
+    <label>Họ và tên người nhận</label>
+    <input type="text" [(ngModel)]="orderInfo.recipientName" name="recipientName" class="checkout-input capitalize" required>
+
+    <label>Email</label>
+    <input type="email"
+       [(ngModel)]="orderInfo.email"
+       name="email"
+       class="checkout-input"
+       autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" style="text-transform: none;"
+       required>
+
+
+    <label>Số điện thoại</label>
+    <input type="text" [(ngModel)]="orderInfo.phone" name="phone" class="checkout-input" required>
+
+    <label>Địa chỉ giao hàng</label>
+    <textarea [(ngModel)]="orderInfo.shippingAddress" name="shippingAddress" class="checkout-input" rows="3" required></textarea>
+
+    <label>Phương thức thanh toán</label>
+    <div class="payment-method-group">
+        <label class="payment-option">
+          <input type="radio" name="paymentMethod" [(ngModel)]="orderInfo.paymentMethod" value="COD" required>
+          <img src="assets/icons/cod.png" alt="COD"> Thanh toán khi nhận hàng
+        </label>
+        <label class="payment-option">
+          <input type="radio" name="paymentMethod" [(ngModel)]="orderInfo.paymentMethod" value="VNPAY">
+          <img src="assets/icons/vnpay.png" alt="VNPay"> VNPay
+        </label>
+        <label class="payment-option">
+          <input type="radio" name="paymentMethod" [(ngModel)]="orderInfo.paymentMethod" value="MOMO">
+          <img src="assets/icons/momo.png" alt="Momo"> Momo
+        </label>
+      </div>
+      <button type="submit" class="checkout-submit">Xác nhận đặt hàng</button>
+  </form>
+</div>
+
+<app-footer></app-footer>

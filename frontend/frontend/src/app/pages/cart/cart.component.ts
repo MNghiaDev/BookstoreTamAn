@@ -1,18 +1,17 @@
 import { Component } from '@angular/core';
 import { CartService } from '../../services/cart.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ToastService } from '../../services/toast.service';
-import { AuthorService } from '../../services/author.service';
 import { TokenService } from '../../services/token.service';
 import { jwtDecode } from 'jwt-decode';
 import { HeaderComponent } from "../header/header.component";
 import { FooterComponent } from "../footer/footer.component";
-
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
-  imports: [CommonModule, FormsModule, HeaderComponent, FooterComponent],
+  imports: [CommonModule, FormsModule, HeaderComponent, FooterComponent, NgFor, RouterLink],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css'
 })
@@ -23,7 +22,8 @@ export class CartComponent {
   constructor(
     private cartService: CartService,
     private toastService: ToastService,
-    private tokenService : TokenService
+    private tokenService: TokenService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -31,8 +31,24 @@ export class CartComponent {
   }
 
   loadCart() {
-    this.cartItems = this.cartService.getLocalCart();
+    this.cartItems = this.cartService.getLocalCart().map(item => ({
+      ...item,
+      selected: false
+    }));
     this.calculateTotalPrice();
+  }
+
+  get allSelected(): boolean {
+    return this.cartItems.length > 0 && this.cartItems.every(item => item.selected);
+  }
+
+  get hasSelectedItems(): boolean {
+    return this.cartItems.some(item => item.selected);
+  }
+
+  toggleAllSelection() {
+    const newValue = !this.allSelected;
+    this.cartItems.forEach(i => i.selected = newValue);
   }
 
   calculateTotalPrice() {
@@ -58,7 +74,7 @@ export class CartComponent {
   changeQuantity(item: any, event: any) {
     const newQuantity = parseInt(event.target.value, 10);
     if (newQuantity <= 0) {
-      event.target.value = item.quantity; // reset
+      event.target.value = item.quantity;
       return;
     }
     if (newQuantity > item.stock) {
@@ -74,8 +90,7 @@ export class CartComponent {
     this.cartService.saveLocalCart(this.cartItems);
     this.calculateTotalPrice();
 
-    // Nếu đã login, update database luôn
-    if (this.tokenService.isLoggedIn()) {
+    if (this.tokenService.isLoggedIn() && item.cartItemId) {
       this.cartService.updateCartItemBackend(item.cartItemId, item.quantity).subscribe();
     }
   }
@@ -85,7 +100,7 @@ export class CartComponent {
       this.cartItems = this.cartItems.filter(i => i.bookId !== item.bookId);
       this.cartService.saveLocalCart(this.cartItems);
 
-      if (this.tokenService.isLoggedIn()) {
+      if (this.tokenService.isLoggedIn() && item.cartItemId) {
         this.cartService.removeCartItemBackend(item.cartItemId).subscribe();
       }
 
@@ -102,8 +117,8 @@ export class CartComponent {
 
       if (this.tokenService.isLoggedIn()) {
         const token = this.tokenService.getToken();
-        if(token != null){
-          const tokenDecoded : any = jwtDecode(token);
+        if (token != null) {
+          const tokenDecoded: any = jwtDecode(token);
           const userId = tokenDecoded.user;
           this.cartService.clearCartBackend(userId).subscribe();
         }
@@ -111,5 +126,15 @@ export class CartComponent {
 
       this.toastService.showToast('Đã xóa toàn bộ giỏ hàng');
     }
+  }
+
+  checkoutSelected() {
+    const selectedItems = this.cartItems.filter(i => i.selected);
+    if (selectedItems.length === 0) {
+      this.toastService.showToast('Vui lòng chọn ít nhất một sản phẩm để thanh toán.');
+      return;
+    }
+    localStorage.setItem('checkoutItems', JSON.stringify(selectedItems));
+    this.router.navigate(['/checkout']);
   }
 }

@@ -56,6 +56,8 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.POST, "/cart/**").permitAll()
                                 .requestMatchers(HttpMethod.DELETE, "/cart/**").permitAll()
                                 .requestMatchers(HttpMethod.PUT, "/cart/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/order/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/order/**").permitAll()
                                 .anyRequest().authenticated()
                 );
         httpSecurity.oauth2ResourceServer(oauth2 ->

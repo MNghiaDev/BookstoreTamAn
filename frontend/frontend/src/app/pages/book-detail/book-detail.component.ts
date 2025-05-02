@@ -31,5 +31,19 @@ export class BookDetailComponent implements OnInit{
       this.book = res.data;
     })
   }
+  selectQuantity : number = 0;
+  buyNow() {
+    const selectedBook = {
+      bookId: this.book.id,
+      title: this.book.title,
+      price: this.book.price,
+      quantity: this.selectQuantity,
+      stock: this.book.stock,
+      imageUrl: this.book.imageUrl // nếu có
+    };
+  
+    localStorage.setItem('checkoutItems', JSON.stringify([selectedBook]));
+    window.location.href = '/checkout';
+  }
 
 }
