@@ -7,6 +7,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { ThankYouComponent } from './pages/thank-you/thank-you.component';
+import { LayoutComponent } from './pages/admin/layout/layout.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -17,5 +18,6 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'register', component: RegisterComponent},
   { path: 'checkout', component: CheckoutComponent},
-  { path: 'thank-you', component: ThankYouComponent}
+  { path: 'thank-you', component: ThankYouComponent},
+  { path: 'admin', loadChildren: () => import('./pages/admin/admin.module').then(m => m.AdminModule) },
 ];

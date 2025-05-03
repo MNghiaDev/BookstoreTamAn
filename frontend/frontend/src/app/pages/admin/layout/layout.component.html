@@ -1,0 +1,18 @@
+<div class="admin-container">
+  <!-- Sidebar -->
+  <aside class="admin-sidebar">
+    <div class="admin-logo">📚 Tâm An Admin</div>
+    <nav class="admin-menu">
+      <a routerLink="/admin/dashboard" routerLinkActive="active">📊 Tổng quan</a>
+      <a routerLink="/admin/users" routerLinkActive="active">👤 Quản lý người dùng</a>
+      <a routerLink="/admin/books" routerLinkActive="active">📖 Quản lý sách</a>
+      <a routerLink="/admin/orders" routerLinkActive="active">🧾 Quản lý đơn hàng</a>
+    </nav>
+  </aside>
+
+  <!-- Main content -->
+  <main class="admin-content">
+    <h2>Bảng điều khiển quản trị</h2>
+    <router-outlet></router-outlet>
+  </main>
+</div>

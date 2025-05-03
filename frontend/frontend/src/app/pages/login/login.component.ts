@@ -30,7 +30,7 @@ export class LoginComponent {
         if (scope === "ROLE_customer") {
           this.router.navigateByUrl("home");
         } else {
-          this.router.navigateByUrl("admin");
+          this.router.navigateByUrl("/admin");
         }
       },
       error: (err: any) => {
