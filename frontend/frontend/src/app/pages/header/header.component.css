@@ -1,6 +1,7 @@
 #tg-navigation ul li a {
-    font-size: 20px; /* Điều chỉnh kích thước theo ý muốn */
+    font-size: 20px; 
 }
+
 .logout-dropdown {
   position: absolute;
   top: 100%;
@@ -12,6 +13,10 @@
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
   padding: 10px;
   z-index: 1050;
+}
+
+.tg-logo{
+  width: 250px;
 }
 
 /* Link đổi mật khẩu */
@@ -79,3 +84,15 @@
   .tg-userlogin {
     background: transparent !important;
   }
+
+/* .tg-wishlistandcart{
+  margin-top: 20px;
+}
+  */
+.tg-searchbox{
+  margin-top: 10px;
+} 
+/* .tg-middlecontainer{
+  background-color: #c4c4c4;
+} */
+

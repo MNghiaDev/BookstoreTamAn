@@ -23,30 +23,30 @@ export class CartService {
     localStorage.removeItem(this.storageKey);
   }
 
-  addCartItemToBackend(userId: number, bookId: number, quantity: number): Observable<any> {
-    return this.http.post(`${this.apiUrl}/add?userId=${userId}`, { bookId, quantity });
-  }
+  // addCartItemToBackend(userId: number, bookId: number, quantity: number): Observable<any> {
+  //   return this.http.post(`${this.apiUrl}/add?userId=${userId}`, { bookId, quantity });
+  // }
 
-  updateCartItemBackend(cartItemId: number, quantity: number): Observable<any> {
-    return this.http.put(`${this.apiUrl}/update`, { cartItemId, quantity });
-  }
+  // updateCartItemBackend(cartItemId: number, quantity: number): Observable<any> {
+  //   return this.http.put(`${this.apiUrl}/update`, { cartItemId, quantity });
+  // }
 
-  removeCartItemBackend(cartItemId: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/delete/${cartItemId}`);
-  }
+  // removeCartItemBackend(cartItemId: number): Observable<any> {
+  //   return this.http.delete(`${this.apiUrl}/delete/${cartItemId}`);
+  // }
 
-  clearCartBackend(userId: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/clear?userId=${userId}`);
-  }
+  // clearCartBackend(userId: number): Observable<any> {
+  //   return this.http.delete(`${this.apiUrl}/clear?userId=${userId}`);
+  // }
 
-  syncLocalCartToBackend(userId: number): Observable<any> {
-    const localCart = this.getLocalCart();
-    if (localCart.length === 0) return of(null);
+  // syncLocalCartToBackend(userId: number): Observable<any> {
+  //   const localCart = this.getLocalCart();
+  //   if (localCart.length === 0) return of(null);
 
-    const requests = localCart.map(item =>
-      this.addCartItemToBackend(userId, item.bookId, item.quantity)
-    );
+  //   const requests = localCart.map(item =>
+  //     this.addCartItemToBackend(userId, item.bookId, item.quantity)
+  //   );
 
-    return forkJoin(requests); // ✅ Sửa để đúng kiểu observable
-  }
+  //   return forkJoin(requests); // ✅ Sửa để đúng kiểu observable
+  // }
 }

@@ -1,6 +1,8 @@
 package com.minhnghia.datn.BookstoreTamAn.repository;
 
 import com.minhnghia.datn.BookstoreTamAn.model.Author;
+import com.minhnghia.datn.BookstoreTamAn.model.Book;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,6 +21,6 @@ public interface AuthorRepository extends JpaRepository<Author, Integer> {
             "ORDER BY totalSold DESC")
     List<Object[]> findTopAuthorsBySelling(Pageable pageable);
 
-
+//    Page<Author> findAll(Pageable pageable);
 
 }

@@ -9,6 +9,7 @@ import java.util.Date;
 @Table(name = "author")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Author extends BaseEntity{

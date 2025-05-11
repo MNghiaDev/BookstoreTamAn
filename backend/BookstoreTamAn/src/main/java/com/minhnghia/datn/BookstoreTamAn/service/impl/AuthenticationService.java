@@ -31,6 +31,7 @@ import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.List;
 import java.util.StringJoiner;
 import java.util.UUID;
 
@@ -61,7 +62,7 @@ public class AuthenticationService {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
         if (!authenticated) {
-            throw new AppException(ErrorCode.UNAUTHENTICATED);
+            throw new AppException(ErrorCode.ERROR_USERNAME_OR_PASSWORD);
         }
         var token = generateToken(user);
 
@@ -94,14 +95,14 @@ public class AuthenticationService {
         }
     }
 
-    private String buildScope(User user) {
-        StringJoiner stringJoiner = new StringJoiner(" ");
-
+    private List<String> buildScope(User user) {
         if (user.getRole() != null) {
-                stringJoiner.add("ROLE_" + user.getRole());
-            };
-        return stringJoiner.toString();
+            return List.of("ROLE_" + user.getRole());
+        }
+        return List.of();
     }
+
+
 
     public IntrospectResponse introspect(IntrospectRequest request) throws JOSEException, ParseException {
         var token = request.getToken();

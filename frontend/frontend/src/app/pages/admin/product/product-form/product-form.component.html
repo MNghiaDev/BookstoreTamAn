@@ -1,0 +1,66 @@
+<h2>{{ isEditMode ? 'Chỉnh sửa sản phẩm' : 'Thêm sản phẩm' }}</h2>
+<form (ngSubmit)="saveProduct()" class="product-form">
+  <div class="form-column">
+    <label>Tiêu đề:</label>
+    <input type="text" [(ngModel)]="product.title" name="title" required>
+
+    <label>Định dạng:</label>
+    <input type="text" [(ngModel)]="product.format" name="format">
+
+    <label>Số trang:</label>
+    <input type="number" [(ngModel)]="product.pages" name="pages">
+
+    <label>Ngày xuất bản:</label>
+    <input type="date" [(ngModel)]="product.publicationDate" name="publicationDate">
+
+    <label>Nhà xuất bản:</label>
+    <input type="text" [(ngModel)]="product.publisher" name="publisher">
+
+    <label>Ngôn ngữ:</label>
+    <input type="text" [(ngModel)]="product.language" name="language">
+
+    <label>Ghi chú:</label>
+    <textarea [(ngModel)]="product.illustrationsNote" name="notes"></textarea>
+
+
+<div class="form-column">
+    <label>Hình ảnh:</label>
+    <input type="file" (change)="onFileSelected($event)">
+    <img *ngIf="product.imageUrl" [src]="product.imageUrl" alt="Cover Image" style="max-width: 200px; margin-top: 10px;">
+</div>
+
+
+
+  </div>
+
+  <div class="form-column">
+    <label>Mô tả:</label>
+    <textarea [(ngModel)]="product.description" name="description"></textarea>
+
+    <label>Giảm giá (%):</label>
+    <input type="number" [(ngModel)]="product.promotion" name="discount">
+
+    <label>Ngày kết thúc giảm giá:</label>
+    <input type="date" [(ngModel)]="product.promotionEndDate" name="discountEndDate">
+
+    <label>Đánh giá từ người bán:</label>
+    <textarea [(ngModel)]="product.sellerReview" name="sellerReview"></textarea>
+
+    <label>Video URL:</label>
+    <input type="text" [(ngModel)]="product.reviewVideo" name="videoUrl">
+
+    <label>Giá:</label>
+    <input type="number" [(ngModel)]="product.price" name="price" required>
+
+    <label>Số lượng:</label>
+    <input type="number" [(ngModel)]="product.stock" name="quantity" required>
+
+    <label>Tác giả (ID):</label>
+    <input type="number" [(ngModel)]="product.authorId" name="authorId">
+  </div>
+
+  <div class="form-buttons">
+    <button type="submit">{{ isEditMode ? 'Cập nhật' : 'Thêm mới' }}</button>
+    <button type="button" (click)="cancel()">Hủy</button>
+  </div>
+</form>

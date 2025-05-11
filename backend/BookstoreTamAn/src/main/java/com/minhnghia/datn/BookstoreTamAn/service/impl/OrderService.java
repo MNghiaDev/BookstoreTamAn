@@ -2,7 +2,11 @@ package com.minhnghia.datn.BookstoreTamAn.service.impl;
 
 import com.minhnghia.datn.BookstoreTamAn.dto.request.OrderRequest;
 import com.minhnghia.datn.BookstoreTamAn.dto.request.OrderRequestItem;
+import com.minhnghia.datn.BookstoreTamAn.dto.request.OrderUpdateStatusRequest;
+import com.minhnghia.datn.BookstoreTamAn.dto.response.OrderCreationResponse;
 import com.minhnghia.datn.BookstoreTamAn.dto.response.OrderResponse;
+import com.minhnghia.datn.BookstoreTamAn.exception.AppException;
+import com.minhnghia.datn.BookstoreTamAn.exception.ErrorCode;
 import com.minhnghia.datn.BookstoreTamAn.mapper.OrderMapper;
 import com.minhnghia.datn.BookstoreTamAn.model.Book;
 import com.minhnghia.datn.BookstoreTamAn.model.Order;
@@ -11,12 +15,15 @@ import com.minhnghia.datn.BookstoreTamAn.repository.BookRepository;
 import com.minhnghia.datn.BookstoreTamAn.repository.OrderDetailRepository;
 import com.minhnghia.datn.BookstoreTamAn.repository.OrderRepository;
 import com.minhnghia.datn.BookstoreTamAn.repository.UserRepository;
+import com.minhnghia.datn.BookstoreTamAn.service.IOrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class OrderService {
+public class OrderService implements IOrderService {
 
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
@@ -26,7 +33,8 @@ public class OrderService {
 
     private final OrderMapper orderMapper;
 
-    public OrderResponse createOrder(OrderRequest request) {
+    @Override
+    public OrderCreationResponse createOrder(OrderRequest request) {
 
 
         Order order = orderMapper.toOrder(request);
@@ -44,6 +52,7 @@ public class OrderService {
             detail.setQuantity(item.getQuantity());
             detail.setUnitPrice(book.getPrice());
             orderDetailRepository.save(detail);
+            book.setStock(book.getStock() - detail.getQuantity());
 
             total += book.getPrice() * item.getQuantity();
         }
@@ -57,6 +66,30 @@ public class OrderService {
                         + "<p>Cảm ơn bạn đã đặt hàng tại <b>Nhà sách Tâm An</b>.</p>"
                         + "<p>Đơn hàng của bạn đang được xử lý.</p>"
         );
-        return new OrderResponse(savedOrder.getId(), savedOrder.getTotalPrice(), savedOrder.getStatus());
+        return new OrderCreationResponse(savedOrder.getId(), savedOrder.getTotalPrice(), savedOrder.getStatus());
+    }
+
+    @Override
+    public Page<OrderResponse> getAll(PageRequest request) {
+        return orderRepository.findAll(request).map(orderMapper::toOrderResponse);
+    }
+
+    private Order findId(Integer id){
+        return orderRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND));
+    }
+
+    @Override
+    public OrderResponse updateStatus(Integer id, OrderUpdateStatusRequest request) {
+        Order order = findId(id);
+        order.setStatus(request.getStatus());
+        return orderMapper.toOrderResponse(orderRepository.save(order));
+    }
+
+    @Override
+    public Void delete(Integer id) {
+        Order order = findId(id);
+        orderRepository.delete(order);
+        return null;
     }
 }

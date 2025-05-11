@@ -1,0 +1,34 @@
+<div class="product-header">
+  <button (click)="goToAddProduct()" style="background-color: rgb(9, 175, 9);"><i class="fas fa-plus"></i> Thêm sản phẩm</button>
+  <button (click)="goToEditProduct()" [disabled]="selectedProductId === null" style="background-color: rgb(203, 216, 19);"><i class="fas fa-edit"></i> Sửa</button>
+  <button (click)="deleteProduct()" [disabled]="selectedProductId === null" style="background-color: red;"><i class="fas fa-trash"></i> Xóa</button>
+</div>
+
+<table class="product-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Tiêu đề</th>
+      <th>Image</th>
+      <th>Giá</th>
+      <th>Số lượng</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let product of products" (click)="selectProduct(product.id)" [class.selected]="selectedProductId === product.id">
+      <td>{{ product.id }}</td>
+      <td>{{ product.title }}</td>
+            <td>
+        <img [src]="product.imageUrl" alt="Product Image" width="100" height="100">
+      </td>
+      <td>{{ product.price }}</td>
+      <td>{{ product.stock }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="pagination">
+  <button (click)="prevPage()" [disabled]="page === 0">◀ Trước</button>
+  <span>Trang {{ page + 1 }} / {{ totalPages }}</span>
+  <button (click)="nextPage()" [disabled]="page >= totalPages - 1">Tiếp ▶</button>
+</div>

@@ -1,11 +1,14 @@
 <app-header></app-header>
+
 <div class="container mx-auto px-4 py-8">
+  TRANG CHỦ / GIỎ HÀNG
+
   <h1 class="text-3xl font-bold mb-8 text-center">Giỏ Hàng Của Bạn</h1>
 
   <div *ngIf="cartItems.length > 0; else emptyCart">
     <div class="mb-4 flex justify-between items-center">
-      <div>
-        <input type="checkbox" [checked]="allSelected" (change)="toggleAllSelection()">
+      <div class="checkout-select">
+        <input type="checkbox" class="checkeds" [checked]="allSelected" (change)="toggleAllSelection()">
         <label class="ml-2 text-gray-700">Chọn tất cả</label>
       </div>
       <button (click)="checkoutSelected()"

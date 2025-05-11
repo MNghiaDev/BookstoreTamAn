@@ -1,19 +1,15 @@
-.checkout-container {
-    max-width: 600px;
-    margin: 50px auto;
+/* .checkout-container {
+    max-width: 400px;
+    margin: 100px auto;
     padding: 24px;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
+  } */
+  .text-3xl{
+    background-color: #22c55e;
+    margin-top: 20PX;
   }
-  
-  .checkout-title {
-    font-size: 28px;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 24px;
-  }
-  
   .checkout-form {
     display: flex;
     flex-direction: column;
@@ -33,6 +29,7 @@
     border-radius: 6px;
     background-color: #f9fafb;
     transition: border 0.2s;
+    width: 600px;
   }
   
   .checkout-input:focus {

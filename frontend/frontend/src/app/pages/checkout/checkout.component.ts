@@ -31,25 +31,36 @@ export class CheckoutComponent {
 
   submitOrder() {
     const token = this.tokenService.getToken();
-    if (!token) return;
-  
-    const tokenDecoded: any = jwtDecode(token);
-    const userId = tokenDecoded.user;
-    const selectedItems = JSON.parse(localStorage.getItem('checkoutItems') || '[]');
-  
-    const orderData = {
-      userId,
-      ...this.orderInfo,
-      items: selectedItems.map((item: any) => ({
-        bookId: item.bookId,
-        quantity: item.quantity
-      }))
-    };
-  
-    this.orderService.createOrder(orderData).subscribe(() => {
-      localStorage.removeItem('checkoutItems');
-      this.router.navigate(['/thank-you']);
-    });
+    if (!token){
+      this.router.navigateByUrl("/login");
+    }else{
+        const tokenDecoded: any = jwtDecode(token);
+        const userId = tokenDecoded.user;
+        const selectedItems = JSON.parse(localStorage.getItem('checkoutItems') || '[]');
+        
+        const orderData = {
+            userId,
+            ...this.orderInfo,
+            items: selectedItems.map((item: any) => ({
+                bookId: item.bookId,
+                quantity: item.quantity
+            }))
+        };
+        
+        this.orderService.createOrder(orderData).subscribe(() => {
+            // Xóa các sản phẩm đã đặt ra khỏi giỏ hàng
+            const currentCart = JSON.parse(localStorage.getItem('cartItems') || '[]');
+            const updatedCart = currentCart.filter((cartItem: any) => 
+                !selectedItems.some((selectedItem: any) => selectedItem.bookId === cartItem.bookId)
+            );
+            localStorage.setItem('cartItems', JSON.stringify(updatedCart));
+            
+            // Xóa sản phẩm đang checkout
+            localStorage.removeItem('checkoutItems');
+            
+            // Điều hướng tới trang cảm ơn
+            this.router.navigate(['/thank-you']);
+        });
+    }
   }
-  
 }

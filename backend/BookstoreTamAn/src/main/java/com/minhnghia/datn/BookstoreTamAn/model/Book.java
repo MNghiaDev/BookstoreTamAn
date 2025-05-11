@@ -30,9 +30,6 @@ public class Book extends BaseEntity{
     private Date publicationDate;
     private String publisher;
     private String language;
-    private String illustrationsNote;
-    private String ISBN10;
-    private String ISBN13;
     private Double promotion;
     private LocalDate promotionEndDate;
     private String description;
@@ -42,7 +39,6 @@ public class Book extends BaseEntity{
     private Integer stock;
     private String imageUrl;
     private Float rating;
-    private Integer numReviews;
     private Integer selling;
     private String createdBy;
     private String modifyBy;

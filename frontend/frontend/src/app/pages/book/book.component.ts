@@ -4,7 +4,7 @@ import { FooterComponent } from "../footer/footer.component";
 import { Book, IBookList } from '../../models/book';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Route, Router, RouterLink } from '@angular/router';
 import { CategoryComponent } from "../category/category.component";
 import { TopAuthorComponent } from "../top-author/top-author.component";
 import { BookService } from '../../services/book.service';
@@ -37,28 +37,37 @@ export class BookComponent implements OnInit {
   }
 
   constructor(private bookService: BookService, private toastService : ToastService
-    , private cartService : CartService, private tokenService : TokenService
+    , private cartService : CartService, private tokenService : TokenService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.loadPage();
     this.getBookMaxSale();
+    this.route.queryParams.subscribe(params => {
+      this.searchKeyword = params['keyword'] || '';
+      this.loadPage();
+    });
   }
-
   loadPage(): void {
     if (this.searchKeyword.trim() !== '') {
-      // Nếu đang có từ khóa -> gọi search
+      // Nếu có từ khóa, tìm kiếm sách
       this.bookService.searchBooks(this.searchKeyword, this.currentPage, this.size).subscribe((res: any) => {
         this.bookList = res.content;
         this.totalPages = res.totalPages;
       });
     } else {
-      // Nếu không có từ khóa -> gọi list bình thường
+      // Nếu không có từ khóa, lấy danh sách sách
       this.bookService.listBook(this.currentPage, this.size).subscribe((res: any) => {
         this.bookList = res.data.productResponses;
         this.totalPages = res.data.totalPages;
       });
     }
+  }
+
+  onSearch(): void {
+    this.currentPage = 0;
+    this.loadPage();
   }
 
 
@@ -68,10 +77,6 @@ export class BookComponent implements OnInit {
     });
   }
 
-  onSearch(): void {
-    this.currentPage = 0; // Khi tìm kiếm reset về trang 0
-    this.loadPage();
-  }
   
   onClearSearch(): void {
     this.searchKeyword = '';
@@ -118,33 +123,33 @@ export class BookComponent implements OnInit {
     cart.push(cartItem);
     this.cartService.saveLocalCart(cart);
   
-    if (this.tokenService.isLoggedIn()) {
-      const token = this.tokenService.getToken();
-      if (token) {
-        const tokenDecoded: any = jwtDecode(token);
-        const userId = tokenDecoded.user;
+    // if (this.tokenService.isLoggedIn()) {
+    //   const token = this.tokenService.getToken();
+    //   if (token) {
+    //     const tokenDecoded: any = jwtDecode(token);
+    //     const userId = tokenDecoded.user;
   
-        this.cartService.addCartItemToBackend(userId, item.id, 1).subscribe({
-          next: (res) => {
-            const updatedCart = this.cartService.getLocalCart();
-            const addedItem = updatedCart.find(i => i.bookId === item.id);
+    //     this.cartService.addCartItemToBackend(userId, item.id, 1).subscribe({
+    //       next: (res) => {
+    //         const updatedCart = this.cartService.getLocalCart();
+    //         const addedItem = updatedCart.find(i => i.bookId === item.id);
         
-            if (addedItem && res?.data?.cartItemId) {
-              addedItem.cartItemId = res.data.cartItemId; // ✅ Dùng đúng tên trường
-              this.cartService.saveLocalCart(updatedCart);
-            }
+    //         if (addedItem && res?.data?.cartItemId) {
+    //           addedItem.cartItemId = res.data.cartItemId; // ✅ Dùng đúng tên trường
+    //           this.cartService.saveLocalCart(updatedCart);
+    //         }
         
-            this.toastService.showToast('Thêm sản phẩm vào giỏ hàng thành công!');
-          },
-          error: () => {
-            this.toastService.showToast('Đã xảy ra lỗi khi lưu vào server!');
-          }
-        });
+    //         this.toastService.showToast('Thêm sản phẩm vào giỏ hàng thành công!');
+    //       },
+    //       error: () => {
+    //         this.toastService.showToast('Đã xảy ra lỗi khi lưu vào server!');
+    //       }
+    //     });
         
-      }
-    } else {
+      // }
+    // } else {
       this.toastService.showToast('Thêm sản phẩm vào giỏ hàng thành công!');
-    }
+    // }
   }
   
 }

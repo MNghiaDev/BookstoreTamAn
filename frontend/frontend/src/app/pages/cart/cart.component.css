@@ -1,4 +1,5 @@
 /* Layout bảng */
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -192,3 +193,14 @@ input[type="checkbox"] {
   margin-bottom: 80px; /* hoặc 100px nếu bạn thấy cần rộng hơn */
 }
 
+.text-3xl{
+  background-color: #22c55e;
+  margin-top: 20PX;
+}
+.checkout-select{
+  margin-top: 30px;
+  display: flex;
+}
+.checkeds{
+  margin-right: 10px;
+}

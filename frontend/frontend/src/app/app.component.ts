@@ -18,7 +18,7 @@ export class AppComponent {
   constructor(private router: Router) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        const hiddenRoutes = ['/login', '/register']; // Các route muốn ẩn Header/Footer
+        const hiddenRoutes = ['/login', '/register'];
         this.showHeaderFooter = !hiddenRoutes.includes(event.urlAfterRedirects);
       }
     });

@@ -1,6 +1,8 @@
 package com.minhnghia.datn.BookstoreTamAn.controller;
 
 import com.minhnghia.datn.BookstoreTamAn.dto.request.ApiResponse;
+import com.minhnghia.datn.BookstoreTamAn.dto.request.BookCreationRequest;
+import com.minhnghia.datn.BookstoreTamAn.dto.request.BookUpdateRequest;
 import com.minhnghia.datn.BookstoreTamAn.dto.response.BookListResponse;
 import com.minhnghia.datn.BookstoreTamAn.dto.response.BookResponse;
 import com.minhnghia.datn.BookstoreTamAn.dto.response.BookSaleListResponse;
@@ -13,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -114,4 +117,69 @@ public class BookController {
         return ResponseEntity.ok(Map.of("data", suggestions));
     }
 
+    @PostMapping("/create")
+    @PreAuthorize("hasAuthority('ROLE_admin')")
+    public ApiResponse<BookResponse> create(@RequestBody BookCreationRequest request){
+        return ApiResponse.<BookResponse>builder()
+                .data(bookService.create(request))
+                .build();
+    }
+
+    @PutMapping("/update/{id}")
+    @PreAuthorize("hasAuthority('ROLE_admin')")
+    public ApiResponse<BookResponse> update(@PathVariable("id") int id, @RequestBody BookUpdateRequest request){
+        return ApiResponse.<BookResponse>builder()
+                .data(bookService.update(id, request))
+                .build();
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ApiResponse<Void> delete(@PathVariable("id") int id){
+        bookService.delete(id);
+        return ApiResponse.<Void>builder()
+                .build();
+    }
+    @GetMapping("/by-category/{id}")
+    public ApiResponse<BookListResponse> getAllByCategory(
+            @RequestParam("page") int page,
+            @RequestParam("size") int size,
+            @PathVariable("id") int id
+    ){
+        PageRequest request = PageRequest.of(
+                page,
+                size, Sort.by("id").ascending()
+        );
+        Page<BookResponse> books = bookService.getAllByCategory(request, id);
+        int totalPage =books.getTotalPages();
+        List<BookResponse> bookList =books.getContent();
+        BookListResponse bookListResponse = BookListResponse.builder()
+                .totalPages(totalPage)
+                .productResponses(bookList)
+                .build();
+        return ApiResponse.<BookListResponse>builder()
+                .data(bookListResponse)
+                .build();
+    }
+
+    @GetMapping("/by-author/{id}")
+    public ApiResponse<BookListResponse> getAllByAuthor(
+            @RequestParam("page") int page,
+            @RequestParam("size") int size,
+            @PathVariable("id") int id
+    ){
+        PageRequest request = PageRequest.of(
+                page,
+                size, Sort.by("id").ascending()
+        );
+        Page<BookResponse> books = bookService.getAllByAuthor(request, id);
+        int totalPage =books.getTotalPages();
+        List<BookResponse> bookList =books.getContent();
+        BookListResponse bookListResponse = BookListResponse.builder()
+                .totalPages(totalPage)
+                .productResponses(bookList)
+                .build();
+        return ApiResponse.<BookListResponse>builder()
+                .data(bookListResponse)
+                .build();
+    }
 }

@@ -1,0 +1,25 @@
+<table class="user-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Họ tên</th>
+        <th>SĐT</th>
+        <th>Địa chỉ</th>
+        <th>Thao tác</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.id }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.full_name }}</td>
+        <td>{{ user.phone }}</td>
+        <td>{{ user.address }}</td>
+        <td><button (click)="deleteUser(user.id)">Xóa</button></td>
+      </tr>
+    </tbody>
+  </table>
+  

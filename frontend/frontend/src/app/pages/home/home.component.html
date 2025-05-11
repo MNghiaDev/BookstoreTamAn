@@ -1,12 +1,22 @@
 <app-header></app-header>
 <div id="tg-wrapper" class="tg-wrapper tg-haslayout">
     <main id="tg-main" class="tg-main tg-haslayout">
-      <app-best-selling></app-best-selling>
-      <app-featured-item></app-featured-item>
-      <app-picked-by-author></app-picked-by-author>
-      <app-latest-news></app-latest-news>
+        <!-- Banner Section -->
+        <section class="banner-section">
+            <div class="banner-container">
+                <img src="images/books-1163695_1920.jpg" alt="Banner" class="banner-image">
+                <div class="banner-content">
+                    <h1 class="banner-title">Chào mừng đến với Tâm An Bookstore</h1>
+                    <p class="banner-subtitle">Khám phá thế giới tri thức với hàng ngàn đầu sách phong phú</p>
+                    <a routerLink="/book" class="tg-btn tg-btnstyleone">Mua ngay</a>
+                </div>
+            </div>
+        </section>
+       
+        <app-best-selling></app-best-selling>
+        <app-featured-item></app-featured-item>
+        <app-picked-by-author></app-picked-by-author>
     </main>
-    
-  </div>
+</div>
 <router-outlet></router-outlet>
 <app-footer></app-footer>

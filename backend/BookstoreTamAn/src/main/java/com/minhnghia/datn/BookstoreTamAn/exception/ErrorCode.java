@@ -20,6 +20,11 @@ public enum ErrorCode {
     BOOK_NOT_FOUND(1011, "Book not found!", HttpStatus.NOT_FOUND),
     USERNAME_EXISTED(1012, "Username existed", HttpStatus.BAD_REQUEST),
     PHONE_EXISTED(1013, "Phone existed", HttpStatus.BAD_REQUEST),
+    AUTHOR_NOT_FOUND(1014, "Author not found!", HttpStatus.NOT_FOUND),
+    CATEGORY_NOT_FOUND(1015, "Category not found!", HttpStatus.NOT_FOUND),
+    NEWS_NOT_FOUND(1016, "News not found!", HttpStatus.NOT_FOUND),
+    ERROR_USERNAME_OR_PASSWORD(1017, "Sai tên đăng nhập hoặc mật khẩu", HttpStatus.BAD_REQUEST),
+    ORDER_NOT_FOUND(1018, "Order not found!", HttpStatus.NOT_FOUND),
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {

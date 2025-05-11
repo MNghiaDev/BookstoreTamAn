@@ -10,6 +10,7 @@ import com.minhnghia.datn.BookstoreTamAn.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Component
@@ -21,6 +22,16 @@ public class OrderMapper {
                 .orderId(order.getId())
                 .status(order.getStatus())
                 .totalPrice(order.getTotalPrice())
+                .userId(order.getUser().getId())
+                .orderDate(order.getOrderDate())
+                .email(order.getEmail())
+                .paymentMethod(order.getPaymentMethod())
+                .phone(order.getPhone())
+                .shippingAddress(order.getShippingAddress())
+                .recipientName(order.getRecipientName())
+                .createdBy(order.getCreatedBy())
+                .modifyAt(order.getModifyAt())
+                .modifyBy(order.getModifyBy())
                 .build();
     }
 
@@ -29,7 +40,7 @@ public class OrderMapper {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         return Order.builder()
                 .user(user)
-                .orderDate(new Date())
+                .orderDate(LocalDate.now())
                 .status("PENDING")
                 .email(request.getEmail())
                 .paymentMethod(request.getPaymentMethod())

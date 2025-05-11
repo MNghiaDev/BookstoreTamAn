@@ -1,17 +1,21 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { IListCategory } from '../../models/category';
 import { HttpClient } from '@angular/common/http';
 import { CategoryService } from '../../services/category.service';
-import { NgFor, NgIf } from '@angular/common';
+import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { TokenService } from '../../services/token.service';
 import { jwtDecode } from 'jwt-decode';
 import { CartService } from '../../services/cart.service';
 import { FooterComponent } from "../footer/footer.component";
+import { BookService } from '../../services/book.service';
+import { ToastService } from '../../services/toast.service';
+import { Book, IBookList } from '../../models/book';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, RouterOutlet, RouterLinkActive, NgIf],
+  imports: [RouterLink, RouterOutlet, NgIf, CommonModule, FormsModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -24,9 +28,12 @@ export class HeaderComponent implements OnInit{
   categoryChunks: any[] = [];
 
   cartItemCount: number = 0;
+  searchKeyword: string = '';
+  suggestions: string[] = [];
 
   constructor(private categoryService : CategoryService, private tokenService : TokenService,
-    private cartService : CartService
+    private cartService : CartService, private bookService: BookService, private toastService : ToastService,
+    private router : Router
   ){
     this.categoryChunks = this.chunkArray(this.categoryList, 6);
     this.token = this.tokenService.getToken();
@@ -41,6 +48,7 @@ export class HeaderComponent implements OnInit{
   ngOnInit(): void {
     this.getListCategory();
     this.updateCartCount();
+    this.loadCart();
   }
 
 
@@ -70,5 +78,44 @@ logout() {
   updateCartCount() {
     const cart = this.cartService.getLocalCart();
     this.cartItemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+  }
+
+  totalPrice : number = 0;
+  cartItems: any[] = [];
+
+  loadCart() {
+    this.cartItems = this.cartService.getLocalCart().map(item => ({
+      ...item,
+      selected: false
+    }));
+    this.calculateTotalPrice();
+  }
+
+  calculateTotalPrice() {
+    this.totalPrice = this.cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  }
+
+  
+  onSearch(): void {
+    if (this.searchKeyword.trim() !== '') {
+      this.router.navigate(['/book'], { queryParams: { keyword: this.searchKeyword.trim() } });
+    }
+  }
+
+  onKeywordChange(): void {
+    if (this.searchKeyword.trim() === '') {
+      this.suggestions = [];
+      return;
+    }
+
+    this.bookService.getSuggestions(this.searchKeyword).subscribe((res: any) => {
+      this.suggestions = res.data || [];
+    });
+  }
+
+  selectSuggestion(suggestion: string): void {
+    this.searchKeyword = suggestion;
+    this.suggestions = [];
+    this.onSearch();  // Chuyển ngay khi chọn gợi ý
   }
 }

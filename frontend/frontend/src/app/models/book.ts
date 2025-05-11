@@ -31,6 +31,7 @@ export class Book{
     createdAt: string;
     modifyAt: string;
     nameAuthor : string;
+    authorId : 0;
     categoryNames : CategoryNames[] = [];
 
     constructor(){
@@ -64,6 +65,7 @@ export class Book{
         this.createdAt = "";
         this.modifyAt = "";
         this.nameAuthor = "";
+        this.authorId = 0;
     }
 }
 
@@ -98,5 +100,6 @@ export interface IBookList{
     createdAt: string;
     modifyAt: string;
     nameAuthor : string;
+    authorId : 0;
     categoryNames : CategoryNames[];
 }

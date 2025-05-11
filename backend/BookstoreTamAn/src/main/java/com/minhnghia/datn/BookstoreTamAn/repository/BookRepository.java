@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Integer> {
@@ -45,4 +46,9 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
     List<Book> findByTitleContainingIgnoreCaseOrAuthor_NameContainingIgnoreCase(String titleKeyword, String authorKeyword);
 
+    Optional<Book> findByTitle(String title);
+
+    Page<Book> findAllByCategories_Id(Pageable pageable, Integer categoryId);
+
+    Page<Book> findAllByAuthor_Id(Pageable pageable, Integer authorId);
 }

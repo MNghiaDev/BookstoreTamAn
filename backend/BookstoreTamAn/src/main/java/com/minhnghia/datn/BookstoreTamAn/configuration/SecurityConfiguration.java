@@ -40,7 +40,9 @@ public class SecurityConfiguration {
             "/book/**",
             "/category/**",
             "/author/**",
-            "/cart/**"
+            "/cart/**",
+            "/user/**",
+            "/news/**"
     };
 
     @Bean
@@ -58,6 +60,8 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.PUT, "/cart/**").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/order/**").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/order/**").permitAll()
+                                .requestMatchers(HttpMethod.DELETE, "/user/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/upload/**").permitAll()
                                 .anyRequest().authenticated()
                 );
         httpSecurity.oauth2ResourceServer(oauth2 ->
@@ -71,11 +75,13 @@ public class SecurityConfiguration {
     @Bean
     JwtAuthenticationConverter jwtAuthenticationConverter(){
         JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-        jwtGrantedAuthoritiesConverter.setAuthorityPrefix("ROLE_");
+        jwtGrantedAuthoritiesConverter.setAuthorityPrefix(""); // Không thêm ROLE_ vì token đã có
+        jwtGrantedAuthoritiesConverter.setAuthoritiesClaimName("scope"); // Lấy từ scope
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
         return jwtAuthenticationConverter;
     }
+
 
     @Bean
     JwtDecoder jwtDecoder(){
@@ -93,6 +99,7 @@ public class SecurityConfiguration {
         corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         corsConfiguration.setAllowedHeaders(List.of("authorization", "content-type", "x-auth-token"));
         corsConfiguration.setExposedHeaders(List.of("x-auth-token"));
+        corsConfiguration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration);
@@ -104,18 +111,4 @@ public class SecurityConfiguration {
         return new BCryptPasswordEncoder(10);
     }
 
-//    @Bean
-//    public CorsFilter corsFilter() {
-//        CorsConfiguration corsConfiguration = new CorsConfiguration();
-//        corsConfiguration.setAllowedOrigins(List.of("http://localhost:4200")); // Cho phép Angular truy cập
-//        corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-//        corsConfiguration.setAllowedHeaders(List.of("authorization", "content-type", "x-auth-token"));
-//        corsConfiguration.setExposedHeaders(List.of("x-auth-token"));
-//        corsConfiguration.setAllowCredentials(false); // Không dùng đăng nhập -> để false
-//
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", corsConfiguration);
-//
-//        return new CorsFilter(source);
-//    }
 }

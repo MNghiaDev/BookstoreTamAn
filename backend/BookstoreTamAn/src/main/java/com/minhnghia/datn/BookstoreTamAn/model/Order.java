@@ -3,6 +3,7 @@ package com.minhnghia.datn.BookstoreTamAn.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -16,7 +17,7 @@ public class Order extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Date orderDate;
+    private LocalDate orderDate;
     private String status;
     private Double totalPrice;
     private String email;

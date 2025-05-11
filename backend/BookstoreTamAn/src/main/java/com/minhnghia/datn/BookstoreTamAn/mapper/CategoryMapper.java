@@ -1,5 +1,6 @@
 package com.minhnghia.datn.BookstoreTamAn.mapper;
 
+import com.minhnghia.datn.BookstoreTamAn.dto.request.CategoryRequest;
 import com.minhnghia.datn.BookstoreTamAn.dto.response.CategoryBookResponse;
 import com.minhnghia.datn.BookstoreTamAn.dto.response.CategoryResponse;
 import com.minhnghia.datn.BookstoreTamAn.model.Category;
@@ -29,6 +30,14 @@ public class CategoryMapper {
                                 book.getAuthor().getName() // Lấy tên tác giả
                         ))
                         .collect(Collectors.toSet()))
+                .build();
+    }
+
+    public Category toCategory(CategoryRequest request){
+        return Category.builder()
+                .name(request.getName())
+                .description(request.getDescription())
+                .createdBy(request.getCreatedBy())
                 .build();
     }
 }

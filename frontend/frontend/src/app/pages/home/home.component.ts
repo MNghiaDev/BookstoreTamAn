@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { BestSellingComponent } from "./elements/best-selling/best-selling.component";
 import { FeaturedItemComponent } from "./elements/featured-item/featured-item.component";
 import { PickedByAuthorComponent } from "./elements/picked-by-author/picked-by-author.component";
-import { LatestNewsComponent } from "./elements/latest-news/latest-news.component";
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from "../header/header.component";
 import { FooterComponent } from "../footer/footer.component";
@@ -11,8 +10,7 @@ import { FooterComponent } from "../footer/footer.component";
   selector: 'app-home',
   imports: [BestSellingComponent, FeaturedItemComponent,
     PickedByAuthorComponent,
-    LatestNewsComponent,
-    RouterOutlet, HeaderComponent, FooterComponent],
+    RouterOutlet, HeaderComponent, FooterComponent, RouterLink],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

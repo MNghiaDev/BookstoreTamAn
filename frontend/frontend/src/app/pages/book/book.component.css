@@ -1,3 +1,7 @@
+.tg-sectionspace{
+  margin-top: 0px;
+}
+
 .custom-pagination {
   display: flex;
   justify-content: center;
@@ -67,4 +71,8 @@
 
 .suggestion-list li:hover {
   background-color: #f1f1f1;
+}
+
+.abc{
+  margin-top: 20px;
 }

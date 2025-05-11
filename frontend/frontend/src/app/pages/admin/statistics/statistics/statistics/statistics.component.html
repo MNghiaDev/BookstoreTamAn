@@ -1,0 +1,39 @@
+<div class="statistics-container">
+  <h2>Thống kê doanh thu</h2>
+
+  <div class="date-picker">
+    <label>Ngày bắt đầu:</label>
+    <input type="date" [(ngModel)]="startDate">
+    
+    <label>Ngày kết thúc:</label>
+    <input type="date" [(ngModel)]="endDate">
+    
+    <button (click)="fetchStatistics()">Xem thống kê</button>
+    <button (click)="exportStatistics()">Xuất báo cáo</button>
+  </div>
+
+  <div *ngIf="salesStatistics" class="statistics-summary">
+    <h3>Tổng Quan</h3>
+    <p>Doanh thu: {{ salesStatistics.totalRevenue | currency }}</p>
+    <p>Số đơn hàng: {{ salesStatistics.totalOrders }}</p>
+    <p>Số sản phẩm đã bán: {{ salesStatistics.totalProductsSold }}</p>
+  </div>
+
+  <div *ngIf="topSellingProducts.length" class="top-products">
+    <h3>Sản phẩm bán chạy nhất</h3>
+    <ul>
+      <li *ngFor="let product of topSellingProducts">
+        {{ product.bookTitle }} - Đã bán: {{ product.totalSold }}
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="purchaseTrend" class="purchase-trend">
+  <h3>Xu hướng mua hàng</h3>
+  <ul>
+    <li *ngFor="let date of getPurchaseTrendKeys()">
+      Ngày {{ date }} - Số sản phẩm đã bán: {{ purchaseTrend[date] }}
+    </li>
+  </ul>
+</div>
+</div>

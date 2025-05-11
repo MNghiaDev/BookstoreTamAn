@@ -90,9 +90,9 @@ export class CartComponent {
     this.cartService.saveLocalCart(this.cartItems);
     this.calculateTotalPrice();
 
-    if (this.tokenService.isLoggedIn() && item.cartItemId) {
-      this.cartService.updateCartItemBackend(item.cartItemId, item.quantity).subscribe();
-    }
+    // if (this.tokenService.isLoggedIn() && item.cartItemId) {
+    //   this.cartService.updateCartItemBackend(item.cartItemId, item.quantity).subscribe();
+    // }
   }
 
   removeItem(item: any) {
@@ -100,9 +100,9 @@ export class CartComponent {
       this.cartItems = this.cartItems.filter(i => i.bookId !== item.bookId);
       this.cartService.saveLocalCart(this.cartItems);
 
-      if (this.tokenService.isLoggedIn() && item.cartItemId) {
-        this.cartService.removeCartItemBackend(item.cartItemId).subscribe();
-      }
+      // if (this.tokenService.isLoggedIn() && item.cartItemId) {
+      //   this.cartService.removeCartItemBackend(item.cartItemId).subscribe();
+      // }
 
       this.calculateTotalPrice();
       this.toastService.showToast('Đã xóa sản phẩm khỏi giỏ hàng');
@@ -115,14 +115,14 @@ export class CartComponent {
       this.cartService.clearLocalCart();
       this.totalPrice = 0;
 
-      if (this.tokenService.isLoggedIn()) {
-        const token = this.tokenService.getToken();
-        if (token != null) {
-          const tokenDecoded: any = jwtDecode(token);
-          const userId = tokenDecoded.user;
-          this.cartService.clearCartBackend(userId).subscribe();
-        }
-      }
+      // if (this.tokenService.isLoggedIn()) {
+      //   const token = this.tokenService.getToken();
+      //   if (token != null) {
+      //     const tokenDecoded: any = jwtDecode(token);
+      //     const userId = tokenDecoded.user;
+      //     this.cartService.clearCartBackend(userId).subscribe();
+      //   }
+      // }
 
       this.toastService.showToast('Đã xóa toàn bộ giỏ hàng');
     }
@@ -135,6 +135,12 @@ export class CartComponent {
       return;
     }
     localStorage.setItem('checkoutItems', JSON.stringify(selectedItems));
+    const token = this.tokenService.getToken();
+    if (!token){
+      this.toastService.showToast('Vui lòng đăng nhập trước khi đặt hàng.');
+      this.router.navigateByUrl("/login");
+    }else{
     this.router.navigate(['/checkout']);
+    }
   }
 }

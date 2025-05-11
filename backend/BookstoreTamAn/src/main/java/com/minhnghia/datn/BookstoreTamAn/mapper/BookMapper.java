@@ -1,14 +1,27 @@
 package com.minhnghia.datn.BookstoreTamAn.mapper;
 
+import com.minhnghia.datn.BookstoreTamAn.dto.request.BookCreationRequest;
 import com.minhnghia.datn.BookstoreTamAn.dto.response.BookResponse;
+import com.minhnghia.datn.BookstoreTamAn.exception.AppException;
+import com.minhnghia.datn.BookstoreTamAn.exception.ErrorCode;
+import com.minhnghia.datn.BookstoreTamAn.model.Author;
 import com.minhnghia.datn.BookstoreTamAn.model.Book;
 import com.minhnghia.datn.BookstoreTamAn.model.Category;
+import com.minhnghia.datn.BookstoreTamAn.repository.AuthorRepository;
+import com.minhnghia.datn.BookstoreTamAn.repository.CategoryRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class BookMapper {
+
+    private  final AuthorRepository authorRepository;
+    private  final CategoryRepository categoryRepository;
     public BookResponse toBookResponse(Book book){
         return BookResponse.builder()
                 .id(book.getId())
@@ -22,9 +35,6 @@ public class BookMapper {
                 .publicationDate(book.getPublicationDate())
                 .publisher(book.getPublisher())
                 .language(book.getLanguage())
-                .illustrationsNote(book.getIllustrationsNote())
-                .ISBN10(book.getISBN10())
-                .ISBN13(book.getISBN13())
                 .promotion(book.getPromotion())
                 .promotionEndDate(book.getPromotionEndDate())
                 .description(book.getDescription())
@@ -34,7 +44,6 @@ public class BookMapper {
                 .stock(book.getStock())
                 .imageUrl(book.getImageUrl())
                 .rating(book.getRating())
-                .numReviews(book.getNumReviews())
                 .selling(book.getSelling())
                 .createdBy(book.getCreatedBy())
                 .createdAt(book.getCreatedAt())
@@ -46,6 +55,40 @@ public class BookMapper {
                                 .map(Category::getName)
                                 .collect(Collectors.toSet())
                 )
+                .build();
+    }
+    private Author getAuthor(int authorId){
+        return  authorRepository.findById(authorId)
+                .orElseThrow(() -> new AppException(ErrorCode.AUTHOR_NOT_FOUND));
+    }
+
+    private Set<Category> getCategory(Set<Integer> id){
+        return new HashSet<>(categoryRepository.findAllById(id));
+    }
+    public Book toBook(BookCreationRequest request){
+        return Book.builder()
+                .title(request.getTitle())
+                .format(request.getFormat())
+                .pages(request.getPages())
+                .width(request.getWidth())
+                .height(request.getHeight())
+                .length(request.getLength())
+                .weight(request.getWeight())
+                .publicationDate(request.getPublicationDate())
+                .publisher(request.getPublisher())
+                .language(request.getLanguage())
+                .promotion(request.getPromotion())
+                .promotionEndDate(request.getPromotionEndDate())
+                .description(request.getDescription())
+                .sellerReview(request.getSellerReview())
+                .reviewVideo(request.getReviewVideo())
+                .price(request.getPrice())
+                .stock(request.getStock())
+                .author(getAuthor(request.getAuthorId()))
+                .selling(request.getSelling())
+                .imageUrl(request.getImageUrl())
+                .createdBy(request.getCreatedBy())
+                .categories(getCategory(request.getCategoryId()))
                 .build();
     }
 }

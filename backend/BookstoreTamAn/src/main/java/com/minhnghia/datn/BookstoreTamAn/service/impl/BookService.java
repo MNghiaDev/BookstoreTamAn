@@ -1,5 +1,7 @@
 package com.minhnghia.datn.BookstoreTamAn.service.impl;
 
+import com.minhnghia.datn.BookstoreTamAn.dto.request.BookCreationRequest;
+import com.minhnghia.datn.BookstoreTamAn.dto.request.BookUpdateRequest;
 import com.minhnghia.datn.BookstoreTamAn.dto.response.BookResponse;
 import com.minhnghia.datn.BookstoreTamAn.dto.response.TopBookByTopAuthorResponse;
 import com.minhnghia.datn.BookstoreTamAn.exception.AppException;
@@ -13,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -29,6 +32,14 @@ public class BookService implements IBookService {
     @Override
     public Page<BookResponse> getAll(PageRequest request) {
         return bookRepository.findAll(request).map(bookMapper::toBookResponse);
+    }
+
+    public Page<BookResponse> getAllByCategory(PageRequest request, int categoryId){
+        return bookRepository.findAllByCategories_Id(request, categoryId).map(bookMapper::toBookResponse);
+    }
+
+    public Page<BookResponse> getAllByAuthor(PageRequest request, int authorId){
+        return bookRepository.findAllByAuthor_Id(request, authorId).map(bookMapper::toBookResponse);
     }
 
     private Book getBookById(int id){
@@ -94,8 +105,46 @@ public class BookService implements IBookService {
         return books.stream()
                 .map(Book::getTitle)
                 .distinct()
-                .limit(10) // giới hạn tối đa 10 kết quả
+                .limit(10)
                 .toList();
     }
 
+    public BookResponse create(BookCreationRequest request){
+        Book book = bookMapper.toBook(request);
+        return bookMapper.toBookResponse(bookRepository.save(book));
+    }
+
+    public BookResponse update(int id, BookUpdateRequest request){
+        Book book = getBookById(id);
+        if(book != null){
+            if(request.getPromotion() != null){
+                book.setPromotion(request.getPromotion());
+            }
+            if(request.getPromotionEndDate() != null){
+                book.setPromotionEndDate(request.getPromotionEndDate());
+            }
+            if(request.getSellerReview() != null){
+                book.setSellerReview(request.getSellerReview());
+            }
+            if(request.getPrice() != null){
+                book.setPrice(request.getPrice());
+            }
+            if(request.getReviewVideo() != null){
+                book.setReviewVideo(request.getReviewVideo());
+            }
+            if(request.getStock() != null){
+                book.setStock(request.getStock());
+            }
+            if(request.getImageUrl() != null){
+                book.setImageUrl(request.getImageUrl());
+            }
+            book.setModifyBy(request.getModifyBy());
+        }
+        return bookMapper.toBookResponse(bookRepository.save(book));
+    }
+
+    public void delete(int id){
+        Book book = getBookById(id);
+        bookRepository.delete(book);
+    }
 }

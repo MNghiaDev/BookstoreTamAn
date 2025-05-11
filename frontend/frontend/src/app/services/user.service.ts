@@ -18,4 +18,13 @@ export class UserService {
   register(userObj : User){
     return this.http.post("http://localhost:8080/api/bookstore/user/register" , userObj);
   }
+
+  fetchUsers(page : number, size : number) {
+    return this.http.get<any>(`http://localhost:8080/api/bookstore/user/list?page=${page}&size=${size}`)
+  }
+
+  deleteUser(id: number) {
+      return this.http.delete(`http://localhost:8080/api/bookstore/user/${id}`);
+    
+    }
 }

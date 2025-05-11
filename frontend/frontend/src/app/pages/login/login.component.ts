@@ -25,12 +25,14 @@ export class LoginComponent {
         const token = res.data.token;
         this.tokenService.setToken(token);
         const tokenDecoded: any = jwtDecode(token);
-        const scope = tokenDecoded.scope;
+        const scopes = tokenDecoded.scope;
     
-        if (scope === "ROLE_customer") {
-          this.router.navigateByUrl("home");
-        } else {
+        if (scopes.includes("ROLE_customer")) {
+          this.router.navigateByUrl("/home");
+        } else if (scopes.includes("ROLE_admin")) {
           this.router.navigateByUrl("/admin");
+        } else {
+          alert("Không xác định được quyền truy cập.");
         }
       },
       error: (err: any) => {
