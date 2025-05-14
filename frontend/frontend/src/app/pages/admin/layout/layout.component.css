@@ -1,57 +1,95 @@
+/* admin.component.css */
+
 /* Tổng thể */
 .admin-container {
-    display: flex;
-    height: 100vh;
-    font-family: Arial, sans-serif;
-  }
-  
-  /* Sidebar */
-  .admin-sidebar {
-    width: 220px;
-    background-color: #1e293b;
-    color: white;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .admin-logo {
-    padding: 20px;
-    font-size: 20px;
-    font-weight: bold;
-    background-color: #0f172a;
-    text-align: center;
-  }
-  
-  .admin-menu {
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-  }
-  
-  .admin-menu a {
-    color: #cbd5e1;
-    text-decoration: none;
-    padding: 12px 16px;
-    margin: 4px 0;
-    border-radius: 4px;
-    transition: background-color 0.2s;
-  }
-  
-  .admin-menu a:hover,
-  .admin-menu a.active {
-    background-color: #334155;
-    color: white;
-  }
-  
-  /* Main content */
-  .admin-content {
-    flex-grow: 1;
-    padding: 24px;
-    background-color: #f1f5f9;
-    overflow-y: auto;
-  }
-  
-  .admin-content h2 {
-    margin-bottom: 20px;
-  }
-  
+  display: flex;
+  height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+}
+
+/* Sidebar */
+.admin-sidebar {
+  width: 240px;
+  background-color: #1e293b;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: 0;
+  height: 100vh;
+}
+
+/* Logo */
+.admin-logo {
+  padding: 20px;
+  font-size: 22px;
+  font-weight: bold;
+  background-color: #0f172a;
+  text-align: center;
+}
+
+/* Menu */
+.admin-menu {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.admin-menu a {
+  color: #cbd5e1;
+  text-decoration: none;
+  padding: 12px 16px;
+  margin: 6px 0;
+  border-radius: 6px;
+  font-size: 15px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.admin-menu a:hover {
+  background-color: #334155;
+  color: white;
+}
+
+/* 🔥 Màu khi đang active */
+.admin-menu a.active {
+  background-color: #0ea5e9; /* xanh dương nhạt */
+  color: #ffffff;
+  font-weight: bold;
+}
+
+/* Logout */
+.admin-logout {
+  padding: 16px;
+  border-top: 1px solid #334155;
+  text-align: center;
+}
+
+.admin-logout button {
+  width: 100%;
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  padding: 10px 0;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.admin-logout button:hover {
+  background-color: #dc2626;
+}
+
+/* Main content */
+.admin-content {
+  flex-grow: 1;
+  padding: 28px;
+  background-color: #f8fafc;
+  overflow-y: auto;
+}
+
+.admin-content h2 {
+  margin-bottom: 20px;
+  color: #1e293b;
+}

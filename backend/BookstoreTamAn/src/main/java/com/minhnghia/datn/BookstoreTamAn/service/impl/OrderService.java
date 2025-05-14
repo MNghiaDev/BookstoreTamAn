@@ -3,6 +3,7 @@ package com.minhnghia.datn.BookstoreTamAn.service.impl;
 import com.minhnghia.datn.BookstoreTamAn.dto.request.OrderRequest;
 import com.minhnghia.datn.BookstoreTamAn.dto.request.OrderRequestItem;
 import com.minhnghia.datn.BookstoreTamAn.dto.request.OrderUpdateStatusRequest;
+import com.minhnghia.datn.BookstoreTamAn.dto.request.PurchaseTrendDTO;
 import com.minhnghia.datn.BookstoreTamAn.dto.response.OrderCreationResponse;
 import com.minhnghia.datn.BookstoreTamAn.dto.response.OrderResponse;
 import com.minhnghia.datn.BookstoreTamAn.exception.AppException;
@@ -20,6 +21,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -92,4 +97,17 @@ public class OrderService implements IOrderService {
         orderRepository.delete(order);
         return null;
     }
+    public List<PurchaseTrendDTO> getPurchaseTrend(String startDate, String endDate) {
+        LocalDate start = LocalDate.parse(startDate);
+        LocalDate end = LocalDate.parse(endDate);
+        List<Object[]> result = orderRepository.calculatePurchaseTrends(start, end);
+
+        return result.stream()
+                .map(obj -> new PurchaseTrendDTO(
+                        (LocalDate) obj[0],
+                        ((Number) obj[1]).intValue()
+                ))
+                .collect(Collectors.toList());
+    }
+
 }

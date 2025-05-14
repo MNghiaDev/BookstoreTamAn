@@ -1,10 +1,15 @@
 package com.minhnghia.datn.BookstoreTamAn.controller;
 
+import com.minhnghia.datn.BookstoreTamAn.dto.request.PurchaseTrendDTO;
 import com.minhnghia.datn.BookstoreTamAn.service.StatisticsService;
+import com.minhnghia.datn.BookstoreTamAn.service.impl.ExcelExportService;
+import com.minhnghia.datn.BookstoreTamAn.service.impl.OrderService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +19,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class StatisticsController {
     private final StatisticsService statisticsService;
+    private final OrderService orderService;
+    private final ExcelExportService excelExportService;
 
     @GetMapping("/summary")
     public ResponseEntity<Map<String, Object>> getTotalStatistics(
@@ -38,4 +45,13 @@ public class StatisticsController {
         return ResponseEntity.ok(statisticsService.findTopSellingProducts(
                 LocalDate.parse(startDate), LocalDate.parse(endDate)));
     }
+    @GetMapping("/export")
+    public void exportRevenue(@RequestParam String startDate,
+                              @RequestParam String endDate,
+                              HttpServletResponse response) throws IOException {
+
+        List<PurchaseTrendDTO> data = orderService.getPurchaseTrend(startDate, endDate);
+        excelExportService.exportRevenueReport(response, data);
+    }
+
 }

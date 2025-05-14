@@ -1,5 +1,5 @@
 <h2>{{ isEditMode ? 'Chỉnh sửa sản phẩm' : 'Thêm sản phẩm' }}</h2>
-<form (ngSubmit)="saveProduct()" class="product-form">
+<form (ngSubmit)="saveProduct()" class="product-form bg-red-600" >
   <div class="form-column">
     <label>Tiêu đề:</label>
     <input type="text" [(ngModel)]="product.title" name="title" required>

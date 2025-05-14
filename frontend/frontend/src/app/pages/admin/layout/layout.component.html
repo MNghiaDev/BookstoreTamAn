@@ -1,16 +1,23 @@
+<!-- admin.component.html -->
 <div class="admin-container">
-  <!-- Sidebar -->
   <aside class="admin-sidebar">
-    <div class="admin-logo">📚 Tâm An Admin</div>
-    <nav class="admin-menu">
-      <a routerLink="/admin/users" routerLinkActive="active">👤 Quản lý người dùng</a>
-      <a routerLink="/admin/products" routerLinkActive="active">📖 Quản lý sách</a>
-      <a routerLink="/admin/orders" routerLinkActive="active">🧾 Quản lý đơn hàng</a>
-      <a routerLink="/admin/statistics" routerLinkActive="active">📊 Thống kê</a>
-    </nav>
+    <div>
+      <div class="admin-logo">📚 Tâm An Admin</div>
+      <nav class="admin-menu">
+        <a routerLink="/admin/users" routerLinkActive="active">👤 Quản lý người dùng</a>
+        <a routerLink="/admin/products" routerLinkActive="active">📖 Quản lý sách</a>
+        <a routerLink="/admin/categories" routerLinkActive="active">🗂️ Quản lý thể loại</a>
+        <a routerLink="/admin/authors" routerLinkActive="active">✍️ Quản lý tác giả</a>
+        <a routerLink="/admin/orders" routerLinkActive="active">🧾 Quản lý đơn hàng</a>
+        <a routerLink="/admin/statistics" routerLinkActive="active">📊 Thống kê</a>
+      </nav>
+    </div>
+
+    <div class="admin-logout">
+      <button (click)="logout()">🚪 Đăng xuất</button>
+    </div>
   </aside>
 
-  <!-- Main content -->
   <main class="admin-content">
     <h2>Bảng điều khiển quản trị</h2>
     <router-outlet></router-outlet>

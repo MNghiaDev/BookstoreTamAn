@@ -32,4 +32,13 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
             "FROM Order o JOIN OrderDetail od ON o.id = od.order.id " +
             "WHERE o.orderDate BETWEEN :startDate AND :endDate")
     Map<String, Object> calculateTotalStatistics(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+
+
+    @Query("SELECT o.orderDate, SUM(od.quantity) " +
+            "FROM OrderDetail od JOIN od.order o " +
+            "WHERE o.orderDate BETWEEN :startDate AND :endDate " +
+            "GROUP BY o.orderDate " +
+            "ORDER BY o.orderDate")
+    List<Object[]> calculatePurchaseTrends(@Param("startDate") LocalDate startDate,
+                                          @Param("endDate") LocalDate endDate);
 }
