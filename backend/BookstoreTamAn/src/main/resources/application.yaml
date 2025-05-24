@@ -3,6 +3,8 @@ server:
   servlet:
     context-path: /api/bookstore
 spring:
+  jackson:
+    time-zone: Asia/Ho_Chi_Minh
   datasource:
     url: "jdbc:mysql://localhost:3306/taman"
     username: root
@@ -29,16 +31,18 @@ spring:
           starttls:
             enable: true
             required: true
-
-
   web:
     resources:
       static-locations=classpath:/static/:
-jwt:
-  #  expiration: 2592000
-  #    #30 days = 30 * 24 * 60 * 60
-  #  secretKey: Minh Nghia
-  signerKey: "z+7kjfwfgxuzW2+1/EVCduqLWkVwR/atuCqg+EtTogGK5RdioGkeSeY3Mfyps89G"
-  valid-duration: 3600
-  refreshable-duration: 3600
 
+jwt:
+  signerKey: "z+7kjfwfgxuzW2+1/EVCduqLWkVwR/atuCqg+EtTogGK5RdioGkeSeY3Mfyps89G"
+  valid-duration: 36000
+  refreshable-duration: 36000
+
+vnp:
+  pay-url: "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html"
+  return-url: "${VNPAY_RETURN_URI:http://localhost:4200/payment-callback}"
+  tmn-code: "C5RVDNZY"
+  secret-key: "4Y3RLXMHX39ARV9LX887Y7K4V5C4VD49"
+  api-url: "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction"

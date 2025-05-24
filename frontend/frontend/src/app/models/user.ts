@@ -6,6 +6,8 @@ export class User{
     full_name : string;
     phone: string;
     address: string;
+    role : string;
+    active : boolean;
 
     constructor(){
         this.id = 0;
@@ -15,6 +17,8 @@ export class User{
         this.full_name = "";
         this.phone = "";
         this.address = "";
+        this.role = "";
+        this.active = true;
     }
 }
 
@@ -26,4 +30,6 @@ export interface IUser{
     full_name : string;
     phone: string;
     address: string;
+    role : string;
+    active : boolean;
 }

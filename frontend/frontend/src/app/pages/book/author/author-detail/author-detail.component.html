@@ -1,0 +1,105 @@
+<app-header></app-header>
+<div class="tg-innerbanner tg-haslayout tg-parallax tg-bginnerbanner">
+    <img src="images/parallax/bgparallax-07.jpg" alt="">
+    <div class="container">
+        <div class="row">
+            <div class="banner-content ">
+                <h1 class="banner-title">Tác giả</h1>
+                <ol class="tg-breadcrumb">
+                    <li><a routerLink="/home">Trang chủ</a></li>
+                    <li><a routerLink="/book">Sách</a></li>
+					<li><a >Tác giả</a></li>
+                </ol>
+            </div>  
+        </div>
+    </div>
+</div>
+
+<div class="tg-sectionspace tg-haslayout">
+				<div class="container">
+					<div class="row">
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							@if (author.active) {
+							<div class="tg-authordetail">
+								<figure class="tg-authorimg whimg">
+									<img class="" [src]="author.imageUrl" alt="image description">
+								</figure>
+								<div class="tg-authorcontentdetail">
+									<div class="tg-sectionhead">
+										<h2><span></span>{{author.name}}</h2>
+									</div>
+									<div class="tg-description">
+										<p>{{author.bio}}</p>
+									</div>
+									<div class="tg-booksfromauthor">
+										<div class="tg-sectionhead">
+											<h2>Sách của {{author.name}}</h2>
+										</div>
+										<div class="row">
+											@for (item of bookList; track $index) {
+												<div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+													<div class="tg-postbook">
+														<figure class="tg-featureimg">
+															<div class="tg-bookimg whimgbook">
+																<div class="tg-frontcover"><img [src]="item.imageUrl" alt="image description"></div>
+																<div class="tg-backcover"><img [src]="item.imageUrl" alt="image description"></div>
+															</div>
+														</figure>
+														<div class="tg-postbookcontent">
+															<ul class="tg-bookscategories">
+																<li class="category-list">
+																	<ng-container *ngFor="let category of item.categoryNames; let i = index">
+																	<a [routerLink]="['/books/category-detail', category.id]">{{ category.name }}</a>
+																	<span *ngIf="i < item.categoryNames.length - 1"> & </span>
+																</ng-container>
+																</li>
+															</ul>
+															@if (item.promotion > 0) {
+																<div class="tg-themetagbox"><span class="tg-themetag">sale</span></div>
+															}
+															<div class="tg-booktitle">
+																<h3><a href="javascript:void(0);">{{item.title}}</a></h3>
+															</div>
+															<span class="tg-bookwriter">Tác giả: <a href="javascript:void(0);">{{item.nameAuthor}}</a></span>
+															<div class="rating-stars">
+																<ng-container *ngFor="let star of getStars(item.rating); let i = index">
+																	<i class="fa" [ngClass]="star <= item.rating ? 'fa-star filled' : 'fa-star-o'"></i>
+																</ng-container>
+																<span class="rating-number">({{ item.rating.toFixed(1) }})</span>
+															</div>
+															@if (item.promotion == 0) {
+																<span class="tg-bookprice">
+																	<ins>{{item.price | currency:'VND':'symbol'}}</ins>
+																</span>
+															}@else {
+																<span class="tg-bookprice">
+																	<ins>{{item.price - (item.price * (item.promotion / 100)) | currency:'VND':'symbol'}}</ins>
+																		<del>{{item.price | currency:'VND':'symbol'}}</del>
+																</span>
+															}
+															<a class="tg-btn tg-btnstyletwo" (click)="addToCart(item)">
+																<i class="fa fa-shopping-basket"></i>
+																<em>Add To Basket</em>
+															</a>
+														</div>
+													</div>
+												</div>
+											}
+											
+										</div>
+									</div>
+								</div>
+								<div class="pagination-controls">
+									<button (click)="previousPage()" [disabled]="page === 0">← Trước</button>
+									<span>Trang {{ page + 1 }} / {{ totalPages + 1}}</span>
+									<button (click)="nextPage()" [disabled]="page + 1 >= totalPages">Sau →</button>
+								</div>
+							</div>
+							}@else {
+								<h2>Tác giả không tồn tại trong cửa hàng</h2>
+							}
+						</div>
+					</div>
+				</div>	
+			</div>
+<app-footer></app-footer>

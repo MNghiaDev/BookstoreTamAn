@@ -1,0 +1,120 @@
+
+ 
+.form-group {
+  margin-bottom: 20px;
+}
+
+.checkout-form label {
+  display: block;
+  margin-bottom: 8px;
+  color: #374151;
+  font-weight: 500;
+}
+
+.checkout-input {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border 0.2s ease;
+}
+
+.checkout-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+.payment-method-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.payment-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+}
+
+.payment-option img {
+  width: 32px;
+  height: auto;
+}
+.banner-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    filter: brightness(0.7);
+    border-radius: 20px;
+}
+.banner-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgb(119, 183, 72);
+    text-align: center;
+}
+.banner-title {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: green;
+}
+.checkout-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 60px auto;
+  padding: 0 20px;
+}
+
+.checkout-column, .order-summary-column {
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+}
+
+.order-items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 6px;
+  margin-bottom: 6px;
+}
+
+.order-total {
+  text-align: right;
+  margin-top: 16px;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.checkout-submit {
+  margin-top: 24px;
+  width: 100%;
+  background-color: #22c55e;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.checkout-submit:hover {
+  background-color: #16a34a;
+}
+.text-req{
+  color: red !important;
+}

@@ -4,7 +4,6 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <div class="tg-sectionhead">
             <h2><span>Được người dùng lựa chọn</span>Sách bán được nhiều nhất</h2>
-            <a class="tg-btn" href="javascript:void(0);">Xem tất cả</a>
           </div>
         </div>
         @for (item of bookList; track $index) {
@@ -13,33 +12,34 @@
               <div class="tg-postbook">
                   <figure class="tg-featureimg">
                       <div class="tg-bookimg">
-                          <div class="tg-frontcover"><img src="images/books/img-01.jpg"
+                          <div class="tg-frontcover"><img class="whimg" [src]="item.imageUrl"
                                   alt="image description"></div>
                           <div class="tg-backcover"><img [src]="item.imageUrl"
                                   alt="image description"></div>
                       </div>
-                      <a class="tg-btnaddtowishlist" href="javascript:void(0);">
-                          <i class="icon-heart"></i>
-                          <span>add to wishlist</span>
-                      </a>
                   </figure>
                   <div class="tg-postbookcontent content-wrapper">
                       <ul class="tg-bookscategories">
                           <li class="category-list">
                             <ng-container *ngFor="let category of item.categoryNames; let i = index">
-                              <a href="javascript:void(0);">{{ category }}</a>
-                              <span *ngIf="i < item.categoryNames.length - 1">&nbsp;&</span>
-                            </ng-container>
+                              <a [routerLink]="['/books/category-detail', category.id]">{{ category.name }}</a>
+                              <span *ngIf="i < item.categoryNames.length - 1"> & </span>
+                          </ng-container>
                           </li>
                         </ul>                                              
                         @if (item.promotion > 0) {
                           <div class="tg-themetagbox"><span class="tg-themetag">sale</span></div>
                       } 
                       <div class="tg-booktitle">
-                          <h3><a href="javascript:void(0);" routerLink="/book-detail/{{item.id}}">{{item.title}}</a></h3>
+                          <h3><a href="javascript:void(0);" routerLink="/books/book-detail/{{item.id}}">{{item.title}}</a></h3>
                       </div>
-                      <span class="tg-bookwriter">By: <a href="javascript:void(0);">{{item.nameAuthor}}</a></span>
-                      <span class="tg-stars"><span></span></span>
+                      <span class="tg-bookwriter">By: <a [routerLink]="['/books/authors-detail', item.authorId]">{{item.nameAuthor}}</a></span>
+                      <div class="rating-stars">
+                          <ng-container *ngFor="let star of getStars(item.rating); let i = index">
+                              <i class="fa" [ngClass]="star <= item.rating ? 'fa-star filled' : 'fa-star-o'"></i>
+                          </ng-container>
+                          <span class="rating-number">({{ item.rating.toFixed(1) }})</span>
+                      </div>
                       @if (item.promotion == 0) {
                         <span class="tg-bookprice">
                             <ins>{{item.price | currency:'VND':'symbol'}}</ins>
@@ -50,9 +50,9 @@
                                   <del>{{item.price | currency:'VND':'symbol'}}</del>
                           </span>
                       }
-                      <a class="tg-btn tg-btnstyletwo add-to-cart-btn" href="javascript:void(0);">
+                      <a class="tg-btn tg-btnstyletwo add-to-cart-btn" (click)="addToCart(item)">
                         <i class="fa fa-shopping-basket"></i>
-                        <em>Add To Basket</em>
+                        <em>Thêm vào giỏ</em>
                       </a>
                   </div>
               </div>

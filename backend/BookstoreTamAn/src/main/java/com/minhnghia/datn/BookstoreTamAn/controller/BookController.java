@@ -1,12 +1,10 @@
 package com.minhnghia.datn.BookstoreTamAn.controller;
 
+import com.minhnghia.datn.BookstoreTamAn.dto.request.ActiveRequest;
 import com.minhnghia.datn.BookstoreTamAn.dto.request.ApiResponse;
 import com.minhnghia.datn.BookstoreTamAn.dto.request.BookCreationRequest;
 import com.minhnghia.datn.BookstoreTamAn.dto.request.BookUpdateRequest;
-import com.minhnghia.datn.BookstoreTamAn.dto.response.BookListResponse;
-import com.minhnghia.datn.BookstoreTamAn.dto.response.BookResponse;
-import com.minhnghia.datn.BookstoreTamAn.dto.response.BookSaleListResponse;
-import com.minhnghia.datn.BookstoreTamAn.dto.response.TopBookByTopAuthorResponse;
+import com.minhnghia.datn.BookstoreTamAn.dto.response.*;
 import com.minhnghia.datn.BookstoreTamAn.model.Book;
 import com.minhnghia.datn.BookstoreTamAn.service.impl.BookService;
 import lombok.RequiredArgsConstructor;
@@ -182,4 +180,42 @@ public class BookController {
                 .data(bookListResponse)
                 .build();
     }
+    @GetMapping("/filter")
+    public ApiResponse<BookListResponse> filterBooksByPrice(
+            @RequestParam Double minPrice,
+            @RequestParam Double maxPrice,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "8") int size
+    ) {
+        PageRequest request = PageRequest.of(page, size, Sort.by("id").ascending());
+        Page<BookResponse> filteredBooks = bookService.filterBooksByPrice(request, minPrice, maxPrice);
+
+        BookListResponse response = BookListResponse.builder()
+                .totalPages(filteredBooks.getTotalPages())
+                .productResponses(filteredBooks.getContent())
+                .build();
+
+        return ApiResponse.<BookListResponse>builder()
+                .data(response)
+                .build();
+    }
+    @GetMapping("/filter/search")
+    public ResponseEntity<?> filterByPriceAndKeyword(
+            @RequestParam String keyword,
+            @RequestParam double minPrice,
+            @RequestParam double maxPrice,
+            @RequestParam int page,
+            @RequestParam int size
+    ) {
+        PagedResponse<BookResponse> result = bookService.searchAndFilter(keyword, minPrice, maxPrice, page, size);
+        return ResponseEntity.ok().body(Map.of("data", result));
+    }
+
+    @PutMapping("/active/{id}")
+    public ApiResponse<BookResponse> updateActive(@PathVariable("id") Integer id, @RequestBody ActiveRequest request){
+        return ApiResponse.<BookResponse>builder()
+                .data(bookService.updateActive(id,request))
+                .build();
+    }
+
 }

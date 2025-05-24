@@ -1,5 +1,6 @@
 package com.minhnghia.datn.BookstoreTamAn.service.impl;
 
+import com.minhnghia.datn.BookstoreTamAn.dto.request.ActiveRequest;
 import com.minhnghia.datn.BookstoreTamAn.dto.request.CategoryRequest;
 import com.minhnghia.datn.BookstoreTamAn.dto.response.CategoryBookCountResponse;
 import com.minhnghia.datn.BookstoreTamAn.dto.response.CategoryResponse;
@@ -10,6 +11,8 @@ import com.minhnghia.datn.BookstoreTamAn.model.Category;
 import com.minhnghia.datn.BookstoreTamAn.repository.CategoryRepository;
 import com.minhnghia.datn.BookstoreTamAn.service.ICategoryService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -60,5 +63,27 @@ public class CategoryService implements ICategoryService {
         Category category = findId(id);
         categoryRepository.delete(category);
         return null;
+    }
+
+    @Override
+    public Page<CategoryResponse> getAll(PageRequest request) {
+        return categoryRepository.findAll(request).map(categoryMapper::toCategoryResponse);
+    }
+
+    @Override
+    public CategoryResponse findById(Integer categoryId) {
+        Category category = findId(categoryId);
+        return categoryMapper.toCategoryResponse(category);
+    }
+
+    public CategoryResponse findByName(String name){
+        Category category = categoryRepository.findByName(name)
+                .orElseThrow(()-> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
+        return categoryMapper.toCategoryResponse(category);
+    }
+    public CategoryResponse updateActive(Integer id, ActiveRequest request){
+        Category category = findId(id);
+        category.setActive(request.getActive());
+        return categoryMapper.toCategoryResponse(categoryRepository.save(category));
     }
 }

@@ -1,0 +1,96 @@
+<app-header></app-header>
+<!-- Banner Section -->
+<div class="tg-innerbanner tg-haslayout tg-parallax tg-bginnerbanner">
+    <img src="images/parallax/bgparallax-07.jpg" alt="">
+    <div class="container">
+        <div class="row">
+            <div class="banner-content ">
+                <h1 class="banner-title">Thanh toán</h1>
+                <ol class="tg-breadcrumb">
+                    <li><a routerLink="">Trang chủ</a></li>
+                    <li><a routerLink="/cart">Giỏ hàng</a></li>
+                    <li><a routerLink="">Thanh toán</a></li>
+                </ol>
+            </div>  
+        </div>
+    </div>
+</div>
+
+<div class="container">
+<!-- Checkout Form and Order Summary Side-by-Side -->
+  <form class="checkout-wrapper" #form="ngForm" (ngSubmit)="submitOrder()">
+    <!-- Left Column: Form -->
+    <div class="checkout-column">
+      <h2 class="checkout-title">Thông tin đặt hàng</h2>
+      <div class="form-group">
+        <label>Họ và tên người nhận</label>
+        <input type="text" [(ngModel)]="orderInfo.recipientName" name="recipientName"
+          pattern="^[a-zA-ZÀ-ỹ\s]+$" class="checkout-input capitalize" required #nameModel="ngModel">
+        <div *ngIf="nameModel.invalid && nameModel.touched" class="text-req">
+          Họ tên không được chứa số hoặc ký tự đặc biệt.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" [(ngModel)]="orderInfo.email" name="email" class="checkout-input" required
+          #emailModel="ngModel" #emailInput="ngModel" required email
+              autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" style="text-transform: none;">
+        <div *ngIf="emailModel.invalid && emailModel.touched" class="text-req">
+          Vui lòng nhập địa chỉ email hợp lệ.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Số điện thoại</label>
+        <input type="text" [(ngModel)]="orderInfo.phone" name="phone" pattern="^[0-9]{10,11}$"
+          class="checkout-input" required #phoneModel="ngModel">
+        <div *ngIf="phoneModel.invalid && phoneModel.touched" class="text-req">
+          Vui lòng nhập số điện thoại hợp lệ (10-11 chữ số).
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Địa chỉ giao hàng</label>
+        <textarea [(ngModel)]="orderInfo.shippingAddress" name="shippingAddress" class="checkout-input" rows="3"
+          required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Phương thức thanh toán</label>
+        <div class="payment-method-group">
+          <label class="payment-option">
+            <input type="radio" name="paymentMethod" [(ngModel)]="orderInfo.paymentMethod" value="COD" required>
+            <img src="images/thanh-toan-khi-nhan-hang-2135165j32025.webp" alt="COD"> Thanh toán khi nhận hàng
+          </label>
+          <label class="payment-option">
+            <input type="radio" name="paymentMethod" [(ngModel)]="orderInfo.paymentMethod" value="VNPAY">
+            <img src="images/vnpay.png" alt="VNPay"> VNPay
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Order Summary -->
+    <div class="order-summary-column">
+      <h2 class="checkout-title">Đơn hàng của bạn</h2>
+      <div class="order-items" *ngIf="cartItems.length > 0">
+        <div class="order-item" *ngFor="let item of cartItems">
+          <div class="item-name">{{ item.title }} x{{ item.quantity }}</div>
+          <div class="item-price">{{ item.price * item.quantity | currency:'VND' }}</div>
+        </div>
+        <div class="order-total">
+          Tổng cộng: <strong class="text-green-600">{{ totalPrice | currency:'VND' }}</strong>
+        </div>
+      </div>
+      <div *ngIf="cartItems.length === 0" class="text-gray-500">
+        Không có sản phẩm nào trong đơn hàng.
+      </div>
+
+      <button type="submit" class="checkout-submit" [disabled]="form.invalid">
+        Xác nhận đặt hàng
+      </button>
+    </div>
+  </form>
+</div>
+<app-footer></app-footer>

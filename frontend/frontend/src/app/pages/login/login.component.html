@@ -17,14 +17,22 @@
 
     <label for="password">Mật khẩu</label>
     <input type="password" id="password" [(ngModel)]="loginObj.password" name="password">
+    @if (message != "") {
+      <p style="color: rgb(244, 135, 135);">
+         {{message}}
+     </p>
+    }
+
 
   <button class="btn" (click)="onLogin()">Log In</button>
   <p class="social-text">Bạn chưa có tài khoản?</p>
   <p class="social-text">
     <a class="registerlink" routerLink="/register">Đăng ký</a>
   </p><p class="social-text">
-    <a class="registerlink" routerLink="/register">Quên mật khẩu</a>
+    <a class="registerlink" routerLink="/forgot-password">Quên mật khẩu</a>
   </p>
+  
+  <button class="btn abc" routerLink="">Quay lại</button>
 </form>
 </body>
 </html>

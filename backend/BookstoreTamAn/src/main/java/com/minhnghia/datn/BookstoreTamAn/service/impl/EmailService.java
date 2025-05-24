@@ -3,6 +3,7 @@ package com.minhnghia.datn.BookstoreTamAn.service.impl;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -25,5 +26,12 @@ public class EmailService {
         } catch (MessagingException e) {
             throw new RuntimeException("Không gửi được email", e);
         }
+    }
+    public void sendEmail(String to, String subject, String content) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject(subject);
+        message.setText(content);
+        mailSender.send(message);
     }
 }

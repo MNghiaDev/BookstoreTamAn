@@ -21,4 +21,5 @@ public class AuthorResponse {
     LocalDate createdAt;
     String modifyBy;
     LocalDate modifyAt;
+    Boolean active;
 }

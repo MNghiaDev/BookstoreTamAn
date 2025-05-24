@@ -1,3 +1,4 @@
+import { Category } from "./category";
 import { CategoryNames } from "./categoryNames";
 
 export class Book{
@@ -32,7 +33,8 @@ export class Book{
     modifyAt: string;
     nameAuthor : string;
     authorId : 0;
-    categoryNames : CategoryNames[] = [];
+    categoryNames: Category[] = [];
+    active : boolean =  true;
 
     constructor(){
         this.id = 0;
@@ -101,5 +103,6 @@ export interface IBookList{
     modifyAt: string;
     nameAuthor : string;
     authorId : 0;
-    categoryNames : CategoryNames[];
+    categoryNames : Category[];
+    active : boolean;
 }

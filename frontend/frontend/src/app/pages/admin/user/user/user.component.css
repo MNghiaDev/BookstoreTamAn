@@ -1,34 +1,85 @@
-/* File: user-list.component.css */
 table.user-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 16px;
-  }
-  
-  .user-table th, .user-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-  }
-  
-  .user-table th {
-    background-color: #f4f4f4;
-    font-weight: bold;
-  }
-  
-  .user-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  
-  .user-table button {
-    background-color: #e3342f;
-    color: white;
-    border: none;
-    padding: 6px 10px;
-    cursor: pointer;
-  }
-  
-  .user-table button:hover {
-    background-color: #cc1f1a;
-  }
-  
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+
+.user-table th,
+.user-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.user-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.user-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.user-table tr.selected {
+  background-color: #e0f7fa !important;
+  font-weight: bold;
+}
+
+.product-header {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.product-header button {
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-add {
+  background-color: rgb(9, 175, 9);
+}
+
+.btn-add:hover {
+  background-color: #047857;
+}
+
+.btn-delete {
+  background-color: red;
+}
+
+.btn-delete:disabled {
+  background-color: #fca5a5;
+  cursor: not-allowed;
+}
+.badge-toggle {
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 13px;
+  display: inline-block;
+  user-select: none;
+  transition: background-color 0.2s ease;
+}
+
+.badge-active {
+  background-color: #22c55e; /* xanh lá */
+  color: white;
+}
+
+.badge-inactive {
+  background-color: #ef4444; /* đỏ */
+  color: white;
+}
+
+.badge-toggle:hover {
+  opacity: 0.8;
+}

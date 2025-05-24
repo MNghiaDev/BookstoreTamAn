@@ -29,6 +29,7 @@ public class UserMapper {
                 .createdAt(user.getCreatedAt())
                 .modifyBy(user.getModifyBy())
                 .modifyAt(user.getModifyAt())
+                .active(user.isActive())
                 .build();
     }
 
@@ -40,6 +41,7 @@ public class UserMapper {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .address(request.getAddress())
                 .phone(request.getPhone())
+                .active(true)
                 .role("customer")
                 .createdAt(LocalDate.now())
                 .build();

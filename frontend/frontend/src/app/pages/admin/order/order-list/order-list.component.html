@@ -1,0 +1,76 @@
+<h2>Quản lý đơn hàng</h2>
+
+<div class="order-controls">
+  <button (click)="deleteOrder()" [disabled]="selectedOrderId == null" class="btn-delete">
+    🗑 Xóa đơn
+  </button>
+
+  <select [formControl]="statusControl">
+    <option value="">-- Chọn trạng thái mới --</option>
+    <option value="pending">Chờ xử lý</option>
+    <option value="processing">Đang xử lý</option>
+    <option value="shipped">Đang giao</option>
+    <option value="delivered">Đã giao</option>
+    <option value="canceled">Đã hủy</option>
+  </select>
+  <button (click)="updateStatus()" [disabled]="selectedOrderId == null">Cập nhật trạng thái</button>
+</div>
+<div class="filter-controls">
+  <label for="filterStatus">Lọc theo trạng thái:</label>
+  <select id="filterStatus" [(ngModel)]="filterStatus" (change)="fetchOrders()">
+    <option value="">Tất cả</option>
+    <option value="pending">Chờ xử lý</option>
+    <option value="processing">Đang xử lý</option>
+    <option value="shipped">Đang giao</option>
+    <option value="delivered">Đã giao</option>
+    <option value="canceled">Đã hủy</option>
+  </select>
+</div>
+
+<table class="order-table">
+  <thead>
+    <tr>
+      <th>Mã đơn hàng</th>
+      <th>Khách hàng</th>
+      <th>Tổng tiền</th>
+      <th>Trạng thái</th>
+      <th>Ngày tạo</th>
+      <th>Thanh toán</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let order of orders"
+        (click)="selectOrder(order.orderId)"
+        [class.selected]="order.orderId === selectedOrderId">
+        <td>{{ order.orderCode }}</td>
+        <td>{{ order.recipientName }}</td>
+        <td>{{ order.totalPrice | currency:'VND' }}</td>
+        <td>
+         <span [ngClass]="order.status">{{ getStatusLabel(order.status) }}</span>
+        </td>
+        <td>{{ order.orderDate | date:'short' }}</td>
+              <!-- <td>
+        <span
+          class="badge-toggle"
+          [ngClass]="order.active ? 'badge-active' : 'badge-inactive'"
+          (click)="toggleActive(order)"
+        >
+          {{ order.active ? 'Hiển thị' : 'Ẩn' }}
+        </span>
+      </td> -->
+      <td>
+        @if (order.paid) {
+          <span style="color: green;">Đã thanh toán</span>
+        }@else {
+          <span style="color: red;">Chưa thanh toán</span> 
+        }
+      </td>
+
+    </tr>
+  </tbody>
+</table>
+<div class="pagination-controls">
+  <button (click)="previousPage()" [disabled]="page === 0">← Trước</button>
+  <span>Trang {{ page + 1 }} / {{ totalPages }}</span>
+  <button (click)="nextPage()" [disabled]="page + 1 >= totalPages">Sau →</button>
+</div>

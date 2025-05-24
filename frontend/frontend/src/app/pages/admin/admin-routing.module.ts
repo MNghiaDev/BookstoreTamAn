@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './layout/layout.component';
-import { AuthGuard } from '../../services/auth.guard';
+import { AuthGuard } from '../../core/auth.guard';
 
 const routes: Routes = [
   {
@@ -19,7 +19,23 @@ const routes: Routes = [
         path: 'products',
         loadChildren: () => import('./product/product.module').then(m => m.ProductModule)
       },
-      { path: 'statistics', loadChildren: () => import('./statistics/statistics/statistics.module').then(m => m.StatisticsModule) }
+      { path: 'statistics', loadChildren: () => import('./statistics/statistics/statistics.module').then(m => m.StatisticsModule) },
+      {
+        path: 'orders',
+        loadChildren: () => import('./order/order.module').then(m => m.OrderModule)
+      },
+      {
+        path: 'authors',
+        loadChildren: () => import('./author/author.module').then(m => m.AuthorModule)
+      },
+      {
+        path: 'categories',
+        loadChildren: () => import('./category/category.module').then(m => m.CategoryModule)
+      },
+      {
+        path: 'news',
+        loadChildren: () => import('./news/news.module').then(m => m.NewsModule)
+      }
     ]
   }
 ];

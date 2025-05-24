@@ -13,17 +13,19 @@
   </div>
 
   <div *ngIf="salesStatistics" class="statistics-summary">
-    <h3>Tổng Quan</h3>
+    <h2>Tổng Quan</h2>
     <p>Doanh thu: {{ salesStatistics.totalRevenue | currency }}</p>
     <p>Số đơn hàng: {{ salesStatistics.totalOrders }}</p>
     <p>Số sản phẩm đã bán: {{ salesStatistics.totalProductsSold }}</p>
   </div>
 
-  <div class="top-products-chart">
+  <div *ngIf="salesStatistics" class="top-products-chart">
+    <h2>Sản phẩm bán chạy nhất</h2>
     <div id="top-products-chart"></div>
   </div>
 
-  <div class="purchase-trend-chart">
+  <div *ngIf="salesStatistics" class="purchase-trend-chart">
+    <h2>Xu hướng mua hàng</h2>
     <div id="trend-chart"></div>
   </div>
 </div>

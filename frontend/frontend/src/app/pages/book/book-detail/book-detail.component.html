@@ -1,0 +1,177 @@
+
+<app-header></app-header>
+<div class="tg-innerbanner tg-haslayout tg-parallax tg-bginnerbanner">
+    <img src="images/parallax/bgparallax-07.jpg" alt="">
+    <div class="container">
+        <div class="row">
+            <div class="banner-content ">
+                <h1 class="banner-title">Sách</h1>
+                <ol class="tg-breadcrumb">
+                    <li><a routerLink="/home">Trang chủ</a></li>
+                    <li><a routerLink="/book">Sách</a></li>
+                </ol>
+            </div>  
+        </div>
+    </div>
+</div>
+    <div class="container">
+        <div class="row ">
+            <div id="tg-twocolumns" class="tg-twocolumns abc">
+                <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9 pull-right">
+                    <!-- best sale -->
+                    <div id="tg-content" class="tg-content">
+                        @if (book.active) {
+                        <!-- start -->
+                        <div class="tg-productdetail">
+                            <div class="row">
+                                
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <div class="tg-postbook">
+                                        <figure class="tg-featureimg"><img [src]="book.imageUrl" alt="image description"></figure>
+                                        <div class="tg-postbookcontent">
+                                            <span class="tg-bookprice">
+                                                @if(book.promotion > 0){
+                                                    <ins>{{book.price - (book.price * (book.promotion / 100)) | currency:'VND':'symbol'}}</ins>
+                                                    <del>{{book.price | currency:'VND':'symbol'}}</del>
+                                                }
+                                                @else {
+                                                    <ins>{{book.price | currency:'VND':'symbol'}}</ins>
+                                                }
+                                            </span>
+                                            @if(book.promotion > 0){
+                                                <span class="tg-bookwriter">Tiết kiệm được: {{book.price * (book.promotion / 100) | currency:'VND':'symbol'}}</span>
+                                            }
+                                            <ul class="tg-delevrystock">
+                                                <li><i class="icon-rocket"></i><span>Giao hàng trên cả nước</span></li>
+                                                <li><i class="icon-checkmark-circle"></i><span>Khu vực miền Bắc nhận hàng trong 5 ngày</span></li>
+                                                @if(book.stock > 0){
+                                                    <li><i class="icon-store"></i><span>Trạng thái: <em>Còn hàng ({{book.stock}})</em></span></li>
+                                                }@else {
+                                                    <li><i class="icon-store"></i><span>Trạng thái: <em>Hết hàng</em></span></li>
+                                                }
+
+                                            </ul>
+                                            <!-- <div class="tg-quantityholder">
+                                                <em class="minus">-</em>
+                                                <input type="text" [(ngModel)]="selectQuantity" class="result" value="0" id="quantity1" name="quantity">
+                                                <em class="plus">+</em>
+                                            </div> -->
+                                            <button class="tg-btn tg-active tg-btn-lg" (click)="addToCart(book)">Thêm vào giỏ hàng</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <div class="tg-productcontent">
+                                        <ul class="tg-bookscategories">
+                                                <li class="category-list">
+                                                  <ng-container *ngFor="let category of book.categoryNames; let i = index">
+                                                    <a [routerLink]="['/books/category-detail', category.id]">{{ category.name }}</a>
+                                                    <span *ngIf="i < book.categoryNames.length - 1"> & </span>
+                                                </ng-container>
+                                            </li>
+                                        </ul>
+                                        @if(book.promotion > 0){
+                                            <div class="tg-themetagbox"><span class="tg-themetag">sale</span></div>
+                                        }
+                                        <div class="tg-booktitle">
+                                            <h3>{{book.title}}</h3>
+                                        </div>
+                                        <span class="tg-bookwriter">Tác giả: <a [routerLink]="['/books/authors-detail', book.authorId]">{{book.nameAuthor}}</a></span>
+                                        <div class="rating-stars">
+                                                <ng-container *ngFor="let star of getStars(book.rating); let i = index">
+                                                    <i class="fa" [ngClass]="star <= book.rating ? 'fa-star filled' : 'fa-star-o'"></i>
+                                                </ng-container>
+                                                <span class="rating-number">({{ book.rating.toFixed(1) }})</span>
+                                            </div>
+                                        <div class="tg-description">
+                                            <p>{{book.description}}</p>
+                                        </div>
+                                        <div class="tg-sectionhead">
+                                            <h2>Thông tin sách</h2>
+                                        </div>
+                                        <ul class="tg-productinfo">
+                                            <li><span>Định dạng:</span><span>{{book.format}}</span></li>
+                                            <li><span>Số trang:</span><span>{{book.pages}}</span></li>
+                                            <li><span>Kích thước:</span><span>{{book.width}}mm x {{book.height}}mm x {{book.length}}mm | {{book.weight * 1000}}g</span></li>
+                                            <li><span>Ngày xuất bản:</span><span>{{book.publicationDate | date:'dd/MM/yyyy'}}</span></li>
+                                            <li><span>Nhà xuất bản:</span><span>{{book.publisher}}</span></li>
+                                            <li><span>Ngôn ngữ:</span><span>{{book.language}}</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="tg-productdescription">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="tg-sectionhead mgt">
+                                            <h2>Mô tả sách</h2>
+                                        </div>
+                                        <ul class="tg-themetabs" role="tablist">
+                                            <li role="presentation" class="active"><a href="#description" data-toggle="tab">Mô tả & Đánh giá</a></li>
+                                        </ul>
+                                        <div class="tg-tab-content tab-content">
+                                            <div role="tabpanel" class="tg-tab-pane tab-pane active" id="description">
+                                                <div class="tg-description">
+                                                    <p>{{book.description}}</p>
+                                                    <figure class="tg-alignleft">
+                                                        <img src="images/placeholdervtwo.jpg" alt="image description">
+                                                        <iframe src="https://www.youtube.com/embed/aLwpuDpZm1k?rel=0&amp;controls=0&amp;showinfo=0"></iframe>
+                                                    </figure>
+                                                    <ul class="tg-liststyle">
+                                                        <li>{{book.sellerReview}}</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- end product details -->
+
+                                <!-- start about author -->
+                                <div class="tg-aboutauthor">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="tg-sectionhead">
+                                            <h2>Tác giả</h2>
+                                        </div>
+                                        <div class="tg-authorbox">
+                                            <figure class="tg-authorimg whimg">
+                                                <img class="" [src]="author.imageUrl" alt="image description">
+                                            </figure>
+                                            <div class="tg-authorinfo">
+                                                <div class="tg-authorhead">
+                                                    <div class="tg-leftarea">
+                                                        <div class="tg-authorname">
+                                                            <h2>{{author.name}}</h2>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tg-description">
+                                                    <p>{{author.bio}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        }@else {
+                            <h2>Sản phẩm không tồn tại</h2>
+                        }
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 pull-left">
+                    <aside id="tg-sidebar" class="tg-sidebar">
+                        <div class="tg-widget tg-catagories">
+                           <app-category></app-category>
+                        </div>
+                        <div class="tg-widget tg-widgetblogers">
+                            <app-top-author></app-top-author>
+                        </div>
+                        <div class="tg-widget tg-widgettrending">
+                            <app-news></app-news>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </div>
+<app-footer></app-footer>

@@ -1,0 +1,44 @@
+<app-header></app-header>	
+    <div class="tg-innerbanner tg-haslayout tg-parallax tg-bginnerbanner" data-z-index="-100" data-appear-top-offset="600" data-parallax="scroll" data-image-src="images/parallax/bgparallax-07.jpg">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<div class="tg-innerbannercontent">
+							<h1>tác giả</h1>
+							<ol class="tg-breadcrumb">
+								<li><a routerLink="/home">trang chủ</a></li>
+								<li><a href="javascript:void(0);">sách</a></li>
+								<li class="tg-active">tác giả</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+<div class="tg-authorsgrid">
+				<div class="container">
+					<div class="row">
+						<div class="tg-authors">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+								<div class="    tg-sectionhead">
+									<h2><span>Strong Minds Behind Us</span>Most Popular Authors</h2>
+								</div>
+							</div>
+                            @for (item of authorList; track $index) {
+                                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                                    <div class="tg-author">
+                                        <figure><a href="javascript:void(0);"><img src="images/author/imag-03.jpg" alt="image description"></a></figure>
+                                        <div class="tg-authorcontent">
+                                            <h2><a href="javascript:void(0);" routerLink="/books/authors/author-detail/{{item.id}}">{{item.name}}</a></h2>
+                                            <span>21,658 Published Books</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+						</div>
+					</div>
+				</div>
+			</div>
+
+<router-outlet></router-outlet>
+<app-footer></app-footer>

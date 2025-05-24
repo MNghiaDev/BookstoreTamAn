@@ -1,0 +1,87 @@
+<app-header></app-header>
+<div class="tg-innerbanner tg-haslayout tg-parallax tg-bginnerbanner">
+    <img src="images/parallax/bgparallax-07.jpg" alt="">
+    <div class="container">
+        <div class="row">
+            <div class="banner-content ">
+                <h1 class="banner-title">Giỏ hàng</h1>
+                <ol class="tg-breadcrumb">
+                    <li><a routerLink="">Trang chủ</a></li>
+                    <li><a routerLink="/cart">Giỏ hàng</a></li>
+                </ol>
+            </div>  
+        </div>
+    </div>
+</div>
+
+<div class="tg-sectionspace tg-haslayout abcabc">
+				<div class="container">
+					<div class="row">
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							<div *ngIf="cartItems.length > 0; else emptyCart">
+                <div class="mb-4 flex justify-between items-center">
+                  <div class="checkout-select">
+                    <input type="checkbox" class="checkeds" [checked]="allSelected" (change)="toggleAllSelection()">
+                    <label class="ml-2 text-gray-700">Chọn tất cả</label>
+                  </div>
+                  <button (click)="checkoutSelected()"
+                          [disabled]="!hasSelectedItems"
+                          class="checkout-btn"
+                          routerLink="/checkout">
+                    Thanh toán
+                  </button>
+                </div>
+
+                <div class="overflow-x-auto shadow rounded-lg">
+                  <table class="min-w-full bg-white border border-gray-300">
+                    <thead class="bg-gray-100">
+                      <tr>
+                        <th class="text-center p-4">Chọn</th>
+                        <th class="text-center p-4">Ảnh</th>
+                        <th class="text-center p-4">Tên Sản Phẩm</th>
+                        <th class="text-center p-4">Đơn Giá</th>
+                        <th class="text-center p-4">Số Lượng</th>
+                        <th class="text-center p-4">Tổng</th>
+                        <th class="text-center p-4">Hành Động</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of cartItems" class="text-center border-t">
+                        <td><input type="checkbox" [(ngModel)]="item.selected"></td>
+                        <td><img [src]="item.imageUrl" alt="Ảnh sản phẩm" class="mx-auto w-16 h-20 rounded"></td>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.price | currency:'VND' }}</td>
+                        <td>
+                          <div class="quantity-group">
+                            <button class="quantity-btn" (click)="decreaseQuantity(item)">−</button>
+                            <input class="quantity-input" type="number" [value]="item.quantity" (change)="changeQuantity(item, $event)">
+                            <button class="quantity-btn" (click)="increaseQuantity(item)">+</button>
+                          </div>
+                        </td>
+                        <td>{{ item.price - (item.price * (item.promotion / 100)) * item.quantity | currency:'VND' }}</td>
+                        <td>
+                          <button (click)="removeItem(item)" class="delete-btn">Xóa</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="flex flex-col md:flex-row justify-between items-center mt-8 cart-bottom-actions">
+                  <h2 class="text-2xl font-bold text-gray-700">
+                    Tổng cộng: <span class="text-green-600">{{ totalPrice | currency:'VND' }}</span>
+                  </h2>
+                  <button (click)="clearCart()" class="clear-cart-btn">
+                    Xóa toàn bộ giỏ hàng
+                  </button>
+                </div>
+              </div>
+
+              <ng-template #emptyCart>
+                <p class="text-center text-gray-500 text-xl">Giỏ hàng của bạn đang trống</p>
+              </ng-template>
+            </div>
+					</div>
+				</div>
+			</div>
+<app-footer></app-footer>

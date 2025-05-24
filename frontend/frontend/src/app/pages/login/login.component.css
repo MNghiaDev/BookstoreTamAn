@@ -113,3 +113,8 @@ button:focus {
 .registerlink {
     cursor: pointer;
 }
+.abc{
+    font-weight: normal;
+    width: 140px;
+    font-size: 15px;
+}

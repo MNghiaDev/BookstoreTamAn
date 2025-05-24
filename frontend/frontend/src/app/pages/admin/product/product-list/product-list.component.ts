@@ -1,11 +1,11 @@
-import { NgFor } from '@angular/common';
+import { NgClass, NgFor } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
-  imports: [NgFor],
+  imports: [NgClass],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css'
 })
@@ -15,6 +15,8 @@ products: any[] = [];
   page: number = 0;
   size: number = 10;
   totalPages: number = 0;
+  stt : number = 0;
+  
 
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -62,10 +64,26 @@ products: any[] = [];
     }
   }
 
-  prevPage() {
+  previousPage() {
     if (this.page > 0) {
       this.page--;
       this.fetchProducts();
     }
+  }
+
+  toggleActive(product: any) {
+    const newStatus = !product.active;
+
+    this.http.put(`http://localhost:8080/api/bookstore/book/active/${product.id}`, {
+      active: newStatus
+    }).subscribe({
+      next: (res) => {
+        product.active = newStatus;
+      },
+      error: (err) => {
+        alert("Cập nhật trạng thái thất bại!");
+        console.error(err);
+      }
+    });
   }
 }

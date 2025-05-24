@@ -1,25 +1,49 @@
+<h2>Quản lý người dùng</h2>
+
+<div class="product-header">
+  <button (click)="goToAddUser()" class="btn-add">
+    <i class="fas fa-plus"></i> Thêm người dùng
+  </button>
+  <button (click)="deleteUser()" [disabled]="selectedUserId === null" class="btn-delete">
+    <i class="fas fa-trash"></i> Xóa
+  </button>
+</div>
+
 <table class="user-table">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Username</th>
-        <th>Email</th>
-        <th>Họ tên</th>
-        <th>SĐT</th>
-        <th>Địa chỉ</th>
-        <th>Thao tác</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let user of users">
-        <td>{{ user.id }}</td>
-        <td>{{ user.username }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.full_name }}</td>
-        <td>{{ user.phone }}</td>
-        <td>{{ user.address }}</td>
-        <td><button (click)="deleteUser(user.id)">Xóa</button></td>
-      </tr>
-    </tbody>
-  </table>
-  
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Họ tên</th>
+      <th>SĐT</th>
+      <th>Địa chỉ</th>
+      <th>Vai trò</th>
+      <th>Trạng thái</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users" 
+        (click)="selectUser(user.id)" 
+        [class.selected]="selectedUserId === user.id">
+      <td>{{ user.id }}</td>
+      <td>{{ user.username }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.fullName }}</td>
+      <td>{{ user.phone }}</td>
+      <td>{{ user.address }}</td>
+      <td>{{ user.role }}</td>
+            <td>
+        <span
+          class="badge-toggle"
+          [ngClass]="user.active ? 'badge-active' : 'badge-inactive'"
+          (click)="toggleActive(user)"
+        >
+          {{ user.active ? 'Hoạt động' : 'Chặn' }}
+        </span>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p *ngIf="users.length === 0">Không có người dùng nào.</p>

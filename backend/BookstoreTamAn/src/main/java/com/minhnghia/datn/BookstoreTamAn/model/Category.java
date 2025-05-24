@@ -22,6 +22,7 @@ public class Category extends BaseEntity{
     private String description;
     private String createdBy;
     private String modifyBy;
+    private boolean active;
 
     @ManyToMany(mappedBy = "categories", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Book> books;

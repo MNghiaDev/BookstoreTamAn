@@ -14,7 +14,7 @@ public class CategoryMapper {
         return CategoryResponse.builder()
                 .id(category.getId())
                 .name(category.getName())
-                .description(category.getName())
+                .description(category.getDescription())
                 .createdBy(category.getCreatedBy())
                 .createdAt(category.getCreatedAt())
                 .modifyBy(category.getModifyBy())
@@ -30,6 +30,7 @@ public class CategoryMapper {
                                 book.getAuthor().getName() // Lấy tên tác giả
                         ))
                         .collect(Collectors.toSet()))
+                .active(category.isActive())
                 .build();
     }
 

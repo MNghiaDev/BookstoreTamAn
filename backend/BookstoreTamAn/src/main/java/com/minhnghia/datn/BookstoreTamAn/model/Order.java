@@ -17,6 +17,8 @@ public class Order extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "order_code", nullable = false, unique = true)
+    private String orderCode;
     private LocalDate orderDate;
     private String status;
     private Double totalPrice;
@@ -25,8 +27,10 @@ public class Order extends BaseEntity{
     private String phone;
     private String shippingAddress;
     private String recipientName;
+    private boolean active;
     private String createdBy;
     private String modifyBy;
+    private Boolean paid;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

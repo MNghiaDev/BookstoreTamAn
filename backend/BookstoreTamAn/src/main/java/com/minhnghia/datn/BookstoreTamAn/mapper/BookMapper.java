@@ -2,6 +2,7 @@ package com.minhnghia.datn.BookstoreTamAn.mapper;
 
 import com.minhnghia.datn.BookstoreTamAn.dto.request.BookCreationRequest;
 import com.minhnghia.datn.BookstoreTamAn.dto.response.BookResponse;
+import com.minhnghia.datn.BookstoreTamAn.dto.response.CategoryResponse;
 import com.minhnghia.datn.BookstoreTamAn.exception.AppException;
 import com.minhnghia.datn.BookstoreTamAn.exception.ErrorCode;
 import com.minhnghia.datn.BookstoreTamAn.model.Author;
@@ -50,12 +51,18 @@ public class BookMapper {
                 .modifyBy(book.getModifyBy())
                 .modifyAt(book.getModifyAt())
                 .nameAuthor(book.getAuthor().getName())
-                .categoryNames(
-                        book.getCategories().stream()
-                                .map(Category::getName)
-                                .collect(Collectors.toSet())
-                )
+                .authorId(book.getAuthor().getId())
+                .categoryNames(toCategoryResponses(book.getCategories()))
+                .active(book.isActive())
                 .build();
+    }
+    private Set<CategoryResponse> toCategoryResponses(Set<Category> categories) {
+        return categories.stream()
+                .map(category -> CategoryResponse.builder()
+                        .id(category.getId())
+                        .name(category.getName())
+                        .build())
+                .collect(Collectors.toSet());
     }
     private Author getAuthor(int authorId){
         return  authorRepository.findById(authorId)
@@ -84,11 +91,10 @@ public class BookMapper {
                 .reviewVideo(request.getReviewVideo())
                 .price(request.getPrice())
                 .stock(request.getStock())
-                .author(getAuthor(request.getAuthorId()))
                 .selling(request.getSelling())
                 .imageUrl(request.getImageUrl())
                 .createdBy(request.getCreatedBy())
-                .categories(getCategory(request.getCategoryId()))
+                .active(true)
                 .build();
     }
 }

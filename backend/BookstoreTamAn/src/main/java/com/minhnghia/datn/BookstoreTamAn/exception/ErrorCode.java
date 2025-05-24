@@ -25,6 +25,7 @@ public enum ErrorCode {
     NEWS_NOT_FOUND(1016, "News not found!", HttpStatus.NOT_FOUND),
     ERROR_USERNAME_OR_PASSWORD(1017, "Sai tên đăng nhập hoặc mật khẩu", HttpStatus.BAD_REQUEST),
     ORDER_NOT_FOUND(1018, "Order not found!", HttpStatus.NOT_FOUND),
+    BOOK_ALREADY_EXISTS(1019, "Sách đã tồn tại trong hệ thống.", HttpStatus.BAD_REQUEST),
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {

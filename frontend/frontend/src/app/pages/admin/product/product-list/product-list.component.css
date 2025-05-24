@@ -52,24 +52,64 @@
   font-weight: bold;
 }
 
-.pagination {
-  margin-top: 16px;
+.pagination-controls {
   display: flex;
   justify-content: center;
-  gap: 20px;
-  font-size: 16px;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
 }
 
-.pagination button {
+.pagination-controls button {
+  padding: 6px 12px;
+  border: none;
   background-color: #2563eb;
   color: white;
-  border: none;
-  padding: 8px 16px;
-  cursor: pointer;
   border-radius: 4px;
+  cursor: pointer;
 }
 
-.pagination button:disabled {
-  background-color: #aaa;
+.pagination-controls button:disabled {
+  background-color: #a5b4fc;
   cursor: not-allowed;
+}
+.btn-add {
+  background-color: rgb(9, 175, 9);
+}
+
+.btn-add:hover {
+  background-color: #047857;
+}
+
+.btn-delete {
+  background-color: red;
+}
+
+.btn-delete:disabled {
+  background-color: #fca5a5;
+  cursor: not-allowed;
+}
+.badge-toggle {
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 13px;
+  display: inline-block;
+  user-select: none;
+  transition: background-color 0.2s ease;
+}
+
+.badge-active {
+  background-color: #22c55e; /* xanh lá */
+  color: white;
+}
+
+.badge-inactive {
+  background-color: #ef4444; /* đỏ */
+  color: white;
+}
+
+.badge-toggle:hover {
+  opacity: 0.8;
 }

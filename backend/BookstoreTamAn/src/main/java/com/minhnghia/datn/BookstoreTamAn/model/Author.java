@@ -19,6 +19,7 @@ public class Author extends BaseEntity{
     private String name;
     private String bio;
     private String imageUrl;
+    private boolean active;
     private String createdBy;
     private String modifyBy;
 }

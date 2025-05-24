@@ -1,25 +1,30 @@
 package com.minhnghia.datn.BookstoreTamAn.service.impl;
 
+import com.minhnghia.datn.BookstoreTamAn.dto.request.ActiveRequest;
 import com.minhnghia.datn.BookstoreTamAn.dto.request.BookCreationRequest;
 import com.minhnghia.datn.BookstoreTamAn.dto.request.BookUpdateRequest;
 import com.minhnghia.datn.BookstoreTamAn.dto.response.BookResponse;
+import com.minhnghia.datn.BookstoreTamAn.dto.response.PagedResponse;
 import com.minhnghia.datn.BookstoreTamAn.dto.response.TopBookByTopAuthorResponse;
 import com.minhnghia.datn.BookstoreTamAn.exception.AppException;
 import com.minhnghia.datn.BookstoreTamAn.exception.ErrorCode;
 import com.minhnghia.datn.BookstoreTamAn.mapper.BookMapper;
+import com.minhnghia.datn.BookstoreTamAn.model.Author;
 import com.minhnghia.datn.BookstoreTamAn.model.Book;
+import com.minhnghia.datn.BookstoreTamAn.model.Category;
+import com.minhnghia.datn.BookstoreTamAn.repository.AuthorRepository;
 import com.minhnghia.datn.BookstoreTamAn.repository.BookRepository;
+import com.minhnghia.datn.BookstoreTamAn.repository.CategoryRepository;
 import com.minhnghia.datn.BookstoreTamAn.service.IBookService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,9 +33,12 @@ public class BookService implements IBookService {
 
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
+    private final AuthorRepository authorRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public Page<BookResponse> getAll(PageRequest request) {
+        resetExpiredPromotions();
         return bookRepository.findAll(request).map(bookMapper::toBookResponse);
     }
 
@@ -86,9 +94,11 @@ public class BookService implements IBookService {
                 .map(row -> new TopBookByTopAuthorResponse(
                         (Integer) row[0],
                         (String) row[1],
-                        ((Number) row[2]).intValue(),
-                        (String) row[3],
-                        (String) row[4]
+                        ((Number) row[2]).doubleValue(),
+                        ((Number) row[3]).floatValue(),
+                        ((Number) row[4]).intValue(),
+                        (String) row[5],
+                        (String) row[6]
                 ))
                 .collect(Collectors.toList());
     }
@@ -97,11 +107,26 @@ public class BookService implements IBookService {
 
         return books.map(bookMapper::toBookResponse);
     }
-    public List<String> getSuggestions(String keyword) {
-        // Query tìm các sách có tên hoặc tác giả chứa từ khóa
-        List<Book> books = bookRepository.findByTitleContainingIgnoreCaseOrAuthor_NameContainingIgnoreCase(keyword, keyword);
 
-        // Lấy ra danh sách tên sách gợi ý
+    @Override
+    public Page<BookResponse> filterBooksByPrice(PageRequest request, Double minPrice, Double maxPrice) {
+        return bookRepository.findByPriceBetween(request, minPrice, maxPrice)
+                .map(bookMapper::toBookResponse);
+    }
+    public PagedResponse<BookResponse> searchAndFilter(String keyword, double minPrice, double maxPrice, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Book> bookPage = bookRepository
+                .findByTitleContainingIgnoreCaseOrAuthor_NameContainingIgnoreCaseAndPriceBetween(
+                        keyword, keyword, minPrice, maxPrice, pageable
+                );
+
+        List<BookResponse> content = bookPage.map(bookMapper::toBookResponse).getContent();
+        return new PagedResponse<>(content, bookPage.getTotalPages());
+    }
+
+
+    public List<String> getSuggestions(String keyword) {
+        List<Book> books = bookRepository.findByTitleContainingIgnoreCaseOrAuthor_NameContainingIgnoreCase(keyword, keyword);
         return books.stream()
                 .map(Book::getTitle)
                 .distinct()
@@ -110,7 +135,26 @@ public class BookService implements IBookService {
     }
 
     public BookResponse create(BookCreationRequest request){
+// Kiểm tra tác giả có tồn tại không
+        Author author = authorRepository.findByName(request.getAuthorName())
+                .orElseThrow(() -> new AppException(ErrorCode.AUTHOR_NOT_FOUND));
+
+        // Lấy danh sách thể loại
+        Set<Category> categories = request.getCategoryName().stream()
+                .map(name -> categoryRepository.findByName(name)
+                        .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND)))
+                .collect(Collectors.toSet());
+
+        // Kiểm tra sách đã tồn tại chưa
+        List<Book> existingBooks = bookRepository.checkBookExists(request.getTitle(), request.getAuthorName(), request.getCategoryName());
+        if (!existingBooks.isEmpty()) {
+            throw new AppException(ErrorCode.BOOK_ALREADY_EXISTS);
+        }
+
+        // Tạo mới sách
         Book book = bookMapper.toBook(request);
+        book.setAuthor(author);
+        book.setCategories(categories);
         return bookMapper.toBookResponse(bookRepository.save(book));
     }
 
@@ -146,5 +190,27 @@ public class BookService implements IBookService {
     public void delete(int id){
         Book book = getBookById(id);
         bookRepository.delete(book);
+    }
+    public void resetExpiredPromotions() {
+        List<Book> books = bookRepository.findAll();
+        LocalDate today = LocalDate.now();
+
+        List<Book> booksToUpdate = books.stream()
+                .filter(book -> book.getPromotionEndDate() != null && book.getPromotionEndDate().isBefore(today))
+                .peek(book -> {
+                    book.setPromotion(0.0);
+                    book.setPromotionEndDate(null);
+                })
+                .collect(Collectors.toList());
+
+        if (!booksToUpdate.isEmpty()) {
+            bookRepository.saveAll(booksToUpdate);
+        }
+    }
+    public BookResponse updateActive(int id, ActiveRequest request){
+        Book book = getBookById(id);
+        book.setActive(request.getActive());
+        bookRepository.save(book);
+        return bookMapper.toBookResponse(book);
     }
 }

@@ -1,0 +1,70 @@
+.product-form {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.form-column {
+  flex: 1;
+  min-width: 300px;
+}
+
+label {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+textarea {
+  min-height: 80px;
+}
+
+.form-buttons {
+  flex-basis: 100%;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end; /* Canh nút ở góc dưới phải */
+  margin-top: 20px;
+}
+
+.form-buttons button {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.form-buttons button:hover {
+  background-color: #1e40af;
+}
+
+.form-buttons button:last-child {
+  background-color: #aaa;
+}
+
+.form-buttons button:last-child:hover {
+  background-color: #888;
+}
+.form-column img {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}

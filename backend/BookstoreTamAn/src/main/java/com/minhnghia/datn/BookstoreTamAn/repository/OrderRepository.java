@@ -2,6 +2,8 @@ package com.minhnghia.datn.BookstoreTamAn.repository;
 
 import com.minhnghia.datn.BookstoreTamAn.dto.response.TopSellingProductResponse;
 import com.minhnghia.datn.BookstoreTamAn.model.Order;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -41,4 +43,7 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
             "ORDER BY o.orderDate")
     List<Object[]> calculatePurchaseTrends(@Param("startDate") LocalDate startDate,
                                           @Param("endDate") LocalDate endDate);
+    Page<Order> findByStatus(String status, Pageable pageable);
+
+    Page<Order> findByUserId(Integer userId, Pageable pageable);
 }

@@ -26,4 +26,5 @@ public interface IBookService {
 
     public Page<BookResponse> searchBooks(String keyword, Pageable pageable);
 
+    Page<BookResponse> filterBooksByPrice(PageRequest request, Double minPrice, Double maxPrice);
 }

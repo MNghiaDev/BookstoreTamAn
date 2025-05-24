@@ -62,6 +62,8 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.POST, "/order/**").permitAll()
                                 .requestMatchers(HttpMethod.DELETE, "/user/**").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/upload/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/auth/forgot-password").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/auth/reset-password").permitAll()
                                 .anyRequest().authenticated()
                 );
         httpSecurity.oauth2ResourceServer(oauth2 ->

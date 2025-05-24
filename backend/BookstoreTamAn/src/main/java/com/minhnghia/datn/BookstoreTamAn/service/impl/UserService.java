@@ -1,19 +1,20 @@
 package com.minhnghia.datn.BookstoreTamAn.service.impl;
 
+import com.minhnghia.datn.BookstoreTamAn.dto.request.ActiveRequest;
+import com.minhnghia.datn.BookstoreTamAn.dto.request.ChangePasswordRequest;
 import com.minhnghia.datn.BookstoreTamAn.dto.request.UserRequest;
 import com.minhnghia.datn.BookstoreTamAn.dto.response.UserResponse;
 import com.minhnghia.datn.BookstoreTamAn.exception.AppException;
 import com.minhnghia.datn.BookstoreTamAn.exception.ErrorCode;
 import com.minhnghia.datn.BookstoreTamAn.mapper.UserMapper;
-import com.minhnghia.datn.BookstoreTamAn.model.Cart;
 import com.minhnghia.datn.BookstoreTamAn.model.User;
-import com.minhnghia.datn.BookstoreTamAn.repository.CartRepository;
 import com.minhnghia.datn.BookstoreTamAn.repository.UserRepository;
 import com.minhnghia.datn.BookstoreTamAn.service.IUserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.aot.AotException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,7 +23,7 @@ public class UserService implements IUserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    private final CartRepository cartRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserResponse create(UserRequest request) {
@@ -36,10 +37,10 @@ public class UserService implements IUserService {
             throw new AppException(ErrorCode.USERNAME_EXISTED);
         }
         User user = userMapper.toUser(request);
+        if(request.getRole() != null){
+            user.setRole(request.getRole());
+        }
         userRepository.save(user);
-        Cart cart = new Cart();
-        cart.setUser(user);
-        cartRepository.save(cart);
         return userMapper.toUserResponse(user);
     }
 
@@ -95,5 +96,28 @@ public class UserService implements IUserService {
             userRepository.delete(userExisting);
         }
         return null;
+    }
+    public void updatePassword(String email, String newPassword) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Không tìm thấy người dùng"));
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+    }
+    public void changePassword(int id, ChangePasswordRequest request) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+            throw new RuntimeException("Mật khẩu cũ không đúng");
+        }
+
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
+    }
+    public UserResponse updateActive(Integer id, ActiveRequest request){
+        User user = userById(id);
+        user.setActive(request.getActive());
+        return userMapper.toUserResponse(userRepository.save(user));
     }
 }

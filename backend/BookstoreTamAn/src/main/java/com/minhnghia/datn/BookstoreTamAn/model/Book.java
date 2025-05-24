@@ -40,6 +40,7 @@ public class Book extends BaseEntity{
     private String imageUrl;
     private Float rating;
     private Integer selling;
+    private boolean active;
     private String createdBy;
     private String modifyBy;
 

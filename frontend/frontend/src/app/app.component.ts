@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { ToastComponent } from "./pages/toast/toast.component";
-import { HeaderComponent } from "./pages/header/header.component";
-import { FooterComponent } from "./pages/footer/footer.component";
+import { ToastComponent } from "./shared/toast/toast.component";
+import { HeaderComponent } from "./layout/header/header.component";
+import { FooterComponent } from "./layout/footer/footer.component";
 import { NgIf } from '@angular/common';
+import { TokenService } from './core/token.service';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,7 @@ export class AppComponent {
   title = 'TamAn';
   showHeaderFooter = true;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private tokenService: TokenService) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         const hiddenRoutes = ['/login', '/register'];

@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class OrderResponse {
     Integer orderId;
+    String orderCode;
     Double totalPrice;
     String status;
     Integer userId;
@@ -24,4 +25,6 @@ public class OrderResponse {
     String createdBy;
     String modifyBy;
     LocalDate modifyAt;
+    Boolean active;
+    Boolean paid;
 }

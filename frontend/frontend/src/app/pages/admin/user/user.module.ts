@@ -9,7 +9,6 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
   declarations: [],
   imports: [
     CommonModule,
-    HttpClientModule,
     UserRoutingModule
   ]
 })

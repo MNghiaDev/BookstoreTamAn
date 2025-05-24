@@ -1,0 +1,84 @@
+<app-header></app-header>
+<div class="tg-innerbanner tg-haslayout tg-parallax tg-bginnerbanner">
+    <img src="images/parallax/bgparallax-07.jpg" alt="">
+    <div class="container">
+        <div class="row">
+            <div class="banner-content ">
+                <h1 class="banner-title">Sách</h1>
+                <ol class="tg-breadcrumb">
+                    <li><a routerLink="/home">Trang chủ</a></li>
+                    <li><a routerLink="/book">Sách</a></li>
+                </ol>
+            </div>  
+        </div>
+    </div>
+</div>
+<div class="container"> 
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="tg-sectionhead abc">
+        <h2>{{ category.name }}</h2>
+        <br>
+        <br>
+        <p>{{ category.description }}</p>
+      </div>
+
+      <div class="tg-booksfromauthor">
+        <div class="tg-sectionhead">
+          <h2>Sách thuộc danh mục {{ category.name }}</h2>
+        </div>
+        <div class="row">
+          <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3" *ngFor="let item of bookList; trackBy: trackByIndex">
+            <div class="tg-postbook">
+              <figure class="tg-featureimg">
+                <div class="tg-bookimg whimgbook">
+                  <div class="tg-frontcover"><img [src]="item.imageUrl" alt="image description"></div>
+                  <div class="tg-backcover"><img [src]="item.imageUrl" alt="image description"></div>
+                </div>
+              </figure>
+              <div class="tg-postbookcontent">
+                <ul class="tg-bookscategories">
+                  <li class="category-list">
+                    <ng-container *ngFor="let category of item.categoryNames; let i = index">
+                      <a [routerLink]="['/books/category-detail', category.id]">{{ category.name }}</a>
+                      <span *ngIf="i < item.categoryNames.length - 1"> & </span>
+                  </ng-container>
+                  </li>
+                </ul>
+                <div *ngIf="item.promotion > 0" class="tg-themetagbox"><span class="tg-themetag">sale</span></div>
+                <div class="tg-booktitle">
+                  <h3><a [routerLink]="['/books/book-detail', item.id]">{{ item.title }}</a></h3>
+                </div>
+                <span class="tg-bookwriter">Tác giả:
+                  <a [routerLink]="['/books/authors-detail', item.authorId]">{{ item.nameAuthor }}</a>
+                </span>
+                <span class="tg-stars"><span></span></span>
+                <span class="tg-bookprice">
+                  <ins *ngIf="item.promotion > 0">
+                    {{ item.price - (item.price * (item.promotion / 100)) | currency:'VND':'symbol' }}
+                  </ins>
+                  <del *ngIf="item.promotion > 0">
+                    {{ item.price | currency:'VND':'symbol' }}
+                  </del>
+                  <ins *ngIf="item.promotion === 0">
+                    {{ item.price | currency:'VND':'symbol' }}
+                  </ins>
+                </span>
+                <a class="tg-btn tg-btnstyletwo" (click)="addToCart(item)">
+                  <i class="fa fa-shopping-basket"></i>
+                  <em>Thêm vào giỏ</em>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+<div class="pagination-controls">
+    <button (click)="previousPage()" [disabled]="page === 0">← Trước</button>
+    <span>Trang {{ page + 1 }} / {{ totalPages}}</span>
+    <button (click)="nextPage()" [disabled]="page + 1 >= totalPages">Sau →</button>
+</div>
+</div>
+<app-footer></app-footer>

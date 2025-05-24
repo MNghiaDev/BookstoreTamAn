@@ -1,11 +1,12 @@
-import { NgFor } from '@angular/common';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../../../services/user.service';
+import { UserService } from '../../../../core/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user',
-  imports: [NgFor],
+  imports: [NgFor, NgIf, NgClass],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css'
 })
@@ -14,8 +15,9 @@ export class UserComponent implements OnInit {
   page: number = 0;
   size: number = 10;
   totalPages: number = 0;
+  selectedUserId: number | null = null;
 
-  constructor(private http: HttpClient, private userService : UserService) {}
+  constructor(private http: HttpClient, private userService : UserService, private router: Router) {}
 
   ngOnInit() {
     this.fetchUsers();
@@ -28,11 +30,50 @@ export class UserComponent implements OnInit {
     });
   }
 
-  deleteUser(id: number) {
-    if (confirm('Bạn có chắc chắn muốn xóa người dùng này?')) {
-      this.http.delete(`http://localhost:8080/api/bookstore/user/${id}`).subscribe(() => {
-        this.fetchUsers();
-      });
+  // deleteUser(id: number) {
+  //   if (confirm('Bạn có chắc chắn muốn xóa người dùng này?')) {
+  //     this.http.delete(`http://localhost:8080/api/bookstore/user/${id}`).subscribe(() => {
+  //       this.fetchUsers();
+  //     });
+  //   }
+  // }
+selectUser(id: number) {
+  this.selectedUserId = id;
+}
+
+deleteUser() {
+  if (this.selectedUserId === null) return;
+
+  const confirmDelete = confirm('Bạn có chắc chắn muốn xóa người dùng này?');
+  if (!confirmDelete) return;
+
+  this.http.delete(`http://localhost:8080/api/bookstore/user/${this.selectedUserId}`).subscribe({
+    next: () => {
+      alert('Xóa người dùng thành công!');
+      this.selectedUserId = null;
+      this.fetchUsers();
+    },
+    error: err => {
+      alert('Lỗi khi xóa: ' + (err.error.message || 'Không thể xóa người dùng.'));
     }
+  });
+}
+  goToAddUser(){
+    this.router.navigateByUrl('/admin/users/add');
+  }
+    toggleActive(product: any) {
+    const newStatus = !product.active;
+
+    this.http.put(`http://localhost:8080/api/bookstore/user/active/${product.id}`, {
+      active: newStatus
+    }).subscribe({
+      next: (res) => {
+        product.active = newStatus;
+      },
+      error: (err) => {
+        alert("Cập nhật trạng thái thất bại!");
+        console.error(err);
+      }
+    });
   }
 }

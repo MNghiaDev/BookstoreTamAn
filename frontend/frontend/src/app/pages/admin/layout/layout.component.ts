@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
-import { TokenService } from '../../../services/token.service';
+import { TokenService } from '../../../core/token.service';
 
 @Component({
   selector: 'app-layout',

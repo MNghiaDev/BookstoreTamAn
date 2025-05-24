@@ -1,0 +1,25 @@
+.whimg{
+    height: 250px;
+}
+.whimgauthor{
+    width: 150px;
+    height: 100px;
+}
+.rating-stars {
+  color: #FFD700;
+  font-size: 16px;
+}
+
+.rating-stars .fa {
+  margin-right: 2px;
+}
+
+.rating-stars .filled {
+  color: #FFD700;
+}
+
+.rating-number {
+  margin-left: 5px;
+  color: #555;
+  font-size: 14px;
+}

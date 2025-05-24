@@ -4,6 +4,7 @@ import com.minhnghia.datn.BookstoreTamAn.dto.request.CategoryRequest;
 import com.minhnghia.datn.BookstoreTamAn.dto.response.CategoryBookCountResponse;
 import com.minhnghia.datn.BookstoreTamAn.dto.response.CategoryResponse;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
@@ -18,4 +19,8 @@ public interface ICategoryService {
     CategoryResponse update(int id, CategoryRequest request);
 
     Void delete(int id);
+
+    Page<CategoryResponse> getAll(PageRequest request);
+
+    CategoryResponse findById(Integer categoryId);
 }

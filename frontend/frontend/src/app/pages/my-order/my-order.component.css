@@ -1,0 +1,204 @@
+.banner-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    filter: brightness(0.7);
+    border-radius: 20px;
+}
+.banner-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgb(119, 183, 72);
+    text-align: center;
+}
+.banner-title {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: green;
+}
+
+.breadcrumb {
+  margin-top: 10px;
+  font-size: 16px;
+}
+.breadcrumb a {
+  color: #a7f3d0;
+  text-decoration: none;
+}
+.breadcrumb span {
+  margin: 0 8px;
+}
+
+/* Container Layout */
+.order-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 30px;
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* Shared Section Style */
+.section-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #16a34a;
+}
+
+/* Left Side - Order List */
+.order-list-section {
+  background: #f9fafb;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+}
+.order-card {
+  padding: 15px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.order-card:hover {
+  background-color: #f0fdf4;
+}
+.order-card.active {
+  background-color: #dcfce7;
+  border-left: 5px solid #22c55e;
+}
+
+/* Right Side - Order Detail */
+.order-detail-section {
+  background: #ffffff;
+  padding: 50px;
+  border-radius: 16px;
+  border: 1px solid #22c55e;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+  width: 80%;
+  margin-top: 60px;
+  height: 500px;
+}
+.order-info p {
+  margin: 8px 0;
+}
+.product-list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+}
+.product-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px dashed #e5e7eb;
+}
+.total {
+  font-weight: 600;
+  font-size: 18px;
+  color: #10b981;
+  margin-top: 20px;
+}
+
+/* Button */
+.confirm-button {
+  margin-top: 20px;
+  padding: 12px 24px;
+  background-color: #22c55e;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.confirm-button:hover {
+  background-color: #15803d;
+}
+.checkout-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 60px auto;
+  padding: 0 20px;
+}
+
+.checkout-column, .order-summary-column {
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+}
+/* Bổ sung vào CSS */
+.tg-innerbanner {
+  position: relative;
+}
+
+.order-page-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 30px;
+  margin-left: 300px;
+}
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  margin-right: 200px;
+}
+
+.pagination-controls button {
+  padding: 6px 12px;
+  border: none;
+  background-color: rgb(119, 183, 72);
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.pagination-controls button:disabled {
+  background-color: rgb(168, 189, 153);
+  cursor: not-allowed;
+}
+.pending {
+  color: orange;
+}
+.processing {
+  color: blue;
+}
+.shipped{
+  color: rgb(204, 204, 43);
+}
+.delivered {
+  color: green;
+}
+.canceled {
+  color: red;
+}
+.cancel-button{
+  margin-top: 20px;
+  padding: 12px 24px;
+  background-color: rgb(240, 20, 20);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.cancel-button:hover{
+  background-color: rgb(196, 9, 9);
+}

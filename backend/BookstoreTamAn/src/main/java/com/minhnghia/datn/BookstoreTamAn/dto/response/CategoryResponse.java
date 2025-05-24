@@ -30,5 +30,7 @@ public class CategoryResponse {
     @JsonProperty("modify_at")
     private LocalDate modifyAt;
 
+    private Boolean active;
+
     private Set<CategoryBookResponse> books;
 }

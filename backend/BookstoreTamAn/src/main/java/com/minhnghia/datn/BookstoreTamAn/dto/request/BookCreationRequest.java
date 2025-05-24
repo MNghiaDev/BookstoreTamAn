@@ -34,7 +34,7 @@ public class BookCreationRequest {
     private Integer selling;
     private String createdBy;
 
-    private int authorId;
+    private String authorName;
     private String nameUser;
-    private Set<Integer> categoryId;
+    private Set<String> categoryName;
 }

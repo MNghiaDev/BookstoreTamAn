@@ -1,8 +1,10 @@
 package com.minhnghia.datn.BookstoreTamAn.controller;
 
+import com.minhnghia.datn.BookstoreTamAn.dto.request.ActiveRequest;
 import com.minhnghia.datn.BookstoreTamAn.dto.request.ApiResponse;
 import com.minhnghia.datn.BookstoreTamAn.dto.request.AuthorRequest;
 import com.minhnghia.datn.BookstoreTamAn.dto.response.*;
+import com.minhnghia.datn.BookstoreTamAn.model.Author;
 import com.minhnghia.datn.BookstoreTamAn.service.impl.AuthorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -72,6 +74,25 @@ public class AuthorController {
     public ApiResponse<Void> delete(@PathVariable("id") Integer id){
         return ApiResponse.<Void>builder()
                 .data(authorService.delete(id))
+                .build();
+    }
+    @GetMapping("/{id}")
+    public ApiResponse<AuthorResponse> getAuthorDetail(@PathVariable Integer id){
+        return ApiResponse.<AuthorResponse>builder()
+                .data(authorService.getAuthorDetail(id))
+                .build();
+    }
+
+    @GetMapping("/detail/{name}")
+    public ApiResponse<AuthorResponse> getDetail(@PathVariable("name") String name){
+        return ApiResponse.<AuthorResponse>builder()
+                .data(authorService.getByName(name))
+                .build();
+    }
+    @PutMapping("/active/{id}")
+    public ApiResponse<AuthorResponse> updateActive(@PathVariable("id") Integer id, @RequestBody ActiveRequest request){
+        return ApiResponse.<AuthorResponse>builder()
+                .data((authorService.updateActive(id, request)))
                 .build();
     }
 }

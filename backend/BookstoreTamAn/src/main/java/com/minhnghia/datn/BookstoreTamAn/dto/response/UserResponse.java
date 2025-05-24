@@ -27,4 +27,6 @@ public class UserResponse {
     private String modifyBy;
     @JsonProperty("modify_at")
     private LocalDate modifyAt;
+
+    private Boolean active;
 }

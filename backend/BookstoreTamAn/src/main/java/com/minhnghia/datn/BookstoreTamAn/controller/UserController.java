@@ -1,11 +1,13 @@
 package com.minhnghia.datn.BookstoreTamAn.controller;
 
+import com.minhnghia.datn.BookstoreTamAn.dto.request.ActiveRequest;
 import com.minhnghia.datn.BookstoreTamAn.dto.request.ApiResponse;
+import com.minhnghia.datn.BookstoreTamAn.dto.request.ChangePasswordRequest;
 import com.minhnghia.datn.BookstoreTamAn.dto.request.UserRequest;
 import com.minhnghia.datn.BookstoreTamAn.dto.response.UserListResponse;
 import com.minhnghia.datn.BookstoreTamAn.dto.response.UserResponse;
-import com.minhnghia.datn.BookstoreTamAn.service.impl.CartService;
 import com.minhnghia.datn.BookstoreTamAn.service.impl.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -51,7 +53,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ApiResponse<UserResponse> create(@RequestBody UserRequest request){
+    public ApiResponse<UserResponse> create(@Valid @RequestBody UserRequest request){
         return ApiResponse.<UserResponse>builder()
                 .data(userService.create(request))
                 .build();
@@ -69,4 +71,16 @@ public class UserController {
         userService.delete(id);
         return ApiResponse.<Void>builder().build();
     }
+    @PostMapping("/change-password/{id}")
+    public ApiResponse<Void> changePassword(@PathVariable("id") int id, @RequestBody ChangePasswordRequest request){
+        userService.changePassword(id, request);
+        return ApiResponse.<Void>builder().build();
+    }
+    @PutMapping("/active/{id}")
+    public ApiResponse<UserResponse> updateActive(@PathVariable("id") Integer id, @RequestBody ActiveRequest request){
+        return ApiResponse.<UserResponse>builder()
+                .data(userService.updateActive(id, request))
+                .build();
+    }
+
 }

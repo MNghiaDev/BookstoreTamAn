@@ -58,7 +58,9 @@ public class AuthenticationService {
 
     public AuthenticationResponse Authenticate(AuthenticationRequest request) {
         var user = userRepository.findByUsername(request.getUsername()).orElseThrow();
-
+        if (!user.isActive()) {
+            throw new RuntimeException("Tài khoản đã bị khóa");
+        }
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
         if (!authenticated) {

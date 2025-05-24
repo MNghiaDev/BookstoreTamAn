@@ -1,0 +1,127 @@
+<app-header></app-header>
+<div class="tg-innerbanner tg-haslayout tg-parallax tg-bginnerbanner">
+    <img src="images/parallax/bgparallax-07.jpg" alt="">
+    <div class="container">
+        <div class="row">
+            <div class="banner-content ">
+                <h1 class="banner-title">Sách</h1>
+                <ol class="tg-breadcrumb">
+                    <li><a routerLink="/home">Trang chủ</a></li>
+                    <li><a routerLink="/book">Sách</a></li>
+                </ol>
+            </div>  
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        <div class="row abc">
+            <div id="tg-twocolumns" class="tg-twocolumns">
+                <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9 pull-right">
+                    <div id="tg-content" class="tg-content">
+                        <div class="tg-products">
+                                
+                           <!-- Gộp dropdown lọc + phân trang vào chung hàng -->
+                            <div class="filter-pagination-bar def">
+                            <!-- Dropdown bên trái -->
+                                <div class="price-filter-container">
+                                    <select id="priceRange" (change)="selectPriceRange($event)">
+                                    <option value="">-- Chọn khoảng giá --</option>
+                                    <option value="0-100000">Dưới 100.000đ</option>
+                                    <option value="100000-200000">100.000đ - 200.000đ</option>
+                                    <option value="200000-500000">200.000đ - 500.000đ</option>
+                                    <option value="500000-1000000">500.000đ - 1.000.000đ</option>
+                                    <option value="1000000-99999999">Trên 1.000.000đ</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="tg-productgrid">              
+                                @for (item of bookList; track $index) {
+                                <!-- item -->
+                                 @if (item.active) {
+                                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3 abc">
+                                    <div class="tg-postbook">
+                                        <figure class="tg-featureimg">
+                                            <div class="tg-bookimg">
+                                                <div class="tg-frontcover"><img class="whimg" [src]="item.imageUrl"
+                                                        alt="image description"></div>
+                                                <div class="tg-backcover"><img class="whimg" [src]="item.imageUrl"
+                                                        alt="image description"></div>
+                                            </div>
+                                        </figure>
+                                        <div class="tg-postbookcontent content-wrapper">
+                                            <ul class="tg-bookscategories">
+                                                <li class="category-list">
+                                                  <ng-container *ngFor="let category of item.categoryNames; let i = index">
+                                                    <a [routerLink]="['/books/category-detail', category.id]">{{ category.name }}</a>
+                                                    <span *ngIf="i < item.categoryNames.length - 1"> & </span>
+                                                </ng-container>
+                                                </li>
+                                              </ul>
+                                            @if (item.promotion > 0) {
+                                                <div class="tg-themetagbox"><span class="tg-themetag">sale</span></div>
+                                            }                                              
+                                            <div class="tg-booktitle">
+                                                <h3><a href="javascript:void(0);" routerLink="/books/book-detail/{{item.id}}">{{item.title}}</a></h3>
+                                            </div>
+                                            <span class="tg-bookwriter">Tác giả: <a [routerLink]="['/books/authors-detail', item.authorId]">{{item.nameAuthor}}</a></span>
+                                            <div class="rating-stars">
+                                                <ng-container *ngFor="let star of getStars(item.rating); let i = index">
+                                                    <i class="fa" [ngClass]="star <= item.rating ? 'fa-star filled' : 'fa-star-o'"></i>
+                                                </ng-container>
+                                                <span class="rating-number">({{ item.rating.toFixed(1) }})</span>
+                                            </div>
+                                            @if (item.promotion == 0) {
+                                                <span class="tg-bookprice">
+                                                    <ins>{{item.price | currency:'VND':'symbol'}}</ins>
+                                                </span>
+                                            }@else {
+                                                <span class="tg-bookprice">
+                                                    <ins>{{item.price - (item.price * (item.promotion / 100)) | currency:'VND':'symbol'}}</ins>
+                                                        <del>{{item.price | currency:'VND':'symbol'}}</del>
+                                                </span>
+                                            }
+                                            <a class="tg-btn tg-btnstyletwo add-to-cart-btn" (click)="addToCart(item)">
+                                                <i class="fa fa-shopping-basket"></i>
+                                                <em >Thêm vào giỏ</em>
+                                              </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                }
+                            }
+                                <!-- item end -->
+                                 
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 pull-left">
+                    <aside id="tg-sidebar" class="tg-sidebar">
+                        <div class="tg-widget tg-catagories">
+                            <app-category></app-category>
+                        </div>
+                        <div class="tg-widget tg-widgetblogers">
+                            <app-top-author></app-top-author>
+                        </div>
+                        <div class="tg-widget tg-widgettrending">
+                            <app-news></app-news>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+
+    </div>
+<div class="pagination-controls">
+    <button (click)="previousPage()" [disabled]="page === 0">← Trước</button>
+    <span>Trang {{ page + 1 }} / {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="page + 1 >= totalPages">Sau →</button>
+</div>
+<app-footer></app-footer>

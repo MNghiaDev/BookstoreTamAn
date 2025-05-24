@@ -25,6 +25,7 @@ public class User{
     private String phone;
     private String address;
     private String role;
+    private boolean active;
     private LocalDate createdAt;
     private String modifyBy;
     private LocalDate modifyAt;

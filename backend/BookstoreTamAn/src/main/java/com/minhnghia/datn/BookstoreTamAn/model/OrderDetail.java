@@ -20,6 +20,7 @@ public class OrderDetail extends BaseEntity{
     private Double unitPrice;
     private String createdBy;
     private String modifyBy;
+    private boolean active;
 
     @ManyToOne
     @JoinColumn(name = "order_id")

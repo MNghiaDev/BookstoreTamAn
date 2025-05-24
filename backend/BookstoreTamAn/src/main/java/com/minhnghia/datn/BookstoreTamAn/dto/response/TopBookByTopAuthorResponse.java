@@ -8,6 +8,8 @@ import lombok.Data;
 public class TopBookByTopAuthorResponse {
     private Integer bookId;
     private String title;
+    private Double price;
+    private Float rating;
     private Integer selling;
     private String imageUrl;
     private String authorName;

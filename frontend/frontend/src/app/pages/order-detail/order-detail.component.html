@@ -1,0 +1,45 @@
+<app-header></app-header>
+<!-- Banner Section -->
+<div class="tg-innerbanner tg-haslayout tg-parallax tg-bginnerbanner">
+    <img src="images/parallax/bgparallax-07.jpg" alt="">
+    <div class="container">
+        <div class="row">
+            <div class="banner-content ">
+                <h1 class="banner-title">Đơn hàng</h1>
+                <ol class="tg-breadcrumb">
+                    <li><a routerLink="">Trang chủ</a></li>
+                    <li><a >Đơn hàng</a></li>
+                </ol>
+            </div>  
+        </div>
+    </div>
+</div>
+
+<div class="container my-10">
+  <h2 class="section-title">Chi tiết đơn hàng #{{ order?.id }}</h2>
+
+  <div *ngIf="order">
+    <p><strong>Ngày đặt:</strong> {{ order.orderDate }}</p>
+    <p><strong>Tổng tiền:</strong> {{ order.totalAmount | number }}₫</p>
+    <p><strong>Trạng thái:</strong> {{ order.status }}</p>
+
+    <h3 class="mt-6">Sản phẩm đã mua</h3>
+    <table class="product-table">
+      <thead>
+        <tr>
+          <th>Tên sách</th>
+          <th>Số lượng</th>
+          <th>Giá</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of order.items">
+          <td>{{ item.bookTitle }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.price | number }}₫</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<app-footer></app-footer>

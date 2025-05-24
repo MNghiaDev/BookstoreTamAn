@@ -1,0 +1,47 @@
+<form (ngSubmit)="saveUser()" #form="ngForm" class="product-form" novalidate>
+  <div class="form-column">
+    <label>Tên đăng nhập:</label>
+    <input type="text" [(ngModel)]="user.username" name="username" #username="ngModel" required>
+    <div *ngIf="username.invalid && username.touched" class="error">Tên đăng nhập là bắt buộc</div>
+
+    <label>Mật khẩu:</label>
+    <input type="password" [(ngModel)]="user.password" name="password" #password="ngModel" required minlength="6">
+    <div *ngIf="password.invalid && password.touched" class="error">
+      Mật khẩu phải có ít nhất 6 ký tự
+    </div>
+
+    <label>Nhập lại mật khẩu:</label>
+    <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" #confirm="ngModel" required>
+    <div *ngIf="confirmPasswordMismatch" class="error">Mật khẩu không khớp</div>
+
+    <label>Email:</label>
+    <input type="email" [(ngModel)]="user.email" name="email" #email="ngModel" required email>
+    <div *ngIf="email.invalid && email.touched" class="error">Email không hợp lệ</div>
+  </div>
+
+  <div class="form-column">
+    <label>Họ tên:</label>
+    <input type="text" [(ngModel)]="user.full_name" name="fullName" required>
+
+    <label>Số điện thoại:</label>
+    <input type="text" [(ngModel)]="user.phone" name="phone" pattern="^0[0-9]{9}$" required>
+    <div *ngIf="form.controls['phone']?.invalid && form.controls['phone']?.touched" class="error">
+      Số điện thoại không hợp lệ (bắt đầu bằng 0 và có 10 số)
+    </div>
+
+    <label>Địa chỉ:</label>
+    <input type="text" [(ngModel)]="user.address" name="address" required>
+
+    <label>Role:</label>
+    <select [(ngModel)]="user.role" name="role" required>
+      <option value="" disabled selected>-- Chọn vai trò --</option>
+      <option value="admin">Admin</option>
+      <option value="customer">Customer</option>
+    </select>
+  </div>
+
+  <div class="form-buttons">
+    <button type="submit" [disabled]="form.invalid || confirmPasswordMismatch">Thêm mới</button>
+    <button type="button" (click)="cancel()">Hủy</button>
+  </div>
+</form>

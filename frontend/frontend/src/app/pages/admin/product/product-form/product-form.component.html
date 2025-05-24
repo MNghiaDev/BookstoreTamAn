@@ -1,5 +1,5 @@
 <h2>{{ isEditMode ? 'Chỉnh sửa sản phẩm' : 'Thêm sản phẩm' }}</h2>
-<form (ngSubmit)="saveProduct()" class="product-form bg-red-600" >
+<form (ngSubmit)="saveProduct()" class="product-form">
   <div class="form-column">
     <label>Tiêu đề:</label>
     <input type="text" [(ngModel)]="product.title" name="title" required>
@@ -19,18 +19,29 @@
     <label>Ngôn ngữ:</label>
     <input type="text" [(ngModel)]="product.language" name="language">
 
-    <label>Ghi chú:</label>
-    <textarea [(ngModel)]="product.illustrationsNote" name="notes"></textarea>
+    <div style="display: flex; gap: 10px;">
+      <div style="flex: 1;">
+        <label>Chiều rộng (mm):</label>
+        <input type="number" [(ngModel)]="product.width" name="width">
+      </div>
+      <div style="flex: 1;">
+        <label>Chiều cao (mm):</label>
+        <input type="number" [(ngModel)]="product.height" name="height">
+      </div>
+      <div style="flex: 1;">
+        <label>Độ dày (mm):</label>
+        <input type="number" [(ngModel)]="product.length" name="length">
+      </div>
+      <div style="flex: 1;">
+        <label>Khối lượng (kg):</label>
+        <input type="number" [(ngModel)]="product.weight" name="weight">
+      </div>
+    </div>
 
 
-<div class="form-column">
     <label>Hình ảnh:</label>
     <input type="file" (change)="onFileSelected($event)">
     <img *ngIf="product.imageUrl" [src]="product.imageUrl" alt="Cover Image" style="max-width: 200px; margin-top: 10px;">
-</div>
-
-
-
   </div>
 
   <div class="form-column">
@@ -55,8 +66,11 @@
     <label>Số lượng:</label>
     <input type="number" [(ngModel)]="product.stock" name="quantity" required>
 
-    <label>Tác giả (ID):</label>
-    <input type="number" [(ngModel)]="product.authorId" name="authorId">
+    <label>Tác giả (Tên):</label>
+    <input type="text" [(ngModel)]="product.authorName" name="authorName">
+
+    <label>Thể loại:</label>
+    <input type="text" [(ngModel)]="product.categoryName" name="categoryName" placeholder="Ngăn cách bằng dấu phẩy">
   </div>
 
   <div class="form-buttons">

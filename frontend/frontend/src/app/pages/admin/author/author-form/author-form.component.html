@@ -1,0 +1,22 @@
+<h2>{{ isEditMode ? 'Chỉnh sửa tác giả' : 'Thêm mới tác giả' }}</h2>
+<form (ngSubmit)="saveAuthor()" class="product-form">
+  <div class="form-column">
+    <label>Tên tác giả:</label>
+    <input type="text" [(ngModel)]="author.name" name="title" required>
+
+
+    <label>Hình ảnh:</label>
+    <input type="file" (change)="onFileSelected($event)">
+    <img *ngIf="author.imageUrl" [src]="author.imageUrl" alt="Cover Image" style="max-width: 200px; margin-top: 10px;">
+  </div>
+
+  <div class="form-column">
+    <label>Giới thiệu:</label>
+    <textarea [(ngModel)]="author.bio" name="description"></textarea>
+  </div>
+
+  <div class="form-buttons">
+    <button type="submit">{{ isEditMode ? 'Cập nhật' : 'Thêm mới' }}</button>
+    <button type="button" (click)="cancel()">Hủy</button>
+  </div>
+</form>

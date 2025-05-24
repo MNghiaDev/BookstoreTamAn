@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TokenService } from '../../services/token.service';
-import { UserService } from '../../services/user.service';
+import { TokenService } from '../../core/token.service';
+import { UserService } from '../../core/user.service';
 import { error } from 'jquery';
 import { jwtDecode } from 'jwt-decode';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,8 @@ export class LoginComponent {
     username : "",
     password : ""
   }
+
+  message : string = "";
   constructor(private userService : UserService, private tokenService : TokenService, private router : Router){}
 
   onLogin(){
@@ -28,7 +31,7 @@ export class LoginComponent {
         const scopes = tokenDecoded.scope;
     
         if (scopes.includes("ROLE_customer")) {
-          this.router.navigateByUrl("/home");
+          this.router.navigateByUrl("");
         } else if (scopes.includes("ROLE_admin")) {
           this.router.navigateByUrl("/admin");
         } else {
@@ -36,7 +39,8 @@ export class LoginComponent {
         }
       },
       error: (err: any) => {
-        alert(`Cannot login, error: ${err.error.message}`);
+        // alert(`Cannot login, error: ${err.error.message}`);
+        this.message = err.error.message;
       }
     });
     

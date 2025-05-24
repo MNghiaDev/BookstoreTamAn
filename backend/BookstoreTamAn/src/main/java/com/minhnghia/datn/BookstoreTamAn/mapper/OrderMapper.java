@@ -20,6 +20,7 @@ public class OrderMapper {
     public OrderResponse toOrderResponse(Order order){
         return OrderResponse.builder()
                 .orderId(order.getId())
+                .orderCode(order.getOrderCode())
                 .status(order.getStatus())
                 .totalPrice(order.getTotalPrice())
                 .userId(order.getUser().getId())
@@ -32,6 +33,8 @@ public class OrderMapper {
                 .createdBy(order.getCreatedBy())
                 .modifyAt(order.getModifyAt())
                 .modifyBy(order.getModifyBy())
+                .active(order.isActive())
+                .paid(order.getPaid())
                 .build();
     }
 
@@ -39,6 +42,7 @@ public class OrderMapper {
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         return Order.builder()
+                .orderCode(generateOrderCode())
                 .user(user)
                 .orderDate(LocalDate.now())
                 .status("PENDING")
@@ -48,6 +52,14 @@ public class OrderMapper {
                 .shippingAddress(request.getShippingAddress())
                 .recipientName(request.getRecipientName())
                 .totalPrice(0.0)
+                .active(true)
+                .paid(false)
                 .build();
+    }
+    private String generateOrderCode() {
+        String prefix = "ORD";
+        String date = java.time.LocalDate.now().format(java.time.format.DateTimeFormatter.BASIC_ISO_DATE);
+        long timestamp = System.currentTimeMillis();
+        return prefix + date + (timestamp % 1000000);
     }
 }

@@ -1,0 +1,81 @@
+<app-header></app-header>
+<!-- Banner Section -->
+<div class="tg-innerbanner tg-haslayout tg-parallax tg-bginnerbanner">
+    <img src="images/parallax/bgparallax-07.jpg" alt="">
+    <div class="container">
+        <div class="row">
+            <div class="banner-content ">
+                <h1 class="banner-title">Đơn hàng</h1>
+                <ol class="tg-breadcrumb">
+                    <li><a routerLink="">Trang chủ</a></li>
+                    <li><a >Đơn hàng</a></li>
+                </ol>
+            </div>  
+        </div>
+    </div>
+</div>
+
+<div class="order-page-container">
+  <div class="order-list-section">
+    <h2 class="section-title">Danh sách đơn hàng</h2>
+    <div 
+      class="order-card" 
+      *ngFor="let order of orderList" 
+      (click)="selectOrder(order)"
+      [class.active]="order.orderId === selectedOrder?.orderId">
+      
+      <div><strong>Mã đơn:</strong> {{ order.orderCode }}</div>
+      <div><strong>Ngày:</strong> {{ order.orderDate | date:'dd/MM/yyyy' }}</div>
+      <div><strong>Tổng tiền:</strong> {{ order.totalPrice | currency:'VND' }}</div>
+      <div><strong>Trạng thái:</strong> <span [ngClass]="order.status">{{ getStatusLabel(order.status) }}</span></div>
+
+        @if (order.paid) {
+          <span style="color: green;">Đã thanh toán</span>
+        }@else {
+          <span style="color: red;">Chưa thanh toán</span> 
+        }
+    </div>
+
+  </div>
+
+  <div class="order-detail-section" *ngIf="selectedOrder">
+    <h2 class="section-title">Chi tiết đơn hàng</h2>
+    <div class="order-info">
+      <p><strong>Người nhận:</strong> {{ selectedOrder.recipientName }}</p>
+      <p><strong>Email:</strong> {{ selectedOrder.email }}</p>
+      <p><strong>Điện thoại:</strong> {{ selectedOrder.phone }}</p>
+      <p><strong>Địa chỉ:</strong> {{ selectedOrder.shippingAddress }}</p>
+      <p><strong>Phương thức:</strong> {{ selectedOrder.paymentMethod }}</p>
+    </div>
+
+    <h3>Sản phẩm:</h3>
+    <ul class="product-list">
+      <li *ngFor="let item of orderDetailList">
+        <span>{{ item.bookTitle }}</span>
+        <span>x{{ item.quantity }}</span>
+        <span>{{ item.unitPrice * item.quantity | currency:'VND' }}</span>
+      </li>
+    </ul>
+    <p><strong>Trạng thái:</strong> <span [ngClass]="selectedOrder.status">{{ getStatusLabel(selectedOrder.status) }}</span></p>
+
+    <button 
+      *ngIf="selectedOrder.status === 'shipped'" 
+      class="confirm-button"
+      (click)="confirmReceived(selectedOrder.orderId)">
+      Xác nhận đã nhận hàng
+    </button>
+    <button 
+      *ngIf="selectedOrder.status === 'pending'" 
+      class="cancel-button"
+      (click)="cancelOrder(selectedOrder.orderId)">
+      Huỷ đơn hàng
+    </button>
+  </div>
+  
+</div>
+<div class="pagination-controls">
+    <button (click)="previousPage()" [disabled]="page === 0">← Trước</button>
+    <span>Trang {{ page + 1 }} / {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="page + 1 >= totalPages">Sau →</button>
+</div>
+<app-footer></app-footer>

@@ -94,7 +94,7 @@ export class StatisticsComponent implements OnInit {
         categories: categories
       },
       title: {
-        text: "Xu hướng mua hàng"
+        text: ""
       }
     };
 
@@ -119,7 +119,7 @@ export class StatisticsComponent implements OnInit {
         categories: categories
       },
       title: {
-        text: "Sản phẩm bán chạy nhất"
+        text: ""
       }
     };
 

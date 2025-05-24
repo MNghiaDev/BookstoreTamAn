@@ -43,7 +43,10 @@ public class BookResponse {
     private LocalDate createdAt;
     private String modifyBy;
     private LocalDate modifyAt;
+    private Boolean active;
 
     private String nameAuthor;
-    private Set<String> categoryNames;
+    private Integer authorId;
+    private Set<CategoryResponse> categoryNames;
+    private Set<Integer> categoryId;
 }

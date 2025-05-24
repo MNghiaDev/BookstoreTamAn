@@ -17,6 +17,7 @@ public class AuthorMapper {
                 .createdAt(author.getCreatedAt())
                 .modifyBy(author.getModifyBy())
                 .modifyAt(author.getModifyAt())
+                .active(author.isActive())
                 .build();
     }
 
@@ -24,7 +25,9 @@ public class AuthorMapper {
         return Author.builder()
                 .name(request.getName())
                 .bio(request.getBio())
+                .imageUrl(request.getImageUrl())
                 .createdBy(request.getCreatedBy())
+                .active(true)
                 .build();
     }
 }

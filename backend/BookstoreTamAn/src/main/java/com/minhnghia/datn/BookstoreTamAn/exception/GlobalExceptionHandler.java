@@ -21,18 +21,26 @@ import java.util.Objects;
 public class GlobalExceptionHandler {
     private static final String MIN_ATTRIBUTE = "min";
 
+//    @ExceptionHandler(RuntimeException.class)
+//    public ResponseEntity<ApiResponse<String>> HandlingRuntimeException(RuntimeException ex) {
+//        ex.printStackTrace(); // Log lỗi để debug
+//
+//        // Trả về ApiResponse với thông báo lỗi
+//        ApiResponse<String> response = ApiResponse.<String>builder()
+//                .code(500)
+//                .message(ex.getMessage())
+//                .errors(new HashMap<>()) // ✅ Đảm bảo errors không null
+//                .data(null)
+//                .build();
+//
+//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+//    }
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ApiResponse<String>> HandlingRuntimeException(RuntimeException ex) {
-        ex.printStackTrace(); // Log lỗi để debug
-
-        // Trả về ApiResponse với thông báo lỗi
-        ApiResponse<String> response = ApiResponse.<String>builder()
-                .code(500)
+    public ResponseEntity<ApiResponse<?>> handlingRuntimeException(RuntimeException ex) {
+        ApiResponse<?> response = ApiResponse.builder()
                 .message(ex.getMessage())
-                .errors(new HashMap<>()) // ✅ Đảm bảo errors không null
-                .data(null)
+                .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .build();
-
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 
@@ -41,21 +49,33 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(exception.getDetailMessageCode());
     }
 
-    @ExceptionHandler(value = Exception.class)
-    ResponseEntity<ApiResponse> handlingRuntimeException(RuntimeException exception) {
-        log.error("Exception: ", exception);
-        ApiResponse apiResponse = new ApiResponse();
-
-        apiResponse.setCode(ErrorCode.UNCATEGORIZED_EXCEPTION.getCode());
-        apiResponse.setMessage(ErrorCode.UNCATEGORIZED_EXCEPTION.getMessage());
-
-        return ResponseEntity.badRequest().body(apiResponse);
-    }
+//    @ExceptionHandler(value = Exception.class)
+//    ResponseEntity<ApiResponse> handlingRuntimeException(RuntimeException exception) {
+//        log.error("Exception: ", exception);
+//        ApiResponse apiResponse = new ApiResponse();
+//
+//        apiResponse.setCode(ErrorCode.UNCATEGORIZED_EXCEPTION.getCode());
+//        apiResponse.setMessage(ErrorCode.UNCATEGORIZED_EXCEPTION.getMessage());
+//
+//        return ResponseEntity.badRequest().body(apiResponse);
+//    }
 
 
     private String mapAttribute(String message, Map<String, Object> attributes) {
         String minValue = String.valueOf(attributes.getOrDefault(MIN_ATTRIBUTE, "0"));
         return message.replace("{" + MIN_ATTRIBUTE + "}", minValue);
+    }
+
+    @ExceptionHandler(AppException.class)
+    public ResponseEntity<ApiResponse<String>> handleAppException(AppException ex) {
+        ApiResponse<String> response = ApiResponse.<String>builder()
+                .code(ex.getErrorCode().getCode())
+                .message(ex.getMessage()) // ✅ trả message cụ thể như "Author not found!"
+                .errors(new HashMap<>())
+                .data(null)
+                .build();
+
+        return ResponseEntity.status(ex.getErrorCode().getStatusCode().value()).body(response);
     }
 
 }

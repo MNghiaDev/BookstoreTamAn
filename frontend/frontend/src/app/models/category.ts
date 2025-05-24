@@ -3,19 +3,22 @@ import { IBookList } from "./book";
 export class Category{
     id : 0;
     name: string;
-    desciption : string;
+    description : string;
     book : IBookList[] = [];
+    active : boolean;
 
     constructor(){
         this.id = 0;
         this.name = "";
-        this.desciption = "";
+        this.description = "";
+        this.active = true;
     }
 }
 
 export interface IListCategory{
     id : 0;
     name: string;
-    desciption : string;
+    description : string;
     book : IBookList[];
+    active : boolean;
 }
