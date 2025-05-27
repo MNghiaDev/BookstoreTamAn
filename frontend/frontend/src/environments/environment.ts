@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://tamanstore.online/api/bookstore'
+  apiUrl: 'https://tamanstore.online/api/bookstore'
 };
