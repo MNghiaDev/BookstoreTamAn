@@ -2,6 +2,7 @@ import { NgIf } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-payment-callback',
@@ -13,6 +14,8 @@ export class PaymentCallbackComponent implements OnInit{
   status: string = '';
   constructor(private route: ActivatedRoute, private http: HttpClient, private router: Router) {}
 
+  private apiUrl = environment.apiUrl;
+
   ngOnInit(): void {
 this.route.queryParams.subscribe(params => {
     const responseCode = params['vnp_ResponseCode'];
@@ -21,7 +24,7 @@ this.route.queryParams.subscribe(params => {
 
     if (responseCode === '00' && transactionStatus === '00') {
       // Gọi backend xác nhận thanh toán
-      this.http.put(`http://localhost:8080/api/bookstore/payment/confirm-success/${orderId}`, {})
+      this.http.put(`${this.apiUrl}/payment/confirm-success/${orderId}`, {})
         .subscribe(() => {
           const selectedItems = JSON.parse(localStorage.getItem('checkoutItems') || '[]');
           const currentCart = JSON.parse(localStorage.getItem('cartItems') || '[]');

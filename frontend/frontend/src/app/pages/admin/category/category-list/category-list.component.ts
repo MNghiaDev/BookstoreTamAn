@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ToastService } from '../../../../core/toast.service';
 import { HttpClient } from '@angular/common/http';
 import { NgClass } from '@angular/common';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-category-list',
@@ -19,6 +20,7 @@ export class CategoryListComponent {
   size : number = 5;
   totalPages : number = 0;
   stt : number = 0;
+  private apiUrl = environment.apiUrl;
 
   constructor(private categoryService : CategoryService, 
     private router : Router,
@@ -70,7 +72,7 @@ export class CategoryListComponent {
     toggleActive(category: any) {
     const newStatus = !category.active;
 
-    this.http.put(`http://localhost:8080/api/bookstore/category/active/${category.id}`, {
+    this.http.put(`${this.apiUrl}/category/active/${category.id}`, {
       active: newStatus
     }).subscribe({
       next: (res) => {

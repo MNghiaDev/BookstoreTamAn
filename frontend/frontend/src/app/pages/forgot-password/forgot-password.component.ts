@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-forgot-password',
@@ -17,9 +18,11 @@ export class ForgotPasswordComponent {
   newPassword = '';
   retypePassword : string = "";
 
+  private apiUrl = environment.apiUrl;
+
   constructor(private router : Router, private http : HttpClient){}
 sendOTP() {
-  this.http.post('http://localhost:8080/api/bookstore/auth/forgot-password', { email: this.email }).subscribe({
+  this.http.post(`${this.apiUrl}/auth/forgot-password`, { email: this.email }).subscribe({
     next: (res) => {
       console.log("Gửi OTP thành công:", res); // ✅ Thêm dòng này để kiểm tra phản hồi
       alert('OTP đã được gửi qua email');
@@ -39,7 +42,7 @@ sendOTP() {
       newPassword: this.newPassword
     };
 
-    this.http.post('http://localhost:8080/api/bookstore/auth/reset-password', payload).subscribe({
+    this.http.post(`${this.apiUrl}/auth/reset-password`, payload).subscribe({
       next: () => {
         alert('Đặt lại mật khẩu thành công');
         this.router.navigate(['/login']);

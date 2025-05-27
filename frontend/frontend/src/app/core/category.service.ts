@@ -1,13 +1,15 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Category } from '../models/category';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
 
-  apiUrl : string = "http://localhost:8080/api/bookstore/category";
+  private apiUrl = `${environment.apiUrl}/category`;
+  // apiUrl : string = "http://localhost:8080/api/bookstore/category";
 
   constructor(private http : HttpClient) { }
 

@@ -1,13 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Author } from '../models/author';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthorService {
 
-  apiUrl : string = "http://localhost:8080/api/bookstore/author";
+  private apiUrl = `${environment.apiUrl}/author`
+
+  // apiUrl : string = "http://localhost:8080/api/bookstore/author";
 
   constructor(private http : HttpClient) { }
 

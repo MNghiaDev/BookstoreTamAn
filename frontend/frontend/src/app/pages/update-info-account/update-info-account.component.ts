@@ -6,6 +6,7 @@ import { ToastService } from '../../core/toast.service';
 import { HeaderComponent } from "../../layout/header/header.component";
 import { FooterComponent } from "../../layout/footer/footer.component";
 import { NgIf } from '@angular/common';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-update-info-account',
@@ -18,7 +19,7 @@ export class UpdateInfoAccountComponent {
   passwordForm!: FormGroup;
   userId!: number;
   
-  
+  private apiUrl = environment.apiUrl;
   constructor(
     private fb: FormBuilder,
     private tokenService: TokenService,
@@ -55,20 +56,20 @@ export class UpdateInfoAccountComponent {
   }
 
   loadUserInfo() {
-    this.http.get<any>(`http://localhost:8080/api/bookstore/user/info/${this.userId}`).subscribe(data => {
+    this.http.get<any>(`${this.apiUrl}/user/info/${this.userId}`).subscribe(data => {
       this.infoForm.patchValue(data.data);
     });
   }
 
   onUpdateInfo() {
-    this.http.post(`http://localhost:8080/api/bookstore/user/update/${this.userId}`, this.infoForm.value)
+    this.http.post(`${this.apiUrl}/user/update/${this.userId}`, this.infoForm.value)
       .subscribe(() => {
         this.toastService.showToast("Cập nhật thông tin thành công!");
       });
   }
 
   onChangePassword() {
-    this.http.post(`http://localhost:8080/api/bookstore/user/change-password/${this.userId}`, this.passwordForm.value)
+    this.http.post(`${this.apiUrl}/user/change-password/${this.userId}`, this.passwordForm.value)
       .subscribe({
         next: () => this.toastService.showToast("Đổi mật khẩu thành công!"),
         error: err => alert("Mật khẩu cũ không đúng hoặc có lỗi!")

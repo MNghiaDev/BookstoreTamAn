@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../../core/user.service';
 import { Router } from '@angular/router';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-user',
@@ -17,6 +18,8 @@ export class UserComponent implements OnInit {
   totalPages: number = 0;
   selectedUserId: number | null = null;
 
+  private apiUrl = environment.apiUrl;
+
   constructor(private http: HttpClient, private userService : UserService, private router: Router) {}
 
   ngOnInit() {
@@ -24,7 +27,7 @@ export class UserComponent implements OnInit {
   }
 
   fetchUsers() {
-    this.http.get<any>(`http://localhost:8080/api/bookstore/user/list?page=${this.page}&size=${this.size}`).subscribe(res => {
+    this.http.get<any>(`${this.apiUrl}/user/list?page=${this.page}&size=${this.size}`).subscribe(res => {
       this.users = res.data.user_responses;
       this.totalPages = res.data.total_pages;
     });
@@ -32,7 +35,7 @@ export class UserComponent implements OnInit {
 
   // deleteUser(id: number) {
   //   if (confirm('Bạn có chắc chắn muốn xóa người dùng này?')) {
-  //     this.http.delete(`http://localhost:8080/api/bookstore/user/${id}`).subscribe(() => {
+  //     this.http.delete(`${this.apiUrl}/user/${id}`).subscribe(() => {
   //       this.fetchUsers();
   //     });
   //   }
@@ -47,7 +50,7 @@ deleteUser() {
   const confirmDelete = confirm('Bạn có chắc chắn muốn xóa người dùng này?');
   if (!confirmDelete) return;
 
-  this.http.delete(`http://localhost:8080/api/bookstore/user/${this.selectedUserId}`).subscribe({
+  this.http.delete(`${this.apiUrl}/user/${this.selectedUserId}`).subscribe({
     next: () => {
       alert('Xóa người dùng thành công!');
       this.selectedUserId = null;
@@ -64,7 +67,7 @@ deleteUser() {
     toggleActive(product: any) {
     const newStatus = !product.active;
 
-    this.http.put(`http://localhost:8080/api/bookstore/user/active/${product.id}`, {
+    this.http.put(`${this.apiUrl}/user/active/${product.id}`, {
       active: newStatus
     }).subscribe({
       next: (res) => {

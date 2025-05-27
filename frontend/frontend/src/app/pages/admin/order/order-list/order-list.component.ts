@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-order-list',
@@ -18,6 +19,8 @@ export class OrderListComponent {
   statusForm: FormGroup;
   filterStatus: string = '';
 
+  private apiUrl = environment.apiUrl;
+
   constructor(private http: HttpClient, private fb: FormBuilder) {
     this.statusForm = this.fb.group({
       status: ['']
@@ -29,7 +32,7 @@ export class OrderListComponent {
   }
 
   fetchOrders() {
-    let apiUrl = `http://localhost:8080/api/bookstore/order/list?page=${this.page}&size=${this.size}`;
+    let apiUrl = `${this.apiUrl}/order/list?page=${this.page}&size=${this.size}`;
 
     if (this.filterStatus) {
       apiUrl += `&status=${this.filterStatus}`;
@@ -48,7 +51,7 @@ export class OrderListComponent {
   deleteOrder() {
     if (this.selectedOrderId == null) return;
     if (confirm('Bạn có chắc chắn muốn xóa đơn hàng này?')) {
-      this.http.delete(`http://localhost:8080/api/bookstore/order/delete/${this.selectedOrderId}`)
+      this.http.delete(`${this.apiUrl}/order/delete/${this.selectedOrderId}`)
         .subscribe(() => {
           alert('Đã xóa đơn hàng');
           this.selectedOrderId = null;
@@ -62,7 +65,7 @@ export class OrderListComponent {
     const status = this.statusForm.get('status')?.value;
     if (!status) return alert('Vui lòng chọn trạng thái');
 
-    this.http.put(`http://localhost:8080/api/bookstore/order/update-status/${this.selectedOrderId}`, { status })
+    this.http.put(`${this.apiUrl}/order/update-status/${this.selectedOrderId}`, { status })
       .subscribe(() => {
         alert('Cập nhật trạng thái thành công');
         this.fetchOrders();
@@ -97,7 +100,7 @@ export class OrderListComponent {
     toggleActive(product: any) {
     const newStatus = !product.active;
 
-    this.http.put(`http://localhost:8080/api/bookstore/order/active/${product.id}`, {
+    this.http.put(`${this.apiUrl}/order/active/${product.id}`, {
       active: newStatus
     }).subscribe({
       next: (res) => {

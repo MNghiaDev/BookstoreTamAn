@@ -2,6 +2,7 @@ import { NgClass, NgFor } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Route, Router } from '@angular/router';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-product-list',
@@ -17,7 +18,7 @@ products: any[] = [];
   totalPages: number = 0;
   stt : number = 0;
   
-
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -26,7 +27,7 @@ products: any[] = [];
   }
 
   fetchProducts() {
-    this.http.get<any>(`http://localhost:8080/api/bookstore/book?page=${this.page}&size=${this.size}`)
+    this.http.get<any>(`${this.apiUrl}/book?page=${this.page}&size=${this.size}`)
       .subscribe(res => {
         this.products = res.data.productResponses;
         this.totalPages = res.data.totalPages;
@@ -35,7 +36,7 @@ products: any[] = [];
 
   deleteProduct() {
     if (this.selectedProductId !== null && confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
-      this.http.delete(`http://localhost:8080/api/bookstore/book/delete/${this.selectedProductId}`).subscribe(() => {
+      this.http.delete(`${this.apiUrl}/book/delete/${this.selectedProductId}`).subscribe(() => {
         alert('Xóa sản phẩm thành công!');
         this.selectedProductId = null;
         this.fetchProducts();
@@ -74,7 +75,7 @@ products: any[] = [];
   toggleActive(product: any) {
     const newStatus = !product.active;
 
-    this.http.put(`http://localhost:8080/api/bookstore/book/active/${product.id}`, {
+    this.http.put(`${this.apiUrl}/book/active/${product.id}`, {
       active: newStatus
     }).subscribe({
       next: (res) => {

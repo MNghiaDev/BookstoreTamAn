@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthorService } from '../../../../core/author.service';
 import { FormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-author-form',
@@ -18,6 +19,8 @@ export class AuthorFormComponent implements OnInit{
   
   isEditMode : boolean = false;
   selectedFile : File | null = null;
+
+  private apiUrl = environment.apiUrl;
   constructor(private router : Router, private route : ActivatedRoute,
     private toastService : ToastService,
     private http : HttpClient,
@@ -38,7 +41,8 @@ export class AuthorFormComponent implements OnInit{
     if (file) {
       const formData = new FormData();
       formData.append('file', file);
-      this.http.post<{ fileUrl: string }>('http://localhost:8080/api/bookstore/upload/image', formData).subscribe({
+      // 'http://localhost:8080/api/bookstore/upload/image'
+      this.http.post<{ fileUrl: string }>( `${this.apiUrl}/upload/image`, formData).subscribe({
       next: (res) => {
         this.author.imageUrl = res.fileUrl;
       },

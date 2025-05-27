@@ -6,6 +6,7 @@ import { ToastComponent } from '../../../../shared/toast/toast.component';
 import { ToastService } from '../../../../core/toast.service';
 import { NgClass } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-author-list',
@@ -21,6 +22,7 @@ export class AuthorListComponent implements OnInit{
   totalPages : number = 0;
   stt : number = 0;
 
+  private apiUrl = environment.apiUrl;
   constructor(private authorService : AuthorService, 
     private router : Router,
     private toastService : ToastService,
@@ -71,7 +73,7 @@ export class AuthorListComponent implements OnInit{
     toggleActive(product: any) {
     const newStatus = !product.active;
 
-    this.http.put(`http://localhost:8080/api/bookstore/author/active/${product.id}`, {
+    this.http.put(`${this.apiUrl}/author/active/${product.id}`, {
       active: newStatus
     }).subscribe({
       next: (res) => {

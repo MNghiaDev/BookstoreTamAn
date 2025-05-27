@@ -4,6 +4,7 @@ import { HeaderComponent } from "../../layout/header/header.component";
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule, NgFor } from '@angular/common';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-order-detail',
@@ -14,11 +15,13 @@ import { CommonModule, NgFor } from '@angular/common';
 export class OrderDetailComponent {
   order: any;
 
+  private apiUrl = environment.apiUrl;
+
   constructor(private route: ActivatedRoute, private http: HttpClient) {}
 
   ngOnInit(): void {
     const orderId = this.route.snapshot.paramMap.get('id');
-    this.http.get<any>(`http://localhost:8080/api/orders/my-orders/${orderId}`).subscribe({
+    this.http.get<any>(`${this.apiUrl}/orders/my-orders/${orderId}`).subscribe({
       next: (res) => this.order = res.data,
       error: (err) => console.error(err)
     });

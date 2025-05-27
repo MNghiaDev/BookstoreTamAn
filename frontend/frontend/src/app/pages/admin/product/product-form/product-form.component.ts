@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
 import { ToastService } from '../../../../core/toast.service';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-product-form',
@@ -40,7 +41,7 @@ export class ProductFormComponent {
         "categoryName" : []
   }
 
-
+  private apiUrl = environment.apiUrl;
 
   isEditMode: boolean = false;
 
@@ -52,7 +53,7 @@ export class ProductFormComponent {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.isEditMode = true;
-      this.http.get<any>(`http://localhost:8080/api/bookstore/book/${id}`).subscribe(res => {
+      this.http.get<any>(`${this.apiUrl}/book/${id}`).subscribe(res => {
         this.product = res.data;
       });
     }
@@ -63,7 +64,7 @@ onFileSelected(event: any) {
   if (file) {
     const formData = new FormData();
     formData.append('file', file);
-    this.http.post<{ fileUrl: string }>('http://localhost:8080/api/bookstore/upload/image', formData).subscribe({
+    this.http.post<{ fileUrl: string }>(`${this.apiUrl}/upload/image`, formData).subscribe({
     next: (res) => {
       this.product.imageUrl = res.fileUrl;
     },
@@ -82,12 +83,12 @@ onFileSelected(event: any) {
     this.product.categoryName = this.product.categoryName.split(',').map((s: string) => s.trim());
     }
     if (this.isEditMode) {
-      this.http.put(`http://localhost:8080/api/bookstore/book/update/${this.product.id}`, this.product).subscribe(() => {
+      this.http.put(`${this.apiUrl}/book/update/${this.product.id}`, this.product).subscribe(() => {
         this.toastService.showToast("Cập nhật sản phẩm thành công!")
         this.router.navigateByUrl('/admin/products');
       });
     } else {
-      this.http.post('http://localhost:8080/api/bookstore/book/create', this.product).subscribe({
+      this.http.post(`${this.apiUrl}/book/create`, this.product).subscribe({
       next: () => {
         this.toastService.showToast("Tạo sản phẩm mới thành công!")
         this.router.navigateByUrl('/admin/products');

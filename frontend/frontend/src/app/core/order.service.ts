@@ -1,12 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
-  private apiUrl = 'http://localhost:8080/api/bookstore/order';
+
+  private apiUrl = `${environment.apiUrl}/order`;
+  // private apiUrl = 'http://localhost:8080/api/bookstore/order';
 
   constructor(private http: HttpClient) {}
 
@@ -19,8 +22,9 @@ export class OrderService {
     return this.http.get(`${this.apiUrl}/user?userId=${userId}`);
   }
 
+  // 'http://localhost:8080/api/bookstore/payment/vnpay-order'
   createVNPayOrder(orderData: any) {
-    return this.http.post<any>('http://localhost:8080/api/bookstore/payment/vnpay-order', orderData);
+    return this.http.post<any>(`${environment.apiUrl}/payment/vnpay-order`, orderData);
   }
 
   myOrder(page : number, size : number){

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormsModule, NgModel } from '@angular/forms';
 import { CommonModule, NgIf } from '@angular/common';
 import { data } from 'jquery';
+import { environment } from '../../../../../../environments/environment';
 
 declare var ApexCharts: any;
 
@@ -34,6 +35,8 @@ export class StatisticsComponent implements OnInit {
   topSellingProducts: TopSellingProduct[] = [];
   purchaseTrend: PurchaseTrend = {};
 
+  private apiUrl = environment.apiUrl;
+
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {}
@@ -44,19 +47,19 @@ export class StatisticsComponent implements OnInit {
       return;
     }
 
-    this.http.get<SalesStatistics>(`http://localhost:8080/api/bookstore/statistics/summary`, {
+    this.http.get<SalesStatistics>(`${this.apiUrl}/statistics/summary`, {
       params: { startDate: this.startDate, endDate: this.endDate }
     }).subscribe(data => this.salesStatistics = data);
     console.log(this.salesStatistics);
 
-    this.http.get<TopSellingProduct[]>(`http://localhost:8080/api/bookstore/statistics/top-products`, {
+    this.http.get<TopSellingProduct[]>(`${this.apiUrl}/statistics/top-products`, {
       params: { startDate: this.startDate, endDate: this.endDate }
     }).subscribe(data => {
       this.topSellingProducts = data;
       this.renderTopProductsChart();
     });
 
-    this.http.get<{ orderDate: string, totalSold: number }[]>(`http://localhost:8080/api/bookstore/statistics/trend`, {
+    this.http.get<{ orderDate: string, totalSold: number }[]>(`${this.apiUrl}/statistics/trend`, {
     params: {
       startDate: this.startDate,
       endDate: this.endDate
@@ -134,7 +137,7 @@ export class StatisticsComponent implements OnInit {
     return;
   }
 
-  this.http.get(`http://localhost:8080/api/bookstore/statistics/export`, {
+  this.http.get(`${this.apiUrl}/statistics/export`, {
     params: {
       startDate: this.startDate,
       endDate: this.endDate
