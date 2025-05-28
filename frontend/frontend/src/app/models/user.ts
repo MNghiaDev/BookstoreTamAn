@@ -17,7 +17,7 @@ export class User{
         this.full_name = "";
         this.phone = "";
         this.address = "";
-        this.role = "";
+        this.role = "customer";
         this.active = true;
     }
 }

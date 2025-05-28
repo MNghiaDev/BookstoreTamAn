@@ -34,12 +34,9 @@ public class UserRequest {
     @Pattern(regexp = "^0[0-9]{9}$", message = "Số điện thoại không hợp lệ")
     private String phone;
 
-    @NotBlank
-    private String imageUrl;
 
     @NotBlank
     private String address;
 
-    @NotBlank
     private String role;
 }
