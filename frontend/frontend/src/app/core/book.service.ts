@@ -47,7 +47,7 @@ export class BookService {
     return this.http.get<any>(this.apiUrl + '/suggestions', { params });
   }
   filterByPrice(minPrice: number, maxPrice: number, page: number, size: number) {
-  return this.http.get(`http://localhost:8080/api/bookstore/book/filter`, {
+  return this.http.get(`${this.apiUrl}/filter`, {
     params: {
       minPrice: minPrice,
       maxPrice: maxPrice,
@@ -57,7 +57,7 @@ export class BookService {
    });
   }
   filterByPriceAndKeyword(keyword: string, min: number, max: number, page: number, size: number) {
-    return this.http.get(`http://localhost:8080/api/bookstore/book/filter/search`, {
+    return this.http.get(`${this.apiUrl}/filter/search`, {
       params: {
         keyword: keyword,
         minPrice: min,
@@ -72,6 +72,6 @@ export class BookService {
     return this.http.get(`${this.apiUrl}/by-author/${id}?page=${page}&size=${size}`);
   }
     getBooksByCategory(categoryId: number, page: number, size: number) {
-  return this.http.get(`http://localhost:8080/api/bookstore/book/by-category/${categoryId}?page=${page}&size=${size}`);
+  return this.http.get(`${this.apiUrl}/by-category/${categoryId}?page=${page}&size=${size}`);
 }
 }

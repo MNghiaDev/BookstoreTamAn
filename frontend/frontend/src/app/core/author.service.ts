@@ -32,7 +32,7 @@ export class AuthorService {
     return this.http.delete(`${this.apiUrl}/delete/${id}`);
   }
   dupdateAuthor(id : number, author : Author){
-    return this.http.put(`${this.apiUrl}/delete/${id}`, author);
+    return this.http.put(`${this.apiUrl}/update/${id}`, author);
   }
   addAuthor(author : Author){
     return this.http.post(`${this.apiUrl}/create` , author);

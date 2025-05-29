@@ -14,7 +14,7 @@
 
   <div *ngIf="salesStatistics" class="statistics-summary">
     <h2>Tổng Quan</h2>
-    <p>Doanh thu: {{ salesStatistics.totalRevenue | currency }}</p>
+    <p>Doanh thu: {{ salesStatistics.totalRevenue | currency:'VND':'symbol' }}</p>
     <p>Số đơn hàng: {{ salesStatistics.totalOrders }}</p>
     <p>Số sản phẩm đã bán: {{ salesStatistics.totalProductsSold }}</p>
   </div>
