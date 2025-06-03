@@ -1,1 +1,22 @@
-<p>category-form works!</p>
+<h2>{{ isEditMode ? 'Chỉnh sửa thể loại' : 'Thêm mới thể loại' }}</h2>
+<form (ngSubmit)="savecategory()" class="product-form">
+  <div class="form-column">
+    <label>Tên tác giả:</label>
+    <input type="text" [(ngModel)]="category.name" name="title" required>
+
+<!-- 
+    <label>Hình ảnh:</label>
+    <input type="file" (change)="onFileSelected($event)">
+    <img *ngIf="category.imageUrl" [src]="category" alt="Cover Image" style="max-width: 200px; margin-top: 10px;"> -->
+  </div>
+
+  <div class="form-column">
+    <label>Giới thiệu:</label>
+    <textarea [(ngModel)]="category.description" name="description"></textarea>
+  </div>
+
+  <div class="form-buttons">
+    <button type="submit">{{ isEditMode ? 'Cập nhật' : 'Thêm mới' }}</button>
+    <button type="button" (click)="cancel()">Hủy</button>
+  </div>
+</form>

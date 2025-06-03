@@ -97,7 +97,7 @@ public class SecurityConfiguration {
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowedOrigins(List.of("https://tamanstore.netlify.app")); // Chỉ định origin cụ thể
+        corsConfiguration.setAllowedOrigins(List.of("http://localhost:4200")); // Chỉ định origin cụ thể
         corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         corsConfiguration.setAllowedHeaders(List.of("authorization", "content-type", "x-auth-token"));
         corsConfiguration.setExposedHeaders(List.of("x-auth-token"));

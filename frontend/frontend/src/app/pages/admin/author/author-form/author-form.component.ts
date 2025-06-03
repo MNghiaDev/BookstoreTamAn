@@ -41,7 +41,6 @@ export class AuthorFormComponent implements OnInit{
     if (file) {
       const formData = new FormData();
       formData.append('file', file);
-      // 'http://localhost:8080/api/bookstore/upload/image'
       this.http.post<{ fileUrl: string }>( `${this.apiUrl}/upload/image`, formData).subscribe({
       next: (res) => {
         this.author.imageUrl = res.fileUrl;

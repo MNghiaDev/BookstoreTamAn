@@ -11,7 +11,13 @@
     <button (click)="fetchStatistics()">Xem thống kê</button>
     <button (click)="exportStatistics()">Xuất báo cáo</button>
   </div>
-
+  <div>
+    <apx-chart
+      [series]="[{ name: 'Sách bán ra', data: chartData }]"
+      [chart]="{ type: 'bar', height: 350 }"
+      [xaxis]="{ categories: chartLabels }"
+    ></apx-chart>
+  </div>
   <div *ngIf="salesStatistics" class="statistics-summary">
     <h2>Tổng Quan</h2>
     <p>Doanh thu: {{ salesStatistics.totalRevenue | currency:'VND':'symbol' }}</p>

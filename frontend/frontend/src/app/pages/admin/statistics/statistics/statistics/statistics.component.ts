@@ -4,6 +4,8 @@ import { FormsModule, NgModel } from '@angular/forms';
 import { CommonModule, NgIf } from '@angular/common';
 import { data } from 'jquery';
 import { environment } from '../../../../../../environments/environment';
+import { SalesPerMonthDTO } from '../../../../../models/salesPerMonthDTO';
+import { NgApexchartsModule } from 'ng-apexcharts'; 
 
 declare var ApexCharts: any;
 
@@ -24,7 +26,7 @@ interface PurchaseTrend {
 
 @Component({
   selector: 'app-statistics',
-  imports : [FormsModule, NgIf, CommonModule],
+  imports : [FormsModule, NgIf, CommonModule, NgApexchartsModule ],
   templateUrl: './statistics.component.html',
   styleUrls: ['./statistics.component.css']
 })
@@ -39,7 +41,13 @@ export class StatisticsComponent implements OnInit {
 
   constructor(private http: HttpClient) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+      this.http.get<SalesPerMonthDTO[]>(`${this.apiUrl}/statistics/sales-per-month`)
+    .subscribe(data => {
+      this.chartData = data.map(item => item.totalQuantity);
+      this.chartLabels = data.map(item => `Tháng ${item.month}`);
+    });
+  }
 
   fetchStatistics(): void {
     if (!this.startDate || !this.endDate) {
@@ -155,4 +163,10 @@ export class StatisticsComponent implements OnInit {
       alert("Xuất báo cáo thất bại!");
     });
   }
+
+
+  chartData: number[] = [];
+  chartLabels: string[] = [];
+
+
 }

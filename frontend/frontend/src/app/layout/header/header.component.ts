@@ -107,7 +107,7 @@ logout() {
   
   onSearch(): void {
   if (this.searchKeyword.trim() !== '') {
-    this.router.navigate(['/book'], {
+    this.router.navigate(['/books'], {
       queryParams: { keyword: this.searchKeyword.trim() }
     });
   }

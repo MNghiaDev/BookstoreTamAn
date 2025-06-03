@@ -1,6 +1,8 @@
 package com.minhnghia.datn.BookstoreTamAn.controller;
 
 import com.minhnghia.datn.BookstoreTamAn.dto.request.PurchaseTrendDTO;
+import com.minhnghia.datn.BookstoreTamAn.dto.request.SalesPerMonthDTO;
+import com.minhnghia.datn.BookstoreTamAn.repository.OrderRepository;
 import com.minhnghia.datn.BookstoreTamAn.service.StatisticsService;
 import com.minhnghia.datn.BookstoreTamAn.service.impl.ExcelExportService;
 import com.minhnghia.datn.BookstoreTamAn.service.impl.OrderService;
@@ -54,4 +56,12 @@ public class StatisticsController {
         excelExportService.exportRevenueReport(response, data);
     }
 
+    private final OrderRepository orderRepository;
+
+    @GetMapping("/sales-per-month")
+    public ResponseEntity<List<SalesPerMonthDTO>> getSalesPerMonth(
+            @RequestParam(value = "year", defaultValue = "2025") int year) {
+        List<SalesPerMonthDTO> result = orderRepository.countBooksSoldPerMonth(year);
+        return ResponseEntity.ok(result);
+    }
 }

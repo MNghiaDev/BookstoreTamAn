@@ -1,0 +1,121 @@
+.product-header {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.product-header button {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.product-header button i {
+  margin-right: 6px;
+}
+
+.product-header button:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+
+.product-table th,
+.product-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+.product-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.product-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.product-table tr.selected {
+  background-color: #e0f2fe !important;
+  font-weight: bold;
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.pagination-controls button {
+  padding: 6px 12px;
+  border: none;
+  background-color: #2563eb;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.pagination-controls button:disabled {
+  background-color: #a5b4fc;
+  cursor: not-allowed;
+}
+.btn-add {
+  background-color: rgb(9, 175, 9);
+}
+
+.btn-add:hover {
+  background-color: #047857;
+}
+
+.btn-delete {
+  background-color: red;
+}
+
+.btn-delete:disabled {
+  background-color: #fca5a5;
+  cursor: not-allowed;
+}
+.imgwh{
+  width: 250px;
+}
+.bio{
+  width: 600px;
+}
+.badge-toggle {
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 13px;
+  display: inline-block;
+  user-select: none;
+  transition: background-color 0.2s ease;
+}
+
+.badge-active {
+  background-color: #22c55e; /* xanh lá */
+  color: white;
+}
+
+.badge-inactive {
+  background-color: #ef4444; /* đỏ */
+  color: white;
+}
+
+.badge-toggle:hover {
+  opacity: 0.8;
+}

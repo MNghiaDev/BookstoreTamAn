@@ -1,5 +1,6 @@
 package com.minhnghia.datn.BookstoreTamAn.repository;
 
+import com.minhnghia.datn.BookstoreTamAn.dto.request.SalesPerMonthDTO;
 import com.minhnghia.datn.BookstoreTamAn.dto.response.TopSellingProductResponse;
 import com.minhnghia.datn.BookstoreTamAn.model.Order;
 import org.springframework.data.domain.Page;
@@ -46,4 +47,17 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     Page<Order> findByStatus(String status, Pageable pageable);
 
     Page<Order> findByUserId(Integer userId, Pageable pageable);
+
+    @Query("""
+    SELECT new com.minhnghia.datn.BookstoreTamAn.dto.request.SalesPerMonthDTO(
+            MONTH(o.orderDate),
+            SUM(od.quantity)
+        )
+        FROM Order o
+        JOIN o.orderDetails od
+        WHERE YEAR(o.orderDate) = :year
+        GROUP BY MONTH(o.orderDate)
+        ORDER BY MONTH(o.orderDate)
+    """)
+    List<SalesPerMonthDTO> countBooksSoldPerMonth(@Param("year") int year);
 }
