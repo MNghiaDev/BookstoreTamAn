@@ -6,9 +6,9 @@ spring:
   jackson:
     time-zone: Asia/Ho_Chi_Minh
   datasource:
-    url: "jdbc:mysql://crossover.proxy.rlwy.net:53464/taman"
+    url: "jdbc:mysql://127.0.0.1:3306/taman"
     username: root
-    password: MMkFgARgNEMaRhzQAURfQfeCEmPwLVRq
+    password: root
     jpa:
       show-sql: true
       hibernate:
@@ -42,7 +42,7 @@ jwt:
 
 vnp:
   pay-url: "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html"
-  return-url: "${VNPAY_RETURN_URI:https://tamanstore.netlify.app/payment-callback}"
+  return-url: "${VNPAY_RETURN_URI:http://localhost:4200/payment-callback}"
   tmn-code: "C5RVDNZY"
   secret-key: "4Y3RLXMHX39ARV9LX887Y7K4V5C4VD49"
   api-url: "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction"
